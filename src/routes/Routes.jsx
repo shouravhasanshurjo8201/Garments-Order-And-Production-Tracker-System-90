@@ -15,6 +15,7 @@ import BookingPage from '../pages/BookingPage/BookingPage'
 import ProductDetails from '../pages/ProductDetails/ProductDetails'
 import AddProduct from '../pages/Dashboard/Seller/AddProduct'
 import { createBrowserRouter } from 'react-router'
+import AllProducts from '../pages/AllProducts/AllProducts'
 
 export const router = createBrowserRouter([
   {
@@ -27,7 +28,11 @@ export const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: '/product/:id',
+        path: '/products',
+        element: <AllProducts />,
+      },
+      {
+        path: '/products/:id',
         element: <PrivateRoute><ProductDetails /></PrivateRoute>,
       },
       {

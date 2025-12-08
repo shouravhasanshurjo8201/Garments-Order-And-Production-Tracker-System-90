@@ -1,11 +1,4 @@
 
-
-
-
-
-
-
-
 import Container from "../../components/Shared/Container";
 import Heading from "../../components/Shared/Heading";
 import Button from "../../components/Shared/Button/Button";
@@ -15,7 +8,7 @@ import { useNavigate, useParams } from "react-router";
 const ProductDetails = () => {
   const { id } = useParams(); // product ID from URL
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user } = useAuth(); 
 
   // Demo Product Data (Later load from server)
   const product = {

@@ -1,4 +1,6 @@
-import { ScaleLoader } from 'react-spinners'
+// import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+import { TbFidgetSpinner } from 'react-icons/tb'
+// import { ScaleLoader } from 'react-spinners'
 
 const LoadingSpinner = ({ smallHeight }) => {
   return (
@@ -9,7 +11,9 @@ const LoadingSpinner = ({ smallHeight }) => {
       justify-center 
       items-center `}
     >
-      <ScaleLoader size={100} color='lime' />
+      <TbFidgetSpinner className="animate-spin text-7xl text-lime-500"/>
+      {/* <AiOutlineLoading3Quarters className="animate-spin text-4xl text-lime-500" /> */}
+
     </div>
   )
 }

@@ -1,83 +1,133 @@
 import Container from '../Container'
-import { AiOutlineMenu } from 'react-icons/ai'
 import { useState } from 'react'
-import { Link } from 'react-router'
 import useAuth from '../../../hooks/useAuth'
 import avatarImg from '../../../assets/images/placeholder.jpg'
 import logo from '../../../assets/images/logo-flat.png'
+import { Link, NavLink } from 'react-router'
+
 const Navbar = () => {
   const { user, logOut } = useAuth()
   const [isOpen, setIsOpen] = useState(false)
 
-  return (
-    <div className='fixed w-full bg-white z-10 shadow-sm'>
-      <div className='py-4 '>
-        <Container>
-          <div className='flex flex-row  items-center justify-between gap-3 md:gap-0'>
-            {/* Logo */}
-            <Link to='/'>
-              <img src={logo} alt='logo' className='h-8 w-15 hover:bg-blue-50 rounded-sm' width='100' height='100' />
-            </Link>
-            {/* Dropdown Menu */}
-            <div className='relative'>
-              <div className='flex flex-row items-center gap-3'>
-                {/* Dropdown btn */}
-                <div
-                  onClick={() => setIsOpen(!isOpen)}
-                  className='p-4 md:py-1 md:px-2 border border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition'
-                >
-                  <div >
-                    {/* Avatar */}
-                    <img
-                      className='rounded-full'
-                      referrerPolicy='no-referrer'
-                      src={user && user.photoURL ? user.photoURL : avatarImg}
-                      alt='profile'
-                      height='30'
-                      width='30'
-                    />
-                  </div>
-                </div>
-              </div>
-              {isOpen && (
-                <div className='absolute rounded-b-xl shadow-md w-[20vw] md:w-[10vw] bg-white overflow-hidden right-16 md:right-12 top-[-16px] text-center text-sm'>
-                  <div className='flex flex-col cursor-pointer'>
-                    <Link
-                      to='/'
-                      className='block md:hidden px-4 py-3 hover:bg-neutral-100 transition font-semibold'
-                    >
-                      Home
-                    </Link>
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Products', path: '/products' },
+    { name: 'About', path: '/about' },
+    { name: 'Contact', path: '/contact' },
+  ]
 
+  return (
+    <div className="fixed w-full bg-white z-10 shadow-sm">
+      <div className="py-4">
+        <Container>
+          <div className="flex flex-row items-center justify-between gap-3 md:gap-0">
+
+            {/* Logo */}
+            <Link to="/">
+              <img
+                src={logo}
+                alt="logo"
+                className="h-8 w-15 hover:bg-blue-50 rounded-sm"
+                width="100"
+                height="100"
+              />
+            </Link>
+
+            {/* Nav Links (Desktop) */}
+            <div className="hidden md:flex gap-6">
+              {navLinks.map(link => (
+                <NavLink
+                  key={link.name}
+                  to={link.path}
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'font-semibold text-lime-500'
+                      : 'font-semibold text-gray-700 hover:text-lime-500 transition'
+                  }
+                >
+                  {link.name}
+                </NavLink>
+              ))}
+            </div>
+
+            {/* Dropdown Menu / Avatar */}
+            <div className="relative">
+              <div
+                onClick={() => setIsOpen(!isOpen)}
+                className="p-4 md:py-1 md:px-2 border border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition"
+              >
+                <img
+                  className="rounded-full"
+                  referrerPolicy="no-referrer"
+                  src={user && user.photoURL ? user.photoURL : avatarImg}
+                  alt="profile"
+                  height="30"
+                  width="30"
+                />
+              </div>
+
+              {isOpen && (
+                <div className="absolute rounded-b-xl shadow-md w-[40vw] md:w-[10vw] bg-white overflow-hidden right-0 top-12 text-center text-sm">
+                  <div className="flex flex-col cursor-pointer">
+                    {/* Mobile nav links */}
+                    <div className="block md:hidden">
+                      {navLinks.map(link => (
+                        <NavLink
+                          key={link.name}
+                          to={link.path}
+                          className={({ isActive }) =>
+                            isActive
+                              ? 'px-4 py-3 bg-lime-100 font-semibold block'
+                              : 'px-4 py-3 hover:bg-neutral-100 font-semibold block'
+                          }
+                        >
+                          {link.name}
+                        </NavLink>
+                      ))}
+                    </div>
+
+                    {/* User options */}
                     {user ? (
                       <>
-                        <Link
-                          to='/dashboard'
-                          className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
+                        <NavLink
+                          to="/dashboard"
+                          className={({ isActive }) =>
+                            isActive
+                              ? 'px-4 py-3 bg-lime-100 font-semibold block'
+                              : 'px-4 py-3 hover:bg-neutral-100 font-semibold block'
+                          }
                         >
                           Dashboard
-                        </Link>
+                        </NavLink>
                         <div
                           onClick={logOut}
-                          className='px-4 py-3 hover:bg-neutral-100 transition font-semibold cursor-pointer'
+                          className="px-4 py-3 hover:bg-neutral-100 font-semibold cursor-pointer block"
                         >
                           Logout
                         </div>
                       </>
                     ) : (
                       <>
-                        <Link
-                          to='/login'
-                          className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
+                        <NavLink
+                          to="/login"
+                          className={({ isActive }) =>
+                            isActive
+                              ? 'px-4 py-3 bg-lime-100 font-semibold block'
+                              : 'px-4 py-3 hover:bg-neutral-100 font-semibold block'
+                          }
                         >
                           Login
-                        </Link>
-                        <Link
-                          to='/signup'
-                          className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
+                        </NavLink>
+                        <NavLink
+                          to="/signup"
+                          className={({ isActive }) =>
+                            isActive
+                              ? 'px-4 py-3 bg-lime-100 font-semibold block'
+                              : 'px-4 py-3 hover:bg-neutral-100 font-semibold block'
+                          }
                         >
                           Sign Up
-                        </Link>
+                        </NavLink>
                       </>
                     )}
                   </div>
