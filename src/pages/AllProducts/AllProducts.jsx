@@ -3,6 +3,7 @@ import Container from "../../components/Shared/Container";
 import Card from "../../components/Home/Card";
 import { TbFidgetSpinner } from "react-icons/tb";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner";
+import ProductNotFound from "../ProductDetails/ProductNotFound";
 
 const AllProducts = () => {
     const products = [
@@ -189,14 +190,7 @@ const AllProducts = () => {
                         </div>
 
                     ) : (
-                        <div className="min-h-[30vh] flex flex-col items-center justify-center text-center">
-                            <h2 className="text-2xl font-semibold text-gray-600 mb-2">
-                                No Products Found
-                            </h2>
-                            <p className="text-gray-500">
-                                Nothing to show right now. Export products to fill this space.
-                            </p>
-                        </div>
+                        <ProductNotFound></ProductNotFound>
                     )}
                 </div>
             </div>

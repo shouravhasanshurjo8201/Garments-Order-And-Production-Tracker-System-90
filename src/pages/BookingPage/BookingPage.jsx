@@ -1,132 +1,185 @@
-import Container from "../../components/Shared/Container"
+import { useLocation } from "react-router";
+import Container from "../../components/Shared/Container";
 import useAuth from "../../hooks/useAuth";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 const BookingPage = () => {
-    const { user } = useAuth();
+  const { user } = useAuth();
+  const { state } = useLocation();
+  const product = state?.product;
 
-    const product = {
-        _id: '1',
-        title: "Money Plant",
-        category: "Succulent",
-        description:
-            "A fresh money plant with attractive green leaves. Best for indoor decoration.",
-        price: 10,
-        quantity: 10,
-        minOrder: 2,
-        paymentOptions: ["Cash on Delivery", "Stripe"],
-        features: ["Fresh & Healthy", "Indoor Plant", "Long-lasting"],
-        images: [
-            "https://i.ibb.co/DDnw6j9/1738597899-golden-money-plant.jpg"
-        ],
-    };
+  // If product not available, show loading/error
+  if (!product) return <Container><p className="text-center mt-20">Product not found!</p></Container>;
 
-    return (
-        <Container>
-            <div className="max-w-xl mx-auto bg-white p-6 rounded-xl shadow">
-                <h2 className="text-2xl font-semibold mb-4">Complete Your Order</h2>
+  // React Hook Form setup
+  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm({
+    defaultValues: {
+      email: user?.email || "",
+      product: product.name,
+      price: product.price,
+      quantity: product.minimumOrder,
+      total: product.price * product.minimumOrder,
+      firstName: "",
+      lastName: "",
+      contact: "",
+      address: "",
+      notes: ""
+    }
+  });
 
-                <form className="space-y-4">
+  const watchQuantity = watch("quantity");
 
-                    {/* Email */}
-                    <div>
-                        <label>Email</label>
-                        <input
-                            type="text"
-                            readOnly
-                            value={user?.email}
-                            className="w-full border p-2 rounded bg-gray-200"
-                        />
-                    </div>
+  // Auto-update total price & quantity validation
+  useEffect(() => {
+    let qty = Number(watchQuantity);
 
-                    {/* Product */}
-                    <div>
-                        <label>Product</label>
-                        <input
-                            type="text"
-                            readOnly
-                            value={product.title}
-                            className="w-full border p-2 rounded bg-gray-200"
-                        />
-                    </div>
+    if (qty < product.minimumOrder) qty = product.minimumOrder;
+    if (qty > product.quantity) qty = product.quantity;
 
-                    {/* Unit Price */}
-                    <div>
-                        <label>Unit Price</label>
-                        <input
-                            type="text"
-                            readOnly
-                              value={`$${product.price}`}
-                            className="w-full border p-2 rounded bg-gray-200"
-                        />
-                    </div>
+    setValue("quantity", qty);
+    setValue("total", qty * product.price);
+  }, [watchQuantity, product, setValue]);
 
-                    {/* Quantity */}
-                    <div>
-                        <label>Quantity</label>
-                        <input
-                            type="number"
-                              value={product.quantity}
-                            //   onChange={(e) => handleQuantity(Number(e.target.value))}
-                            className="w-full border p-2 rounded"
-                        />
-                    </div>
+  const onSubmit = (data) => {
+    toast.success("Booking Saved Successfully!");
+    console.log("Booking Data:", data);
 
-                    {/* Total Price */}
-                    <div>
-                        <label>Total Price</label>
-                        <input
-                            type="text"
-                            readOnly
-                              value={`$${product.price}`}
-                            className="w-full border p-2 rounded bg-gray-200"
-                        />
-                    </div>
+    // TODO: Save to backend or redirect to payment if online
+  };
 
-                    {/* First Name */}
-                    <input
-                        required
-                        placeholder="First Name"
-                        className="w-full border p-2 rounded"
-                    // onChange={(e) => setData({ ...data, firstName: e.target.value })}
-                    />
+  return (
+    <Container>
+      <div className="max-w-xl mx-auto bg-white p-6 rounded-xl shadow">
+        <h2 className="text-2xl font-semibold mb-4">Complete Your Order</h2>
 
-                    {/* Last Name */}
-                    <input
-                        required
-                        placeholder="Last Name"
-                        className="w-full border p-2 rounded"
-                    // onChange={(e) => setData({ ...data, lastName: e.target.value })}
-                    />
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
 
-                    {/* Contact */}
-                    <input
-                        required
-                        placeholder="Contact Number"
-                        className="w-full border p-2 rounded"
-                    // onChange={(e) => setData({ ...data, phone: e.target.value })}
-                    />
+          {/* Email */}
+          <div>
+            <label>Email</label>
+            <input
+              type="text"
+              readOnly
+              {...register("email")}
+              className="w-full border p-2 rounded bg-gray-200"
+            />
+          </div>
 
-                    {/* Address */}
-                    <textarea
-                        required
-                        placeholder="Delivery Address"
-                        className="w-full border p-2 rounded"
-                    // onChange={(e) => setData({ ...data, address: e.target.value })}
-                    ></textarea>
+          {/* Product */}
+          <div>
+            <label>Product</label>
+            <input
+              type="text"
+              readOnly
+              {...register("product")}
+              className="w-full border p-2 rounded bg-gray-200"
+            />
+          </div>
 
-                    {/* Notes */}
-                    <textarea
-                        placeholder="Additional Notes"
-                        className="w-full border p-2 rounded"
-                    // onChange={(e) => setData({ ...data, notes: e.target.value })}
-                    ></textarea>
+          {/* Unit Price */}
+          <div>
+            <label>Price</label>
+            <input
+              type="text"
+              readOnly
+              {...register("price")}
+              className="w-full border p-2 rounded bg-gray-200"
+            />
+          </div>
 
-                    <button className="w-full border p-2 bg-amber-200 rounded" value='submit' type="submit" >submit</button>
-                </form>
-            </div>
-        </Container>
+          {/* Quantity */}
+          <div>
+            <label>Order Quantity</label> <br></br>
+            <label className="text-[10px]">Total Quantity -- {product.quantity} And  Minimum Order -- {product.minimumOrder} </label>
 
-    )
-}
+            <input
+              type="number"
+              {...register("quantity", {
+                required: "Quantity is required",
+                min: { value: product.minimumOrder, message: `Minimum order is ${product.minimumOrder}` },
+                max: { value: product.quantity, message: `Cannot order more than ${product.quantity}` }
+              })}
+              className="w-full border p-2 rounded"
+            />
+            {errors.quantity && <p className="text-red-500 text-sm">{errors.quantity.message}</p>}
+          </div>
 
-export default BookingPage
+          {/* Total */}
+          <div>
+            <label>Total Price</label>
+            <input
+              type="text"
+              readOnly
+              {...register("total")}
+              className="w-full border p-2 rounded bg-gray-200"
+            />
+          </div>
+
+          {/* First Name */}
+          <div>
+            <input
+              type="text"
+              placeholder="First Name"
+              {...register("firstName", { required: "First name is required" })}
+              className="w-full border p-2 rounded"
+            />
+            {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName.message}</p>}
+          </div>
+
+          {/* Last Name */}
+          <div>
+            <input
+              type="text"
+              placeholder="Last Name"
+              {...register("lastName", { required: "Last name is required" })}
+              className="w-full border p-2 rounded"
+            />
+            {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName.message}</p>}
+          </div>
+
+          {/* Contact */}
+          <div>
+            <input
+              type="text"
+              placeholder="Contact Number"
+              {...register("contact", { required: "Contact number is required" })}
+              className="w-full border p-2 rounded"
+            />
+            {errors.contact && <p className="text-red-500 text-sm">{errors.contact.message}</p>}
+          </div>
+
+          {/* Address */}
+          <div>
+            <textarea
+              placeholder="Delivery Address"
+              {...register("address", { required: "Delivery address is required" })}
+              className="w-full border p-2 rounded"
+            ></textarea>
+            {errors.address && <p className="text-red-500 text-sm">{errors.address.message}</p>}
+          </div>
+
+          {/* Notes */}
+          <div>
+            <textarea
+              placeholder="Additional Notes"
+              {...register("notes")}
+              className="w-full border p-2 rounded"
+            ></textarea>
+          </div>
+
+          <button
+            className="w-full border p-2 bg-amber-300 font-semibold rounded"
+            type="submit"
+          >
+            Submit Order
+          </button>
+
+        </form>
+      </div>
+    </Container>
+  );
+};
+
+export default BookingPage;
