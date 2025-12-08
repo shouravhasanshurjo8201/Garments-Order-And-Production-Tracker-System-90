@@ -15,7 +15,7 @@ const Card = ({ product }) => {
       <div className="text-sm text-gray-600">Quantity: {product.quantity}</div>
       <div className="font-semibold mt-1">Price: ${product.price}</div>
       <Link
-        to={`/products/${product.id}`}
+        to={`/products/${product._id}`}
         className="mt-2 px-3 py-1 bg-lime-500 text-white rounded hover:bg-lime-600 text-center"
       >
         View Details

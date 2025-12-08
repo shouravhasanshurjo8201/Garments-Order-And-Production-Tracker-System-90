@@ -1,138 +1,39 @@
 import { useEffect, useState } from "react";
 import Container from "../../components/Shared/Container";
 import Card from "../../components/Home/Card";
-import { TbFidgetSpinner } from "react-icons/tb";
 import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 import ProductNotFound from "../ProductDetails/ProductNotFound";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const AllProducts = () => {
-    const products = [
-        {
-            id: 1,
-            name: "Money Plant 1",
-            category: "Indoor",
-            quantity: 10,
-            price: 15,
-            image: "https://i.ibb.co/rMHmQP2/money-plant-in-feng-shui-brings-luck.jpg",
-            description: "A Money Plant is known for bringing prosperity and positive vibes."
-        },
-        {
-            id: 2,
-            name: "Money Plant 2",
-            category: "Indoor",
-            quantity: 8,
-            price: 12,
-            image: "https://i.ibb.co/rMHmQP2/money-plant-in-feng-shui-brings-luck.jpg",
-            description: "A beautiful money plant to enhance positivity in your home."
-        },
-        {
-            id: 3,
-            name: "Money Plant 3",
-            category: "Indoor",
-            quantity: 5,
-            price: 10,
-            image: "https://i.ibb.co/rMHmQP2/money-plant-in-feng-shui-brings-luck.jpg",
-            description: "Bring prosperity and luck with this money plant."
-        },
-        {
-            id: 4,
-            name: "Money Plant 4",
-            category: "Indoor",
-            quantity: 7,
-            price: 14,
-            image: "https://i.ibb.co/rMHmQP2/money-plant-in-feng-shui-brings-luck.jpg",
-            description: "A perfect indoor plant to decorate your room."
-        },
-        {
-            id: 5,
-            name: "Money Plant 5",
-            category: "Indoor",
-            quantity: 6,
-            price: 16,
-            image: "https://i.ibb.co/rMHmQP2/money-plant-in-feng-shui-brings-luck.jpg",
-            description: "Easy to maintain and brings positive energy."
-        },
-        {
-            id: 6,
-            name: "Money Plant 6",
-            category: "Indoor",
-            quantity: 9,
-            price: 18,
-            image: "https://i.ibb.co/rMHmQP2/money-plant-in-feng-shui-brings-luck.jpg",
-            description: "Enhance your workspace with this lucky plant."
-        },
-        {
-            id: 7,
-            name: "Money Plant 7",
-            category: "Indoor",
-            quantity: 4,
-            price: 20,
-            image: "https://i.ibb.co/rMHmQP2/money-plant-in-feng-shui-brings-luck.jpg",
-            description: "Adds beauty and positive vibes to your home."
-        },
-        {
-            id: 8,
-            name: "Money Plant 8",
-            category: "Indoor",
-            quantity: 3,
-            price: 22,
-            image: "https://i.ibb.co/rMHmQP2/money-plant-in-feng-shui-brings-luck.jpg",
-            description: "A perfect gift for friends and family."
-        },
-        {
-            id: 9,
-            name: "Money Plant 9",
-            category: "Indoor",
-            quantity: 8,
-            price: 17,
-            image: "https://i.ibb.co/rMHmQP2/money-plant-in-feng-shui-brings-luck.jpg",
-            description: "Brings prosperity and happiness wherever placed."
-        },
-        {
-            id: 10,
-            name: "Money Plant 10",
-            category: "Indoor",
-            quantity: 5,
-            price: 19,
-            image: "https://i.ibb.co/rMHmQP2/money-plant-in-feng-shui-brings-luck.jpg",
-            description: "A symbol of wealth and positive energy."
-        },
-        {
-            id: 11,
-            name: "Money Plant 11",
-            category: "Indoor",
-            quantity: 6,
-            price: 21,
-            image: "https://i.ibb.co/rMHmQP2/money-plant-in-feng-shui-brings-luck.jpg",
-            description: "Enhance your interior with this indoor plant."
-        },
-        {
-            id: 12,
-            name: "Money Plant 12",
-            category: "Indoor",
-            quantity: 7,
-            price: 25,
-            image: "https://i.ibb.co/rMHmQP2/money-plant-in-feng-shui-brings-luck.jpg",
-            description: "A beautiful lucky plant to decorate your home or office."
-        },
-    ]
-
+    const axiosSecure = useAxiosSecure();
+    const [products, setProducts] = useState([]);
     const [search, setSearch] = useState("");
     const [isSearching, setIsSearching] = useState(false);
-    const [searchData, setSearchData] = useState(products);
+    const [searchData, setSearchData] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    // API  Products Load
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setSearchData(products);
-            setLoading(false);
-        }, 500); 
-        return () => clearTimeout(timer);
-    }, []);
+        const loadProducts = async () => {
+            try {
+                const res = await axiosSecure.get("/products");
+                setProducts(res.data);
+                setSearchData(res.data);
+                setLoading(false);
+            } catch (error) {
+                console.log(error);
+                setLoading(false);
+            }
+        };
+        loadProducts();
+    }, [axiosSecure]);
 
+    // Search Filter
     useEffect(() => {
         if (!products) return;
         setIsSearching(true);
+
         const timer = setTimeout(() => {
             const check = search.trim().toLowerCase();
             const filtered = check
@@ -140,22 +41,26 @@ const AllProducts = () => {
                     p.name.toLowerCase().includes(check)
                 )
                 : products;
+
             setSearchData(filtered);
             setIsSearching(false);
-        }, 300); 
+        }, 300);
+
         return () => clearTimeout(timer);
-    }, [search]);
+    }, [search, products]);
 
     return (
         <Container>
             <div>
                 <div>
+                    {/* Title */}
                     <div className="text-center mb-2">
                         <h2 className="text-4xl font-bold">
                             <span className="text-lime-500">All Products</span>
                         </h2>
                     </div>
 
+                    {/* Search */}
                     <div className="flex flex-col md:flex-row justify-between items-center p-2 ">
                         <div className="text-green-400 text-xl font-bold my-2">
                             Products Found <span>({searchData.length})</span>
@@ -171,26 +76,25 @@ const AllProducts = () => {
                         </div>
                     </div>
 
+                    {/* Loader, Cards, Product-Not-Found */}
                     {loading ? (
                         <div className="flex justify-center items-center min-h-[30vh]">
-                            <LoadingSpinner/>
+                            <LoadingSpinner />
                         </div>
                     ) : searchData && searchData.length > 0 ? (
-
                         <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-full">
                             {isSearching ? (
                                 <div className="col-span-12 flex justify-center items-center">
-                                    <LoadingSpinner/>
+                                    <LoadingSpinner />
                                 </div>
                             ) : (
                                 searchData.map((product) => (
-                                    <Card key={product.id} product={product} />
+                                    <Card key={product._id} product={product} />
                                 ))
                             )}
                         </div>
-
                     ) : (
-                        <ProductNotFound></ProductNotFound>
+                        <ProductNotFound />
                     )}
                 </div>
             </div>

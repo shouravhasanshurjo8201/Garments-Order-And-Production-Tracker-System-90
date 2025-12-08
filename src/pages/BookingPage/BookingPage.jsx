@@ -9,6 +9,7 @@ const BookingPage = () => {
   const { user } = useAuth();
   const { state } = useLocation();
   const product = state?.product;
+console.log(product);
 
   // If product not available, show loading/error
   if (!product) return <Container><p className="text-center mt-20">Product not found!</p></Container>;
