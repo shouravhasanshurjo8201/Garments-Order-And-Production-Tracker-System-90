@@ -1,5 +1,5 @@
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
-import UpdatePlantForm from '../Form/UpdatePlantForm'
+import UpdatePlantForm from '../Form/UpdateProductForm'
 
 const UpdatePlantModal = ({ setIsEditModalOpen, isOpen }) => {
   return (

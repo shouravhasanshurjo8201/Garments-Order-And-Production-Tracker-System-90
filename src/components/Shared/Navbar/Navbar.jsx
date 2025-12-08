@@ -16,7 +16,7 @@ const Navbar = () => {
           <div className='flex flex-row  items-center justify-between gap-3 md:gap-0'>
             {/* Logo */}
             <Link to='/'>
-              <img src={logo} alt='logo' width='100' height='100' />
+              <img src={logo} alt='logo' className='h-8 w-15 hover:bg-blue-50 rounded-sm' width='100' height='100' />
             </Link>
             {/* Dropdown Menu */}
             <div className='relative'>
@@ -26,8 +26,7 @@ const Navbar = () => {
                   onClick={() => setIsOpen(!isOpen)}
                   className='p-4 md:py-1 md:px-2 border border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition'
                 >
-                  <AiOutlineMenu />
-                  <div className='hidden md:block'>
+                  <div >
                     {/* Avatar */}
                     <img
                       className='rounded-full'
@@ -41,7 +40,7 @@ const Navbar = () => {
                 </div>
               </div>
               {isOpen && (
-                <div className='absolute rounded-xl shadow-md w-[40vw] md:w-[10vw] bg-white overflow-hidden right-0 top-12 text-sm'>
+                <div className='absolute rounded-b-xl shadow-md w-[20vw] md:w-[10vw] bg-white overflow-hidden right-16 md:right-12 top-[-16px] text-center text-sm'>
                   <div className='flex flex-col cursor-pointer'>
                     <Link
                       to='/'

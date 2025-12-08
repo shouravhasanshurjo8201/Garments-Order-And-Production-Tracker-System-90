@@ -6,11 +6,11 @@ const Profile = () => {
 
   return (
     <div className='flex justify-center items-center h-screen'>
-      <div className='bg-white shadow-lg rounded-2xl md:w-4/5 lg:w-3/5'>
+      <div className='bg-white shadow-lg rounded-2xl md:w-4/5 lg:w-3/5 border-2 border-blue-500'>
         <img
           alt='cover photo'
           src={coverImg}
-          className='w-full mb-4 rounded-t-lg h-56'
+          className='w-full mb-4 rounded-t-xl h-56'
         />
         <div className='flex flex-col items-center justify-center p-4 -mt-16'>
           <a href='#' className='relative block'>
