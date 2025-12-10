@@ -2,7 +2,7 @@ import { Link } from 'react-router'
 
 const Card = ({ product }) => {
   return (
-    <div className="col-span-1 cursor-pointer group shadow-xl p-3 rounded-xl flex flex-col">
+    <div className="col-span-1 cursor-pointer group shadow-sm p-3 rounded-xl flex flex-col">
       <div className="aspect-square w-full relative overflow-hidden rounded-xl mb-2">
         <img
           src={product.image}
@@ -16,7 +16,7 @@ const Card = ({ product }) => {
       <div className="font-semibold mt-1">Price: ${product.price}</div>
       <Link
         to={`/products/${product._id}`}
-        className="mt-2 px-3 py-1 bg-lime-500 text-white rounded hover:bg-lime-600 text-center"
+        className="mt-2 px-3 py-1 bg-lime-500 text-white hover:font-bold rounded hover:bg-lime-600 text-center"
       >
         View Details
       </Link>
