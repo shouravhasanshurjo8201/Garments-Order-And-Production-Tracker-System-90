@@ -4,6 +4,7 @@ import { TbFidgetSpinner } from "react-icons/tb"
 import { FcGoogle } from "react-icons/fc"
 import toast from "react-hot-toast"
 import { useForm } from "react-hook-form"
+import DBsaveUser from "../../hooks/useAxios"
 
 const SignUp = () => {
   const { createUser, updateUserProfile, signInWithGoogle, loading } = useAuth()
@@ -23,23 +24,27 @@ const SignUp = () => {
     const { name, email, password, role, image } = data
 
     try {
+      // Firebase Auth Create
       await createUser(email, password)
 
-      // Update Profile
+      // Firebase Profile Update
       await updateUserProfile(name, image)
 
-      // User Save (optional)
+      // Save user to DB
       const userInfo = {
         name,
         email,
         role,
         status: "pending",
-        photoURL: image
+        photoURL: image,
       }
+
+      await DBsaveUser(userInfo)
 
       toast.success("Signup Successful!")
       reset()
       navigate(from, { replace: true })
+
     } catch (err) {
       toast.error(err?.message || "Signup failed")
     }
@@ -48,10 +53,24 @@ const SignUp = () => {
   // GOOGLE SIGNIN
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithGoogle()
-      toast.success("Signup Successful")
+      const result = await signInWithGoogle()  
+      const loggedUser = result.user
+
+      // Save to DB
+      const userInfo = {
+        name: loggedUser.displayName,
+        email: loggedUser.email,
+        role: "buyer", 
+        status: "pending",
+        photoURL: loggedUser.photoURL
+      }
+
+      await DBsaveUser(userInfo)
+
+      toast.success("Google Sign-in Successful!")
       navigate(from, { replace: true })
     } catch (err) {
+      console.error(err)
       toast.error(err?.message || "Signup failed")
     }
   }
@@ -59,11 +78,13 @@ const SignUp = () => {
   return (
     <div className="flex justify-center items-center py-4 bg-white">
       <div className="flex flex-col w-xl p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
+
         <div className="mb-8 text-center">
           <h1 className="my-3 text-4xl font-bold">Sign Up</h1>
           <p className="text-sm text-gray-400">Register to continue</p>
         </div>
 
+        {/* SIGNUP FORM */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-4">
 
@@ -117,7 +138,7 @@ const SignUp = () => {
 
             {/* PASSWORD */}
             <div>
-              <label className="text-sm mb-2">Password</label>
+              <label className="block mb-2 text-sm">Password</label>
               <input
                 {...register("password", {
                   required: "Password is required",
@@ -164,6 +185,7 @@ const SignUp = () => {
             Login
           </Link>
         </p>
+
       </div>
     </div>
   )

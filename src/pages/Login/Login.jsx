@@ -5,6 +5,7 @@ import useAuth from "../../hooks/useAuth"
 import { FcGoogle } from "react-icons/fc"
 import { TbFidgetSpinner } from "react-icons/tb"
 import LoadingSpinner from "../../components/Shared/LoadingSpinner"
+import DBsaveUser from "../../hooks/useAxios"
 
 const Login = () => {
   const { signIn, signInWithGoogle, loading, user, setLoading } = useAuth()
@@ -20,7 +21,16 @@ const Login = () => {
   const onSubmit = async (data) => {
     const { email, password } = data
     try {
-      await signIn(email, password)
+      const result = await signIn(email, password)
+      const loggedUser = result.user
+      // Save to DB
+      const userInfo = {
+        name: loggedUser.displayName,
+        email: loggedUser.email,
+      }
+
+      await DBsaveUser(userInfo)
+
       toast.success("Login Successful")
       navigate(from, { replace: true })
     } catch (err) {
@@ -36,15 +46,28 @@ const Login = () => {
     }
   }
 
-  // Google login
+  // GOOGLE SIGNIN
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithGoogle()
-      toast.success("Login Successful")
+      const result = await signInWithGoogle()
+      const loggedUser = result.user
+
+      // Save to DB
+      const userInfo = {
+        name: loggedUser.displayName,
+        email: loggedUser.email,
+        role: "buyer",
+        status: "pending",
+        photoURL: loggedUser.photoURL
+      }
+
+      await DBsaveUser(userInfo)
+
+      toast.success("Google Sign-in Successful!")
       navigate(from, { replace: true })
     } catch (err) {
-      toast.error(err?.message || "Login failed")
-      setLoading(false)
+      console.error(err)
+      toast.error(err?.message || "Signup failed")
     }
   }
 
