@@ -1,3 +1,4 @@
+import GlobalPartner from '../../components/Home/ExtraSection'
 import CustomerFeedback from '../../components/Home/feedbacks'
 import HeroBanner from '../../components/Home/HeroBanner'
 import HowItWorks from '../../components/Home/HowWorks'
@@ -11,6 +12,7 @@ const Home = () => {
       <LatestProducts />
       <HowItWorks/>
       <CustomerFeedback/>
+      <GlobalPartner/>
       {/* More components */}
     </Container>
   )
