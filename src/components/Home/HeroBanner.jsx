@@ -11,8 +11,7 @@ const HeroBanner = () => {
             style={{ backgroundImage: `url(${heroImage})` }}
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5 }}
-
+            transition={{ duration: 1, }}
         >
             <motion.div className="text-center py-12 w-full bg-black/40 rounded">
                 <h1 className="text-4xl md:text-6xl font-bold mb-4 text-white">

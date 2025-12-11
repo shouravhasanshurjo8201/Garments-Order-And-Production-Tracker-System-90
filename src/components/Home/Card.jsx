@@ -1,8 +1,14 @@
 import { Link } from 'react-router'
+import { motion } from "framer-motion";
+
 
 const Card = ({ product }) => {
   return (
-    <div className="col-span-1 cursor-pointer group shadow-sm p-3 rounded-xl flex flex-col">
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1, }}
+      className="col-span-1 bg-blue-50 cursor-pointer group shadow-sm p-3 rounded-xl flex flex-col">
       <div className="aspect-square w-full relative overflow-hidden rounded-xl mb-2">
         <img
           src={product.image}
@@ -20,7 +26,7 @@ const Card = ({ product }) => {
       >
         View Details
       </Link>
-    </div>
+    </motion.div>
   )
 }
 
