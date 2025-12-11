@@ -17,6 +17,7 @@ import AddProduct from '../pages/Dashboard/Seller/AddProduct'
 import { createBrowserRouter } from 'react-router'
 import AllProducts from '../pages/AllProducts/AllProducts'
 import About from '../pages/About/About'
+import Contact from '../pages/Contact/Contact'
 
 export const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
       {
         path: '/about',
         element: <About />,
+      },
+      {
+        path: '/contact',
+        element: <Contact/>,
       },
       {
         path: '/products/:id',
