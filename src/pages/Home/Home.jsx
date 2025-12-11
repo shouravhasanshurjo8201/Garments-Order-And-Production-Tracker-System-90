@@ -1,6 +1,7 @@
 import GlobalPartner from '../../components/Home/ExtraSection'
 import WhyChooseUs from '../../components/Home/Features'
 import CustomerFeedback from '../../components/Home/feedbacks'
+import GarmentsProductionSection from '../../components/Home/GarmentsProductionSection'
 import HeroBanner from '../../components/Home/HeroBanner'
 import HowItWorks from '../../components/Home/HowWorks'
 import LatestProducts from '../../components/Home/LatestProducts'
@@ -17,6 +18,7 @@ const Home = () => {
       <WhyChooseUs/>
       <CustomerFeedback/>
       <GlobalPartner/>
+      <GarmentsProductionSection/>
     </Container>
   )
 }
