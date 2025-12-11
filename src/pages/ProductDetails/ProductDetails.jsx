@@ -48,7 +48,7 @@ const ProductDetails = () => {
 
   
   const handleOrder = () => {
-    navigate(`/booking/${product._id}`, { state: { product } });
+    navigate(`/products/booking/${product._id}`, { state: { product } });
   };
 
   return (

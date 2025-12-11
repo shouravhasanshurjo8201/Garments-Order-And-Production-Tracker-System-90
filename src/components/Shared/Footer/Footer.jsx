@@ -3,7 +3,7 @@ import logo1 from "/logo-square.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-gray-300 py-8">
+    <footer className="bg-gray-900 text-gray-300 mt-8 py-8">
       <Container>
         <div className="flex flex-col md:flex-row justify-center items-center text-center gap-10">
 

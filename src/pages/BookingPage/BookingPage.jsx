@@ -1,15 +1,18 @@
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import Container from "../../components/Shared/Container";
 import useAuth from "../../hooks/useAuth";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const BookingPage = () => {
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const { state } = useLocation();
+  const navigate = useNavigate();
+
   const product = state?.product;
-console.log(product);
 
   // If product not available, show loading/error
   if (!product) return <Container><p className="text-center mt-20">Product not found!</p></Container>;
@@ -17,6 +20,7 @@ console.log(product);
   // React Hook Form setup
   const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm({
     defaultValues: {
+      productId: product._id, 
       email: user?.email || "",
       product: product.name,
       price: product.price,
@@ -43,20 +47,24 @@ console.log(product);
     setValue("total", qty * product.price);
   }, [watchQuantity, product, setValue]);
 
-  const onSubmit = (data) => {
-    toast.success("Booking Saved Successfully!");
-    console.log("Booking Data:", data);
+  const onSubmit = async (data) => {
+    try {
+      const response = await axiosSecure.post("/orders", data);
+      console.log("Booking saved:", response.data);
+      toast.success("Booking Saved Successfully!");
+      navigate(`/products/${product._id}`);
+    } catch (error) {
+      console.error(error);
+      toast.error(error?.response?.data?.message || "Booking failed!");
+    }
+};
 
-    // TODO: Save to backend or redirect to payment if online
-  };
 
   return (
     <Container>
       <div className="max-w-xl mx-auto bg-white p-6 rounded-xl shadow">
-        <h2 className="text-2xl font-semibold mb-4">Complete Your Order</h2>
-
+        <h2 className="text-2xl text-lime-500 font-semibold mb-4">Complete Your Order</h2>
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-
           {/* Email */}
           <div>
             <label>Email</label>
@@ -171,7 +179,7 @@ console.log(product);
           </div>
 
           <button
-            className="w-full border p-2 bg-amber-300 font-semibold rounded"
+            className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition"
             type="submit"
           >
             Submit Order
