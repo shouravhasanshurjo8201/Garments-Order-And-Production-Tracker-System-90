@@ -4,6 +4,7 @@ import CustomerFeedback from '../../components/Home/feedbacks'
 import HeroBanner from '../../components/Home/HeroBanner'
 import HowItWorks from '../../components/Home/HowWorks'
 import LatestProducts from '../../components/Home/LatestProducts'
+import SpecialOffer from '../../components/Home/SpecialOffer'
 import Container from '../../components/Shared/Container'
 
 const Home = () => {
@@ -12,10 +13,10 @@ const Home = () => {
       <HeroBanner/>
       <LatestProducts />
       <HowItWorks/>
+      <SpecialOffer/>
       <WhyChooseUs/>
-      <GlobalPartner/>
       <CustomerFeedback/>
-      {/* More components */}
+      <GlobalPartner/>
     </Container>
   )
 }
