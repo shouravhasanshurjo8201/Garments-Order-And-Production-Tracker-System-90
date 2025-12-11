@@ -47,7 +47,20 @@ const Navbar = () => {
                 >
                   {link.name}
                 </NavLink>
+
               ))}
+              {user && (
+                <NavLink
+                  to="/dashboard"
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'font-semibold text-lime-500'
+                      : 'font-semibold text-gray-700 hover:text-lime-500 transition'
+                  }
+                >
+                  Dashboard
+                </NavLink>
+              )}
             </div>
 
             {/* Dropdown Menu / Avatar */}
@@ -99,6 +112,7 @@ const Navbar = () => {
                         >
                           Dashboard
                         </NavLink>
+                        <NavLink to="/dashboard/profile" className="px-4 py-3 hover:bg-neutral-100 font-semibold cursor-pointer block" > Profile </NavLink>
                         <div
                           onClick={logOut}
                           className="px-4 py-3 hover:bg-neutral-100 font-semibold cursor-pointer block"
