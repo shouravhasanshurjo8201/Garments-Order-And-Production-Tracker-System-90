@@ -6,15 +6,17 @@ import useAuth from "../../hooks/useAuth";
 import { useNavigate, useParams } from "react-router";
 import ProductNotFound from "./ProductNotFound";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import LoadingSpinner from "../../components/Shared/LoadingSpinner";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-
+  const [userData, setUserData] = useState(null);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const canOrder = userData?.role === "Buyer";
 
   // Fetch Single Product by ID
   useEffect(() => {
@@ -31,10 +33,23 @@ const ProductDetails = () => {
       });
   }, [axiosSecure, id]);
 
+  // Get user data from DB
+  useEffect(() => {
+    if (user?.email) {
+      axiosSecure
+        .get(`/user?email=${user.email}`)
+        .then((res) => {
+          setUserData(res.data);
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
+    }
+  }, [user?.email, axiosSecure,]);
+
   if (loading) {
     return (
       <Container>
-        <p className="text-center text-xl font-semibold mt-20">Loading...</p>
+        <LoadingSpinner />
       </Container>
     );
   }
@@ -43,10 +58,6 @@ const ProductDetails = () => {
     return <ProductNotFound />;
   }
 
-  // Buyers only can order
-  const canOrder = user && user.role !== "admin" && user.role !== "manager";
-
-  
   const handleOrder = () => {
     navigate(`/products/booking/${product._id}`, { state: { product } });
   };
@@ -103,12 +114,23 @@ const ProductDetails = () => {
             <p className="text-3xl font-bold w-full">Price: ${product.price}</p>
 
             <div className="w-full flex justify-end">
-              {canOrder ? (
-                <Button label="Order Now" onClick={handleOrder} />
+
+              {/* Product Not Available (quantity = 0) */}
+              {product?.quantity === 0 ? (
+                <Button disabled label="Not Available" />
               ) : (
-                <Button disabled label="Order Only Buyer" />
+                <>
+                  {/* Buyer allowed to order */}
+                  {canOrder ? (
+                    <Button label="Order Now" onClick={handleOrder} />
+                  ) : (
+                    <Button disabled label="Order Only Buyer" />
+                  )}
+                </>
               )}
+
             </div>
+
           </div>
         </div>
       </div>

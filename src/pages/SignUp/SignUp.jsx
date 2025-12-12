@@ -60,7 +60,7 @@ const SignUp = () => {
       const userInfo = {
         name: loggedUser.displayName,
         email: loggedUser.email,
-        role: "buyer", 
+        role: "Buyer", 
         status: "pending",
         photoURL: loggedUser.photoURL
       }
