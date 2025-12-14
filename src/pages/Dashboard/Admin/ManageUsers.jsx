@@ -12,7 +12,7 @@ const ManageUsers = () => {
   // Fetch Products 
   useEffect(() => {
     axiosSecure
-      .get(`/user?email=${email}`)
+      .get(`/users?email=${email}`)
       .then(res => {
         setUsers(res.data)
       })

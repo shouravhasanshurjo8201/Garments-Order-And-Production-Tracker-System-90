@@ -10,7 +10,7 @@ import Statistics from '../pages/Dashboard/Common/Statistics'
 import MainLayout from '../layouts/MainLayout'
 import MyInventory from '../pages/Dashboard/Seller/MyInventory'
 import ManageOrders from '../pages/Dashboard/Seller/ManageOrders'
-import MyOrders from '../pages/Dashboard/Customer/MyOrders'
+// import MyOrders from '../pages/Dashboard/Customer/MyOrders'
 import BookingPage from '../pages/BookingPage/BookingPage'
 import ProductDetails from '../pages/ProductDetails/ProductDetails'
 import AddProduct from '../pages/Dashboard/Seller/AddProduct'
@@ -18,6 +18,9 @@ import { createBrowserRouter } from 'react-router'
 import AllProducts from '../pages/AllProducts/AllProducts'
 import About from '../pages/About/About'
 import Contact from '../pages/Contact/Contact'
+import MyOrders from '../pages/Dashboard/Customer/MyOders'
+// import TrackOrder from '../pages/Dashboard/Customer/TrackOrder'
+
 
 export const router = createBrowserRouter([
   {
@@ -105,10 +108,11 @@ export const router = createBrowserRouter([
         path: 'my-orders',
         element: (
           <PrivateRoute>
-            <MyOrders />
+            <MyOrders/>
           </PrivateRoute>
         ),
       },
+      
       {
         path: 'manage-orders',
         element: <ManageOrders />,

@@ -26,6 +26,7 @@ const BookingPage = () => {
       price: product.price,
       quantity: product.minimumOrder,
       total: product.price * product.minimumOrder,
+      status : "Pending",
       firstName: "",
       lastName: "",
       contact: "",
@@ -52,7 +53,7 @@ const BookingPage = () => {
       const response = await axiosSecure.post("/orders", data);
       console.log("Booking saved:", response.data);
       toast.success("Booking Saved Successfully!");
-      navigate(`/products/${product._id}`);
+      navigate("/dashboard/my-orders");
     } catch (error) {
       console.error(error);
       toast.error(error?.response?.data?.message || "Booking failed!");
