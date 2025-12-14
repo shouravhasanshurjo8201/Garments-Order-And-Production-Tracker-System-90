@@ -10,7 +10,6 @@ import Statistics from '../pages/Dashboard/Common/Statistics'
 import MainLayout from '../layouts/MainLayout'
 import MyInventory from '../pages/Dashboard/Seller/MyInventory'
 import ManageOrders from '../pages/Dashboard/Seller/ManageOrders'
-// import MyOrders from '../pages/Dashboard/Customer/MyOrders'
 import BookingPage from '../pages/BookingPage/BookingPage'
 import ProductDetails from '../pages/ProductDetails/ProductDetails'
 import AddProduct from '../pages/Dashboard/Seller/AddProduct'
@@ -19,7 +18,7 @@ import AllProducts from '../pages/AllProducts/AllProducts'
 import About from '../pages/About/About'
 import Contact from '../pages/Contact/Contact'
 import MyOrders from '../pages/Dashboard/Customer/MyOders'
-// import TrackOrder from '../pages/Dashboard/Customer/TrackOrder'
+import TrackOrder from '../pages/Dashboard/Customer/TrackOrder'
 
 
 export const router = createBrowserRouter([
@@ -112,7 +111,14 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-      
+      {
+        path: 'track-order/:orderId',
+        element: (
+          <PrivateRoute>
+            <TrackOrder/>
+          </PrivateRoute>
+        ),
+      },
       {
         path: 'manage-orders',
         element: <ManageOrders />,
