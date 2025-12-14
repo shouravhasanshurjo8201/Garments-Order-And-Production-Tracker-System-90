@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
 import useAuth from '../../../hooks/useAuth'
 import logo from '../../../assets/images/logo-flat.png'
@@ -13,15 +13,35 @@ import MenuItem from './Menu/MenuItem'
 import AdminMenu from './Menu/AdminMenu'
 import SellerMenu from './Menu/SellerMenu'
 import CustomerMenu from './Menu/CustomerMenu'
+import useAxiosSecure from '../../../hooks/useAxiosSecure'
+import LoadingSpinner from '../../Shared/LoadingSpinner'
 
 const Sidebar = () => {
-  const { logOut } = useAuth()
+  const axiosSecure = useAxiosSecure();
+  const { user, logOut } = useAuth()
+  const [userData, setUserData] = useState(null);
   const [isActive, setActive] = useState(false)
+  const [loading, setLoading] = useState(true);
+  const role = userData?.role;
+  
+  // Get user data from DB
+  useEffect(() => {
+    if (user?.email) {
+      axiosSecure
+        .get(`/user?email=${user.email}`)
+        .then((res) => {
+          setUserData(res.data);
+          setLoading(false);
+        })
+        .catch(() => setLoading(false));
+    }
+  }, [user?.email, axiosSecure]);
 
   // Sidebar Responsive Handler
   const handleToggle = () => {
     setActive(!isActive)
   }
+  if (loading) return <LoadingSpinner />;
 
   return (
     <>
@@ -45,9 +65,8 @@ const Sidebar = () => {
 
       {/* Sidebar */}
       <div
-        className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-gray-100 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
-          isActive && '-translate-x-full'
-        }  md:translate-x-0  transition duration-200 ease-in-out`}
+        className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-gray-100 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${isActive && '-translate-x-full'
+          }  md:translate-x-0  transition duration-200 ease-in-out`}
       >
         <div className='flex flex-col h-full'>
           {/* Top Content */}
@@ -61,19 +80,21 @@ const Sidebar = () => {
           </div>
 
           {/* Middle Content */}
-          <div className='flex flex-col justify-between flex-1 mt-6'>
+          <div className='flex flex-col justify-between  mt-6'>
             {/*  Menu Items */}
             <nav>
               {/* Common Menu */}
+              
               <MenuItem
                 icon={BsGraphUp}
                 label='Statistics'
                 address='/dashboard'
               />
               {/* Role-Based Menu */}
-              <CustomerMenu />
-              <SellerMenu />
-              <AdminMenu />
+              
+              {role === "Admin" && <AdminMenu />}
+              {role === "Manager" && <SellerMenu />}
+              {role === "Buyer" && <CustomerMenu />}
             </nav>
           </div>
 
