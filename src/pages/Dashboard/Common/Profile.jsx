@@ -5,31 +5,51 @@ import coverImg from "../../../assets/images/cover.jpg";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import { useForm } from "react-hook-form";
+import { TbAlertCircle } from "react-icons/tb";
 
 const Profile = () => {
   const { user, updateUserProfile } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [userData, setUserData] = useState(null);
+  const [suspended, setSuspended] = useState(null);
   const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
   const { register, handleSubmit, reset } = useForm();
 
   // Get user data from DB
   useEffect(() => {
-    if (user?.email) {
-      axiosSecure
-        .get(`/user?email=${user.email}`)
-        .then((res) => {
-          setUserData(res.data);
-          reset({
-            name: res.data.name,
-            photoURL: res.data.photoURL,
-          });
-          setLoading(false);
+    if (!user?.email) return
+
+    const fetchData = async () => {
+      try {
+        // User data
+        const userRes = await axiosSecure.get(`/user?email=${user.email}`)
+        setUserData(userRes.data)
+
+        reset({
+          name: userRes.data.name,
+          photoURL: userRes.data.photoURL,
         })
-        .catch(() => setLoading(false));
+
+        // Suspended data
+        const suspendRes = await axiosSecure.get(
+          `/user/suspended?email=${user.email}`
+        )
+        setSuspended(suspendRes.data)
+        if (suspendRes.data.suspended) {
+          toast.error("Your Account is Suspended!");
+        }
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setLoading(false)
+      }
     }
-  }, [user?.email, axiosSecure, reset]);
+
+    fetchData()
+  }, [user?.email, axiosSecure, reset])
+
+  console.log(suspended);
 
   // UPDATE FUNCTION 
   const handleUpdate = async (data) => {
@@ -43,7 +63,7 @@ const Profile = () => {
     }
     // Database update
     axiosSecure
-      .patch("/user", {
+      .post("/user", {
         email: user.email,
         name,
         photoURL,
@@ -61,6 +81,11 @@ const Profile = () => {
   };
 
   if (loading) return <LoadingSpinner />;
+  if (userData?.status === "Suspended") return <div className="min-h-[50vh] flex flex-col justify-center items-center text-center">
+    <TbAlertCircle className="text-6xl text-red-500 mb-4 animate-pulse" />
+    <h2 className="text-3xl font-bold text-gray-700 mb-2">Your Account is Suspended!</h2>
+    <p className="text-gray-500 max-w-md">Sorry, The item you are looking for is not Available.</p>
+  </div>;
 
   return (
     <>

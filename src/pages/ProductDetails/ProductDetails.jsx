@@ -17,7 +17,6 @@ const ProductDetails = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const canOrder = userData?.role === "Buyer";
-
   // Fetch Single Product by ID
   useEffect(() => {
     axiosSecure
@@ -120,8 +119,7 @@ const ProductDetails = () => {
                 <Button disabled label="Not Available" />
               ) : (
                 <>
-                  {/* Buyer allowed to order */}
-                  {canOrder ? (
+                  {userData?.status === "Suspended" ? <Button disabled label="Account Suspended" /> : canOrder ? (
                     <Button label="Order Now" onClick={handleOrder} />
                   ) : (
                     <Button disabled label="Order Only Buyer" />
