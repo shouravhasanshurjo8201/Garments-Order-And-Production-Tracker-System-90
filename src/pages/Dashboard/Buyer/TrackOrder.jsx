@@ -59,7 +59,7 @@ const TrackOrder = () => {
         </h3>
 
         <ol className="relative border-l border-gray-300">
-          {order.tracking?.map((step, index) => (
+          {order.trackingHistory?.map((step, index) => (
             <li key={index} className="mb-6 ml-6">
               <span
                 className={`absolute -left-3 flex items-center justify-center w-6 h-6 rounded-full
@@ -73,11 +73,11 @@ const TrackOrder = () => {
               </span>
 
               <h4 className="font-semibold text-lg">
-                {step.title}
+                {step.status}
               </h4>
 
               <p className="text-sm text-gray-500">
-                {new Date(step.date).toLocaleString()}
+                {new Date(step.time).toLocaleString()}
               </p>
 
               <p className="text-sm">
@@ -90,13 +90,7 @@ const TrackOrder = () => {
                 </p>
               )}
 
-              {step.image && (
-                <img
-                  src={step.image}
-                  alt="Tracking"
-                  className="mt-2 w-32 rounded"
-                />
-              )}
+              
             </li>
           ))}
         </ol>

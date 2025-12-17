@@ -21,6 +21,7 @@ import MyOrders from '../pages/Dashboard/Buyer/MyOders'
 import TrackOrder from '../pages/Dashboard/Buyer/TrackOrder'
 import AdminAllProducts from '../pages/Dashboard/Admin/AllProducts'
 import AdminAllOrders from '../pages/Dashboard/Admin/AllOrders'
+import ApprovedOrders from '../pages/Dashboard/Manager/ApprovedOrders'
 
 
 export const router = createBrowserRouter([
@@ -126,6 +127,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <MyOrders/>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'approved-orders',
+        element: (
+          <PrivateRoute>
+            <ApprovedOrders/>
           </PrivateRoute>
         ),
       },

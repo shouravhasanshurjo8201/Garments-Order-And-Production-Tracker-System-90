@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useForm } from "react-hook-form";
+import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 
 const MyInventory = () => {
   const axiosSecure = useAxiosSecure();
@@ -87,12 +88,12 @@ const MyInventory = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <LoadingSpinner/>;
 
   return (
     <div>
       <div className="overflow-x-auto">
-        <table className="w-full table">
+        <table className="w-full border table">
           <thead className="bg-gray-200 ">
             <tr >
               <th>Image</th>

@@ -6,14 +6,19 @@ const SellerMenu = () => {
     <>
       <MenuItem
         icon={BsFillHouseAddFill}
-        label='Add Plant'
+        label='Add Product'
         address='add-plant'
       />
-      <MenuItem icon={MdHomeWork} label='My Inventory' address='my-inventory' />
+      <MenuItem icon={MdHomeWork} label='Update Product' address='my-inventory' />
       <MenuItem
         icon={MdOutlineManageHistory}
-        label='Manage Orders'
+        label='Pending Orders'
         address='manage-orders'
+      />
+      <MenuItem
+        icon={MdOutlineManageHistory}
+        label='Approved Orders'
+        address='approved-orders'
       />
     </>
   )
