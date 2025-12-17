@@ -20,6 +20,7 @@ import Contact from '../pages/Contact/Contact'
 import MyOrders from '../pages/Dashboard/Buyer/MyOders'
 import TrackOrder from '../pages/Dashboard/Buyer/TrackOrder'
 import AdminAllProducts from '../pages/Dashboard/Admin/AllProducts'
+import AdminAllOrders from '../pages/Dashboard/Admin/AllOrders'
 
 
 export const router = createBrowserRouter([
@@ -101,6 +102,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <AdminAllProducts />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'all-orders',
+        element: (
+          <PrivateRoute>
+            <AdminAllOrders />
           </PrivateRoute>
         ),
       },

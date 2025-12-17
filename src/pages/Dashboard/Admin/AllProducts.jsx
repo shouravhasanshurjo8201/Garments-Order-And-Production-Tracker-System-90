@@ -7,7 +7,6 @@ const AdminAllProducts = () => {
   const axiosSecure = useAxiosSecure();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -100,7 +99,7 @@ const AdminAllProducts = () => {
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">All Products</h2>
+      <h2 className="text-2xl text-center text-lime-500 font-bold mb-4">All Products</h2>
 
       <div className="overflow-x-auto">
         <table className="table w-full">
@@ -126,7 +125,7 @@ const AdminAllProducts = () => {
                   />
                 </td>
                 <td>{product.name}</td>
-                <td>৳{product.price}</td>
+                <td>{product.price} Tk.</td>
                 <td>{product.category}</td>
                 <td>{product.createdBy}</td>
                 <td>
