@@ -94,7 +94,7 @@ const ProductDetails = () => {
           <hr className="my-3" />
 
           <p className="text-neutral-700">
-            <strong>Payment Options:</strong> {product.paymentOptions.join(", ")}
+            <strong>Payment Options:</strong> {product?.paymentOptions}
           </p>
 
           <hr className="my-3" />
