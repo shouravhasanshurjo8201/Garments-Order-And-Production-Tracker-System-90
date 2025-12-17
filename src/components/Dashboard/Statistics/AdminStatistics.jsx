@@ -1,168 +1,145 @@
-import React, { useState } from 'react';
-import { 
-  LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, 
-  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
-} from 'recharts';
-import { Users, ShoppingCart, Package, UserCheck } from 'lucide-react';
+import { Users, ShoppingCart, Package, UserCheck } from "lucide-react";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useEffect, useState } from "react";
+import {
+  LineChart, Line, BarChart, Bar, PieChart, Pie, Cell,
+  XAxis, YAxis,  Tooltip, Legend, ResponsiveContainer
+} from "recharts";
 
-// --- Mock Data (ডেমো ডাটা) ---
-const dataWeek = [
-  { name: 'Mon', sales: 4000, users: 2400, products: 240 },
-  { name: 'Tue', sales: 3000, users: 1398, products: 210 },
-  { name: 'Wed', sales: 2000, users: 9800, products: 290 },
-  { name: 'Thu', sales: 2780, users: 3908, products: 200 },
-  { name: 'Fri', sales: 1890, users: 4800, products: 181 },
-  { name: 'Sat', sales: 2390, users: 3800, products: 250 },
-  { name: 'Sun', sales: 3490, users: 4300, products: 210 },
-];
-
-const pieData = [
-  { name: 'Delivered', value: 400 },
-  { name: 'Pending', value: 300 },
-  { name: 'Cancelled', value: 100 },
-  { name: 'Returned', value: 50 },
-];
-
-const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444']; // Tailwind Colors (Blue, Green, Yellow, Red)
+const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444'];
 
 const AdminStatistics = () => {
-  const [filter, setFilter] = useState('7 Days');
+  const axiosSecure = useAxiosSecure();
+  const [filter, setFilter] = useState("7 Days");
+  const [products, setProducts] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [users, setUsers] = useState([]);
 
-  // স্ট্যাট কার্ড কম্পোনেন্ট
+  useEffect(() => {
+    axiosSecure.get("/products").then(res => setProducts(res.data));
+    axiosSecure.get("/orders").then(res => setOrders(res.data));
+    axiosSecure.get("/users").then(res => setUsers(res.data));
+  }, []);
+
+  const filterByDate = (items, field) => {
+    const now = new Date();
+    let days = filter === "Today" ? 1 : filter === "7 Days" ? 7 : 30;
+
+    return items?.filter(item => {
+      const date = new Date(item[field]);
+      const diff = (now - date) / (1000 * 60 * 60 * 24);
+      return diff <= days;
+    });
+  };
+
+  const filteredProducts = filterByDate(products, "createdAt");
+  const newUsers = filterByDate(users, "created_at");
+  const activeManagers = users.filter(u => u.role === "Manager").length;
+
+  const ordersThisMonth = orders.filter(o => {
+    const d = new Date(o.createdAt);
+    const n = new Date();
+    return d.getMonth() === n.getMonth() && d.getFullYear() === n.getFullYear();
+  });
+
+  const weeklyChart = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(day => ({
+    name: day,
+    sales: orders.filter(o => new Date(o.createdAt).toLocaleDateString("en-US",{weekday:"short"})===day).length,
+    users: users.filter(u => new Date(u.created_at).toLocaleDateString("en-US",{weekday:"short"})===day).length,
+    products: products.filter(p => new Date(p.createdAt).toLocaleDateString("en-US",{weekday:"short"})===day).length
+  }));
+
+  const pieData = [
+    { name: "Approved", value: orders.filter(o => o.status === "Approved").length },
+    { name: "Pending", value: orders.filter(o => o.status === "Pending").length },
+    { name: "Cancelled", value: orders.filter(o => o.status === "Cancelled").length }
+  ];
+
   const StatCard = ({ title, value, subText, icon: Icon, color }) => (
-    <div className="bg-white p-6 rounded-xl shadow-lg flex flex-col justify-between transition-all duration-300 hover:shadow-xl">
-      <div className="flex justify-between items-center mb-2">
-        <span className="text-sm font-semibold text-gray-500">{title}</span>
-        <Icon size={24} className={color} />
+    <div className="bg-white p-5 sm:p-6 rounded-xl shadow flex flex-col justify-between">
+      <div className="flex justify-between items-center">
+        <span className="text-sm text-gray-500">{title}</span>
+        <Icon className={color} />
       </div>
-      <div className="text-3xl font-bold text-gray-800">{value}</div>
-      <div className="text-xs mt-1 text-green-500 font-medium">{subText}</div>
+      <h2 className="text-2xl sm:text-3xl font-bold">{value}</h2>
+      <p className="text-xs text-green-500">{subText}</p>
     </div>
   );
 
   return (
-    // Full-width Container (bg-gray-100)
-    <div className="min-h-screen p-4 sm:p-6 bg-gray-100 font-sans">
-      
-      {/* --- Header Section --- */}
-      <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b pb-4">
-        <h1 className="text-3xl font-extrabold text-gray-900 mb-4 sm:mb-0">
+    <div className="min-h-screen bg-gray-100 p-4 sm:p-6 overflow-x-hidden">
+
+      <div className="flex flex-col lg:flex-row gap-4 lg:items-center lg:justify-between mb-6">
+        <h1 className="text-xl sm:text-2xl text-lime-600 font-bold">
           Analytics Dashboard for Admin
         </h1>
-        
-        {/* Filter Buttons */}
-        <div className="flex space-x-2 bg-white p-1 rounded-lg shadow-sm">
-          {['Today', '7 Days', '30 Days'].map((time) => (
+
+        <div className="flex flex-wrap gap-2">
+          {["Today","7 Days","30 Days"].map(t => (
             <button
-              key={time}
-              onClick={() => setFilter(time)}
-              className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors duration-200 ${
-                filter === time
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'text-gray-600 hover:bg-gray-200'
-              }`}
+              key={t}
+              onClick={() => setFilter(t)}
+              className={`px-4 py-1.5 rounded-md text-sm font-medium transition
+                ${filter === t
+                  ? "bg-blue-600 text-white"
+                  : "bg-white border hover:bg-gray-100"}`}
             >
-              {time}
+              {t}
             </button>
           ))}
         </div>
-      </header>
-
-      {/* --- Stats Cards Section (Responsive Grid) --- */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
-        
-        <StatCard
-          title={`Products (${filter})`}
-          value="124"
-          subText="+12 added this period"
-          icon={Package}
-          color="text-blue-500"
-        />
-
-        <StatCard
-          title="Orders (This Month)"
-          value="1,240"
-          subText="+15% from last month"
-          icon={ShoppingCart}
-          color="text-green-500"
-        />
-
-        <StatCard
-          title="Users (New / Total)"
-          value="85 / 15K"
-          subText="New registrations today"
-          icon={Users}
-          color="text-yellow-500"
-        />
-
-        <StatCard
-          title="Managers Active"
-          value="6"
-          subText="Currently Online"
-          icon={UserCheck}
-          color="text-red-500"
-        />
       </div>
 
-      {/* --- Charts Section (Responsive Grid) --- */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        
-        {/* Line Chart: Sales & Users (Full Width on Mobile, 2/3 on Desktop) */}
-        <div className="bg-white p-6 rounded-xl shadow-lg lg:col-span-2">
-          <h3 className="text-lg font-semibold mb-4 text-gray-700">Sales & User Trends ({filter})</h3>
-          <ResponsiveContainer width="100%" height={400}>
-            <LineChart data={dataWeek} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
-              <XAxis dataKey="name" stroke="#6B7280" />
-              <YAxis stroke="#6B7280" />
-              <Tooltip contentStyle={{ borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
+      {/* Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+        <StatCard title={`Products (${filter})`} value={filteredProducts.length} subText="Based on filter" icon={Package} color="text-blue-500" />
+        <StatCard title="Orders (This Month)" value={ordersThisMonth.length} subText="Current month" icon={ShoppingCart} color="text-green-500" />
+        <StatCard title="Users (New / Total)" value={`${newUsers.length} / ${users.length}`} subText="User growth" icon={Users} color="text-yellow-500" />
+        <StatCard title="Managers Active" value={activeManagers} subText="Role based" icon={UserCheck} color="text-red-500" />
+      </div>
+
+      {/* Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <div className="bg-white p-4 sm:p-6 rounded-xl lg:col-span-2">
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={weeklyChart}>
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
               <Legend />
-              <Line type="monotone" dataKey="sales" stroke="#3B82F6" strokeWidth={3} activeDot={{ r: 8 }} name="Sales (BDT)" />
-              <Line type="monotone" dataKey="users" stroke="#10B981" strokeWidth={3} name="New Users" />
+              <Line dataKey="sales" stroke="#3B82F6" />
+              <Line dataKey="users" stroke="#10B981" />
             </LineChart>
           </ResponsiveContainer>
         </div>
 
-        {/* Pie Chart: Order Status (1/3 on Desktop) */}
-        <div className="bg-white p-6 rounded-xl shadow-lg">
-          <h3 className="text-lg font-semibold mb-4 text-gray-700">Order Status Distribution</h3>
-          <ResponsiveContainer width="100%" height={400}>
+        <div className="bg-white p-4 sm:p-6 rounded-xl">
+          <ResponsiveContainer width="100%" height={300}>
             <PieChart>
-              <Pie
-                data={pieData}
-                cx="50%"
-                cy="50%"
-                innerRadius={80} // Larger inner radius for a modern donut look
-                outerRadius={120}
-                paddingAngle={3}
-                dataKey="value"
-              >
-                {pieData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              <Pie data={pieData} dataKey="value" innerRadius={60} outerRadius={100}>
+                {pieData.map((_, i) => (
+                  <Cell key={i} fill={COLORS[i]} />
                 ))}
               </Pie>
-              <Tooltip contentStyle={{ borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
-              <Legend layout="horizontal" align="center" verticalAlign="bottom" wrapperStyle={{ paddingTop: '20px' }} />
+              <Tooltip />
+              <Legend />
             </PieChart>
           </ResponsiveContainer>
         </div>
 
-        {/* Bar Chart: Weekly Products vs Orders (Full Width) */}
-        <div className="bg-white p-6 rounded-xl shadow-lg lg:col-span-3">
-          <h3 className="text-lg font-semibold mb-4 text-gray-700">Weekly Product & Order Volume</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={dataWeek}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
-              <XAxis dataKey="name" stroke="#6B7280" />
-              <YAxis stroke="#6B7280" />
-              <Tooltip contentStyle={{ borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
+        <div className="bg-white p-4 sm:p-6 rounded-xl lg:col-span-3">
+          <ResponsiveContainer width="100%" height={280}>
+            <BarChart data={weeklyChart}>
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
               <Legend />
-              <Bar dataKey="products" fill="#60A5FA" name="New Products" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="sales" fill="#34D399" name="Total Orders" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="products" fill="#60A5FA" />
+              <Bar dataKey="sales" fill="#34D399" />
             </BarChart>
           </ResponsiveContainer>
         </div>
-
       </div>
     </div>
   );
