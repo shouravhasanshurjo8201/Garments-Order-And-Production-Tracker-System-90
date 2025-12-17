@@ -21,7 +21,7 @@ const MyOrders = () => {
         setLoading(true);
         setError("");
         axiosSecure
-            .get(`/order?email=${email}`)
+            .get(`/orders?email=${email}`)
             .then(res => {
                 setOrders(res.data);
                 setLoading(false);

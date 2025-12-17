@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
-import { useNavigate } from "react-router";
 
 const AdminAllOrders = () => {
     const axiosSecure = useAxiosSecure();
-    const navigate = useNavigate();
+    const [selectedOrder, setSelectedOrder] = useState(null);
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState("");
@@ -84,6 +83,7 @@ const AdminAllOrders = () => {
                     </thead>
 
                     <tbody>
+
                         {filteredOrders.length === 0 && (
                             <tr>
                                 <td colSpan={6} className="text-center py-4">
@@ -101,9 +101,7 @@ const AdminAllOrders = () => {
                                 <td>{order.status}</td>
                                 <td className="space-x-2">
                                     <button
-                                        onClick={() =>
-                                            navigate(`/dashboard/track-order/${order._id}`)
-                                        }
+                                        onClick={() => setSelectedOrder(order)}
                                         className="px-3 py-1 bg-blue-500 text-white rounded"
                                     >
                                         View
@@ -114,6 +112,33 @@ const AdminAllOrders = () => {
                     </tbody>
                 </table>
             </div>
+            {/*  View Order Modal */}
+            {selectedOrder && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                    <div className="bg-white p-6 rounded w-full max-w-lg">
+                        <h2 className="text-xl font-bold mb-3 text-lime-600">
+                            Order Details
+                        </h2>
+
+                        <p><strong>Order ID:</strong> {selectedOrder._id}</p>
+                        <p><strong>User:</strong> {selectedOrder.email}</p>
+                        <p><strong>Product:</strong> {selectedOrder.productName}</p>
+                        <p><strong>Quantity:</strong> {selectedOrder.quantity}</p>
+                        <p><strong>Status:</strong> {selectedOrder.status}</p>
+                        <p>
+                            <strong>Order Date:</strong>{" "}
+                            {new Date(selectedOrder.createdAt).toLocaleString()}
+                        </p>
+
+                        <button
+                            onClick={() => setSelectedOrder(null)}
+                            className="mt-4 w-full bg-gray-300 p-2 rounded"
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

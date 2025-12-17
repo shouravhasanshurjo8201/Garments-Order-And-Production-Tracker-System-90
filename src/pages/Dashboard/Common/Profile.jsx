@@ -11,7 +11,6 @@ const Profile = () => {
   const { user, updateUserProfile } = useAuth();
   const axiosSecure = useAxiosSecure();
   const [userData, setUserData] = useState(null);
-  const [suspended, setSuspended] = useState(null);
   const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
   const { register, handleSubmit, reset } = useForm();
@@ -31,14 +30,7 @@ const Profile = () => {
           photoURL: userRes.data.photoURL,
         })
 
-        // Suspended data
-        const suspendRes = await axiosSecure.get(
-          `/user/suspended?email=${user.email}`
-        )
-        setSuspended(suspendRes.data)
-        if (suspendRes.data.suspended) {
-          toast.error("Your Account is Suspended!");
-        }
+
       } catch (error) {
         console.error(error)
       } finally {
@@ -80,11 +72,12 @@ const Profile = () => {
   };
 
   if (loading) return <LoadingSpinner />;
-  if (userData?.status === "Suspended") return <div className="min-h-[50vh] flex flex-col justify-center items-center text-center">
+  if (userData?.status === "Suspended") return 
+  (<div className="min-h-[50vh] flex flex-col justify-center items-center text-center">
     <TbAlertCircle className="text-6xl text-red-500 mb-4 animate-pulse" />
     <h2 className="text-3xl font-bold text-gray-700 mb-2">Your Account is Suspended!</h2>
     <p className="text-gray-500 max-w-md">Sorry, The item you are looking for is not Available.</p>
-  </div>;
+  </div>)
 
   return (
     <>
@@ -132,7 +125,7 @@ const Profile = () => {
 
       {/* MODAL */}
       {openModal && (
-        <div className="fixed inset-0 bg-black/60 flex justify-center items-center">
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
           <div className="bg-blue-100 p-6 rounded-lg w-96 mx-auto">
             <h2 className="text-xl text-lime-500 font-bold mb-4">
               Update Profile

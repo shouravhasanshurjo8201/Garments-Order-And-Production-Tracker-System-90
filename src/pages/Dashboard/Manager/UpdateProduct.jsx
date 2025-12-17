@@ -4,7 +4,7 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useForm } from "react-hook-form";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 
-const MyInventory = () => {
+const UpdateProduct = () => {
   const axiosSecure = useAxiosSecure();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -161,4 +161,4 @@ const MyInventory = () => {
   );
 };
 
-export default MyInventory;
+export default UpdateProduct;

@@ -9,7 +9,6 @@ import ManageUsers from '../pages/Dashboard/Admin/ManageUsers'
 import Profile from '../pages/Dashboard/Common/Profile'
 import Statistics from '../pages/Dashboard/Common/Statistics'
 import MainLayout from '../layouts/MainLayout'
-import MyInventory from '../pages/Dashboard/Manager/MyInventory'
 import ManageOrders from '../pages/Dashboard/Manager/ManageOrders'
 import BookingPage from '../pages/BookingPage/BookingPage'
 import ProductDetails from '../pages/ProductDetails/ProductDetails'
@@ -22,6 +21,7 @@ import TrackOrder from '../pages/Dashboard/Buyer/TrackOrder'
 import AdminAllProducts from '../pages/Dashboard/Admin/AllProducts'
 import AdminAllOrders from '../pages/Dashboard/Admin/AllOrders'
 import ApprovedOrders from '../pages/Dashboard/Manager/ApprovedOrders'
+import UpdateProduct from '../pages/Dashboard/Manager/UpdateProduct'
 
 
 export const router = createBrowserRouter([
@@ -83,10 +83,10 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: 'my-inventory',
+        path: 'manage-products',
         element: (
           <PrivateRoute>
-            <MyInventory />
+            <UpdateProduct />
           </PrivateRoute>
         ),
       },
