@@ -49,7 +49,6 @@ const Profile = () => {
     fetchData()
   }, [user?.email, axiosSecure, reset])
 
-  console.log(suspended);
 
   // UPDATE FUNCTION 
   const handleUpdate = async (data) => {
