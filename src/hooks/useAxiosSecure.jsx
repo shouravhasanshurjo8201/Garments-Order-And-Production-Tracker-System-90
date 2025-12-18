@@ -13,16 +13,13 @@ const useAxiosSecure = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!loading && user?.accessToken) {
-      // Add request interceptor
+    if (!loading && user) {
       const requestInterceptor = axiosInstance.interceptors.request.use(
         config => {
-          config.headers.Authorization = `Bearer ${user.accessToken}`
           return config
         }
       )
 
-      // Add response interceptor
       const responseInterceptor = axiosInstance.interceptors.response.use(
         res => res,
         err => {
@@ -38,7 +35,6 @@ const useAxiosSecure = () => {
         }
       )
 
-      // Cleanup to prevent multiple interceptors on re-renders
       return () => {
         axiosInstance.interceptors.request.eject(requestInterceptor)
         axiosInstance.interceptors.response.eject(responseInterceptor)
@@ -48,4 +44,8 @@ const useAxiosSecure = () => {
 
   return axiosInstance
 }
+
 export default useAxiosSecure
+
+
+
