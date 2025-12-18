@@ -3,9 +3,12 @@ import toast from "react-hot-toast";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useForm } from "react-hook-form";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
+import useAuth from "../../../hooks/useAuth";
 
 const UpdateProduct = () => {
   const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+  const [userData, setUserData] = useState(null);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [openUpdate, setOpenUpdate] = useState(false);
@@ -25,7 +28,19 @@ const UpdateProduct = () => {
     }
   };
 
-  useEffect(() => { fetchProducts(); }, []);
+  const loadUser = async () => {
+    try {
+      const userRes = await axiosSecure.get(`/user?email=${user.email}`)
+      setUserData(userRes.data)
+    } catch {
+      toast.error("Failed to load User Data");
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+    loadUser();
+  }, []);
 
   // Delete product
   const handleDelete = async (id) => {
@@ -88,7 +103,7 @@ const UpdateProduct = () => {
     }
   };
 
-  if (loading) return <LoadingSpinner/>;
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div>
@@ -110,10 +125,11 @@ const UpdateProduct = () => {
                 <td>{p.name}</td>
                 <td>{p.price} Tk</td>
                 <td>{p.category}</td>
-                <td className="space-x-2">
-                  <button onClick={() => openUpdateModal(p)} className="bg-blue-500 text-white px-3 py-1 rounded">Update</button>
-                  <button onClick={() => handleDelete(p._id)} className="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
-                </td>
+                {userData?.status === "Suspended" ? <td className="text-red-600 text-sm ">Your Account Suspended</td> :
+                  <td className="space-x-2">
+                    <button onClick={() => openUpdateModal(p)} className="bg-blue-500 text-white px-3 py-1 rounded">Update</button>
+                    <button onClick={() => handleDelete(p._id)} className="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
+                  </td>}
               </tr>
             ))}
           </tbody>

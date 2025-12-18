@@ -2,9 +2,12 @@ import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
+import useAuth from "../../../hooks/useAuth";
 
 const ManageOrders = () => {
   const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+  const [userData, setUserData] = useState(null);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -20,8 +23,18 @@ const ManageOrders = () => {
     }
   };
 
+  const loadUser = async () => {
+    try {
+      const userRes = await axiosSecure.get(`/user?email=${user.email}`)
+      setUserData(userRes.data)
+    } catch {
+      toast.error("Failed to load User Data");
+    }
+  };
+
   useEffect(() => {
     fetchOrders();
+    loadUser();
   }, []);
 
   //  Approve Order
@@ -83,28 +96,29 @@ const ManageOrders = () => {
               <td>{o.productName}</td>
               <td>{o.quantity}</td>
               <td>{new Date(o.createdAt).toLocaleDateString()}</td>
-              <td className="space-x-2">
-                <button
-                  onClick={() => setSelectedOrder(o)}
-                  className="bg-blue-500 text-white px-2 py-1 rounded"
-                >
-                  View
-                </button>
+              {userData?.status === "Suspended" ? <td className="text-red-600 text-sm ">Your Account Suspended</td> :
+                <td className="space-x-2">
+                  <button
+                    onClick={() => setSelectedOrder(o)}
+                    className="bg-blue-500 text-white px-2 py-1 rounded"
+                  >
+                    View
+                  </button>
 
-                <button
-                  onClick={() => handleApprove(o._id)}
-                  className="bg-green-500 text-white px-2 py-1 rounded"
-                >
-                  Approve
-                </button>
+                  <button
+                    onClick={() => handleApprove(o._id)}
+                    className="bg-green-500 text-white px-2 py-1 rounded"
+                  >
+                    Approve
+                  </button>
 
-                <button
-                  onClick={() => handleReject(o._id)}
-                  className="bg-red-500 text-white px-2 py-1 rounded"
-                >
-                  Reject
-                </button>
-              </td>
+                  <button
+                    onClick={() => handleReject(o._id)}
+                    className="bg-red-500 text-white px-2 py-1 rounded"
+                  >
+                    Reject
+                  </button>
+                </td>}
             </tr>
           ))}
         </tbody>

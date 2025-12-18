@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useNavigate } from "react-router";
 import TrackingModal from "../../../components/Modal/TrackingModal";
+import useAuth from "../../../hooks/useAuth";
 
 const ApprovedOrders = () => {
     const axiosSecure = useAxiosSecure();
@@ -10,10 +11,10 @@ const ApprovedOrders = () => {
     const [orders, setOrders] = useState([]);
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [openTracking, setOpenTracking] = useState(false);
+    const { user } = useAuth();
+    const [userData, setUserData] = useState(null);
 
-    useEffect(() => {
-        loadOrders();
-    }, []);
+
 
     const loadOrders = async () => {
         try {
@@ -23,6 +24,20 @@ const ApprovedOrders = () => {
             toast.error("Failed to load approved orders");
         }
     };
+
+    const loadUser = async () => {
+        try {
+            const userRes = await axiosSecure.get(`/user?email=${user.email}`)
+            setUserData(userRes.data)
+        } catch {
+            toast.error("Failed to load User Data");
+        }
+    };
+
+    useEffect(() => {
+        loadOrders();
+        loadUser();
+    }, [axiosSecure]);
 
     return (
         <div className="p-4">
@@ -50,12 +65,14 @@ const ApprovedOrders = () => {
                             <td>{o.productName}</td>
                             <td>{o.quantity}</td>
                             <td>{new Date(o.approvedAt).toLocaleDateString()}</td>
+                            {userData?.status === "Suspended" ? <td className="text-red-600 text-sm ">Your Account Suspended</td> : 
                             <td className="space-x-2">
                                 <button
                                     onClick={() => {
                                         setSelectedOrder(o);
                                         setOpenTracking(true);
                                     }}
+                                    
                                     className="bg-blue-500 text-white px-2 py-1 my-2 rounded"
                                 >
                                     Add Tracking
@@ -67,7 +84,7 @@ const ApprovedOrders = () => {
                                 >
                                     View Tracking
                                 </button>
-                            </td>
+                            </td>}
                         </tr>
                     ))}
                 </tbody>

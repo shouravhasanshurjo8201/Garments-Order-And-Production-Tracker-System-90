@@ -1,17 +1,19 @@
 import { useForm } from "react-hook-form";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import toast from "react-hot-toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useAuth from "../../hooks/useAuth";
 
 const AddProductForm = ({ onSuccess }) => {
-  const { register, handleSubmit, reset } = useForm();
   const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+  const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      // Prepare payload according to your backend format
       const payload = {
         name: data.name,
         category: data.category,
@@ -38,13 +40,32 @@ const AddProductForm = ({ onSuccess }) => {
     }
   };
 
+  // Get user data from DB
+  useEffect(() => {
+    if (!user?.email) return
+
+    const fetchData = async () => {
+      try {
+        // User data
+        const userRes = await axiosSecure.get(`/user?email=${user.email}`)
+        setUserData(userRes.data)
+
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchData()
+  }, [user?.email, axiosSecure])
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-3 p-4 border rounded shadow">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-2 p-4 border rounded shadow">
       <h2 className="text-xl font-bold text-lime-500">Add New Product</h2>
 
       <input {...register("name", { required: true })} placeholder="Product Name" className="border p-2 w-full rounded" />
       <textarea {...register("description", { required: true })} placeholder="Product Description" className="border p-2 w-full rounded" />
-      
+
       <select {...register("category", { required: true })} className="border p-2 w-full rounded">
         <option value="">Select Category</option>
         <option value="Shirt">Shirt</option>
@@ -70,9 +91,10 @@ const AddProductForm = ({ onSuccess }) => {
         <span>Show on Home Page</span>
       </label>
 
-      <button disabled={loading} className="bg-lime-500 text-white p-2 w-full rounded">
+      {userData?.status === "Suspended" ? <span className="bg-red-600 font-bold text-white flex justify-center p-2 w-full rounded">Your Account Suspended</span> : 
+      <button disabled={loading} className="bg-lime-500 hover:bg-lime-600 font-bold text-white p-2 w-full rounded">
         {loading ? "Adding..." : "Add Product"}
-      </button>
+      </button>}
     </form>
   );
 };
