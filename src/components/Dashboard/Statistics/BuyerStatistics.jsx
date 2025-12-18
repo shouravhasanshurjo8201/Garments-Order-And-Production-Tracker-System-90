@@ -63,12 +63,9 @@ const BuyerStatistics = () => {
     loadAllData();
   }, [user?.email, axiosSecure]);
 
-  // --- Logic Guard Sections (Blank Page সমাধান করবে) ---
 
-  // ১. লোডিং থাকা অবস্থায়
   if (loading) return <LoadingSpinner />;
 
-  // ২. যদি এপিআই ফেচ করতে কোনো এরর হয়
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center text-red-500 bg-gray-50">
@@ -83,7 +80,6 @@ const BuyerStatistics = () => {
     );
   }
 
-  // ৩. ইউজার ডেটা না পাওয়া গেলে
   if (!userData) {
     return (
       <div className="min-h-screen flex items-center justify-center text-gray-500">
@@ -92,7 +88,6 @@ const BuyerStatistics = () => {
     );
   }
 
-  // ৪. ইউজার যদি সাসপেন্ডেড হয় (এই কন্ডিশনটি চার্ট রেন্ডার করার আগেই থাকবে)
   if (userData?.status === "Suspended") {
     return (
       <div className="min-h-screen flex flex-col justify-center items-center text-center px-4 bg-gray-50">
@@ -107,7 +102,6 @@ const BuyerStatistics = () => {
     );
   }
 
-  // --- Data Processing (এখানে আসার মানে ইউজার সাসপেন্ডেড না) ---
 
   const filterByDate = (items = []) => {
     const now = new Date();
