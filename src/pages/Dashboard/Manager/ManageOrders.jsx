@@ -33,6 +33,10 @@ const ManageOrders = () => {
   };
 
   useEffect(() => {
+    document.title = "Manage Orders | Dashboard";
+  }, []);
+
+  useEffect(() => {
     fetchOrders();
     loadUser();
   }, []);

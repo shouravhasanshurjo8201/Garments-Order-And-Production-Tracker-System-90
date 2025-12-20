@@ -1,8 +1,12 @@
 import { motion } from "framer-motion";
 import Container from "../../components/Shared/Container";
 import { Link } from "react-router";
+import { useEffect } from "react";
 
 const About = () => {
+    useEffect(() => {
+        document.title = "About  | Garments Production System";
+    }, []);
     return (
         <div className="my-10">
             <Container>
@@ -16,12 +20,12 @@ const About = () => {
                         Garments Order & Production Tracker System
                     </h2>
                     <p className="text-gray-600 leading-relaxed text-lg">
-                        This system is designed to simplify and digitalize the entire garments order 
+                        This system is designed to simplify and digitalize the entire garments order
                         and production management process. From receiving customer orders to production
-                        tracking, updates, and delivery — everything is handled in a fast, organized, 
+                        tracking, updates, and delivery — everything is handled in a fast, organized,
                         and professional way.
                         <br /><br />
-                        Our goal is to make the workflow smooth for both customers and managers by 
+                        Our goal is to make the workflow smooth for both customers and managers by
                         providing an efficient online platform.
                     </p>
                 </motion.div>
@@ -35,8 +39,8 @@ const About = () => {
                     >
                         <h3 className="text-2xl font-bold text-green-700 mb-4">Our Mission</h3>
                         <p className="text-gray-700 leading-relaxed">
-                            Our mission is to provide a modern, fast, and secure garments management 
-                            experience. We want to help factories, managers, and customers by reducing 
+                            Our mission is to provide a modern, fast, and secure garments management
+                            experience. We want to help factories, managers, and customers by reducing
                             manual work and increasing productivity through automation.
                         </p>
                     </motion.div>
@@ -50,8 +54,8 @@ const About = () => {
                     >
                         <h3 className="text-2xl font-bold text-green-700 mb-4">Our Vision</h3>
                         <p className="text-gray-700 leading-relaxed">
-                            We aim to become a leading digital platform for garments order and production 
-                            tracking. With constant improvements, we want to support businesses in achieving 
+                            We aim to become a leading digital platform for garments order and production
+                            tracking. With constant improvements, we want to support businesses in achieving
                             better workflow, transparency, and customer satisfaction.
                         </p>
                     </motion.div>
@@ -67,8 +71,8 @@ const About = () => {
                     >
                         <h3 className="text-2xl font-bold text-green-700 mb-4">Our Team</h3>
                         <p className="text-gray-700 leading-relaxed">
-                            We have a dedicated and skilled team working to provide the best digital 
-                            solutions for the garments industry. From developers to system planners — 
+                            We have a dedicated and skilled team working to provide the best digital
+                            solutions for the garments industry. From developers to system planners —
                             everyone works together to ensure a smooth user experience.
                         </p>
                     </motion.div>
@@ -81,8 +85,8 @@ const About = () => {
                     >
                         <h3 className="text-2xl font-bold text-green-700 mb-4">Our Factory</h3>
                         <p className="text-gray-700 leading-relaxed">
-                            Our system is specially designed by analyzing real garments factory 
-                            workflows. We focus on real-time production updates, worker coordination, 
+                            Our system is specially designed by analyzing real garments factory
+                            workflows. We focus on real-time production updates, worker coordination,
                             and order accuracy to support factory teams.
                         </p>
                     </motion.div>
@@ -95,8 +99,8 @@ const About = () => {
                     >
                         <h3 className="text-2xl font-bold text-green-700 mb-4">Our Journey</h3>
                         <p className="text-gray-700 leading-relaxed">
-                            We started this project with the mission to digitalize garment management. 
-                            Step by step, with improvements and user feedback, the system has grown into 
+                            We started this project with the mission to digitalize garment management.
+                            Step by step, with improvements and user feedback, the system has grown into
                             a complete workflow solution.
                         </p>
                     </motion.div>

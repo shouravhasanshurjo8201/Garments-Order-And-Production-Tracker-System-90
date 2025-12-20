@@ -13,6 +13,10 @@ const ManageUsers = () => {
   const [loading, setLoading] = useState(true)
   const [isAdmin, setIsAdmin] = useState(false)
 
+  useEffect(() => {
+    document.title = "Manage Users | Dashboard";
+  }, []);
+
   //  Check Admin Role from DB
   useEffect(() => {
     if (!user?.email) return

@@ -13,8 +13,10 @@ const AllProducts = () => {
     const [searchData, setSearchData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-    const [productsPerPage] = useState(12); 
-
+    const [productsPerPage] = useState(12);
+    useEffect(() => {
+        document.title = "All Products | Garments Production System";
+    }, []);
     // API  Products Load
     useEffect(() => {
         const loadProducts = async () => {
@@ -45,7 +47,7 @@ const AllProducts = () => {
                 : products;
 
             setSearchData(filtered);
-            setCurrentPage(1); 
+            setCurrentPage(1);
             setIsSearching(false);
         }, 300);
 
@@ -108,35 +110,34 @@ const AllProducts = () => {
 
                     {totalPages > 1 && (
                         <div className="flex justify-center items-center gap-2 mt-6">
-                            {currentPage > 1 && 
-                            <button
-                                className="px-3 py-1 border rounded-md hover:bg-lime-500 bg-gray-200"
-                                disabled={currentPage === 1}
-                                onClick={() => handlePageChange(currentPage - 1)}
-                            >
-                                Prev
-                            </button>}
+                            {currentPage > 1 &&
+                                <button
+                                    className="px-3 py-1 border rounded-md hover:bg-lime-500 bg-gray-200"
+                                    disabled={currentPage === 1}
+                                    onClick={() => handlePageChange(currentPage - 1)}
+                                >
+                                    Prev
+                                </button>}
 
                             {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
                                 <button
                                     key={num}
-                                    className={`px-3 py-1 border rounded-md ${
-                                        currentPage === num ? "bg-lime-500 text-white" : "bg-gray-200 hover:bg-lime-500"
-                                    }`}
+                                    className={`px-3 py-1 border rounded-md ${currentPage === num ? "bg-lime-500 text-white" : "bg-gray-200 hover:bg-lime-500"
+                                        }`}
                                     onClick={() => handlePageChange(num)}
                                 >
                                     {num}
                                 </button>
                             ))}
- 
-                            {currentPage < totalPages && 
-                            <button
-                                className="px-3 py-1 border rounded-md hover:bg-lime-500 bg-gray-200"
-                                disabled={currentPage === totalPages}
-                                onClick={() => handlePageChange(currentPage + 1)}
-                            >
-                                Next
-                            </button>}
+
+                            {currentPage < totalPages &&
+                                <button
+                                    className="px-3 py-1 border rounded-md hover:bg-lime-500 bg-gray-200"
+                                    disabled={currentPage === totalPages}
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                >
+                                    Next
+                                </button>}
                         </div>
                     )}
                 </div>

@@ -63,7 +63,6 @@ const BuyerStatistics = () => {
     loadAllData();
   }, [user?.email, axiosSecure]);
 
-
   if (loading) return <LoadingSpinner />;
 
   if (error) {

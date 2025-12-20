@@ -11,6 +11,10 @@ const AdminAllProducts = () => {
   const [openUpdate, setOpenUpdate] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
+  useEffect(() => {
+    document.title = "All Products | Dashboard";
+  }, []);
+  
   // Load all products
   useEffect(() => {
     fetchProducts();
@@ -30,7 +34,7 @@ const AdminAllProducts = () => {
   // Show on Home toggle
   const handleShowHome = async (id, value) => {
     console.log(id, value);
-    
+
     try {
       await axiosSecure.patch(`/products/show-home/${id}`, {
         showOnHome: value,

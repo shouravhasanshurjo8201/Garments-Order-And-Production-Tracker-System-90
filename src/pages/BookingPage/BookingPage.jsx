@@ -20,13 +20,13 @@ const BookingPage = () => {
   // React Hook Form setup
   const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm({
     defaultValues: {
-      productId: product._id, 
+      productId: product._id,
       email: user?.email || "",
       product: product.name,
       price: product.price,
       quantity: product.minimumOrder,
       total: product.price * product.minimumOrder,
-      status : "Pending",
+      status: "Pending",
       firstName: "",
       lastName: "",
       contact: "",
@@ -36,6 +36,10 @@ const BookingPage = () => {
   });
 
   const watchQuantity = watch("quantity");
+
+  useEffect(() => {
+    document.title = "Booking Page | Garments Production System";
+  }, []);
 
   // Auto-update total price & quantity validation
   useEffect(() => {
@@ -58,7 +62,7 @@ const BookingPage = () => {
       console.error(error);
       toast.error(error?.response?.data?.message || "Booking failed!");
     }
-};
+  };
 
 
   return (

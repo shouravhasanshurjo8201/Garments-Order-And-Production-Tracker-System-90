@@ -1,3 +1,4 @@
+
 import { Link, Navigate, useLocation, useNavigate } from "react-router"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
@@ -5,10 +6,15 @@ import useAuth from "../../hooks/useAuth"
 import { FcGoogle } from "react-icons/fc"
 import { TbFidgetSpinner } from "react-icons/tb"
 import LoadingSpinner from "../../components/Shared/LoadingSpinner"
-import DBsaveUser from "../../hooks/useAxios"
+import useAxiosSecure from "../../hooks/useAxiosSecure"
+import { useEffect } from "react"
 
 const Login = () => {
+  useEffect(() => {
+    document.title = "Login | Garments Production System";
+  }, []);
   const { signIn, signInWithGoogle, loading, user, setLoading } = useAuth()
+  const axiosSecure = useAxiosSecure()
   const navigate = useNavigate()
   const location = useLocation()
   const from = location.state || "/"
@@ -17,24 +23,33 @@ const Login = () => {
   if (loading) return <LoadingSpinner />
   if (user) return <Navigate to={from} replace />
 
+  const saveUserToDB = async (userInfo) => {
+    try {
+      const { data } = await axiosSecure.post('/login-user', userInfo)
+      return data
+    } catch (err) {
+      console.error("DB Save Error:", err)
+      throw err
+    }
+  }
+
   // Email + Password login
   const onSubmit = async (data) => {
     const { email, password } = data
     try {
       const result = await signIn(email, password)
       const loggedUser = result.user
-      // Save to DB
+
       const userInfo = {
-        name: loggedUser.displayName,
+        name: loggedUser.displayName || "Unknown",
         email: loggedUser.email,
       }
 
-      await DBsaveUser(userInfo)
+      await saveUserToDB(userInfo)
 
       toast.success("Login Successful")
       navigate(from, { replace: true })
     } catch (err) {
-      // Custom error messages
       if (err.code === "auth/user-not-found") {
         toast.error("User not found! Please register first.")
       } else if (err.code === "auth/wrong-password") {
@@ -52,7 +67,6 @@ const Login = () => {
       const result = await signInWithGoogle()
       const loggedUser = result.user
 
-      // Save to DB
       const userInfo = {
         name: loggedUser.displayName,
         email: loggedUser.email,
@@ -61,13 +75,14 @@ const Login = () => {
         photoURL: loggedUser.photoURL
       }
 
-      await DBsaveUser(userInfo)
+      await saveUserToDB(userInfo)
 
       toast.success("Google Sign-in Successful!")
       navigate(from, { replace: true })
     } catch (err) {
       console.error(err)
       toast.error(err?.message || "Signup failed")
+      setLoading(false)
     }
   }
 
@@ -80,7 +95,6 @@ const Login = () => {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {/* Email */}
           <div>
             <label className="block mb-2 text-sm">Email address</label>
             <input
@@ -92,7 +106,6 @@ const Login = () => {
             {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
           </div>
 
-          {/* Password */}
           <div>
             <label className="block mb-2 text-sm">Password</label>
             <input

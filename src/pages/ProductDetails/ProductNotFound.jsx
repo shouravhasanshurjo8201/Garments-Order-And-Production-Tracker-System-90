@@ -1,7 +1,11 @@
 import { TbAlertCircle } from "react-icons/tb";
 import Container from "../../components/Shared/Container";
+import { useEffect } from "react";
 
 const ProductNotFound = () => {
+  useEffect(() => {
+    document.title = "Product NotFound | Garments Production System";
+  }, []);
   return (
     <Container>
       <div className="min-h-[50vh] flex flex-col justify-center items-center text-center">

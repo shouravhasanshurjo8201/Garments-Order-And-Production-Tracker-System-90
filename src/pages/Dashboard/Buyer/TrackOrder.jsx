@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
+import Container from "../../../components/Shared/Container";
+import { TbAlertCircle } from "react-icons/tb";
 
 const TrackOrder = () => {
   const { orderId } = useParams();
@@ -9,7 +11,9 @@ const TrackOrder = () => {
   const [order, setOrder] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
+  useEffect(() => {
+    document.title = "Track Order | Dashboard";
+  }, []);
   useEffect(() => {
     axiosSecure
       .get(`/order/${orderId}`)
@@ -25,11 +29,19 @@ const TrackOrder = () => {
   }, [axiosSecure, orderId]);
 
   if (loading) {
-    return <LoadingSpinner/>;
+    return <LoadingSpinner />;
   }
 
   if (error) {
-    return <p className="text-center mt-10 text-red-500">{error}</p>;
+    return (
+      <Container>
+        <div className="min-h-[50vh] flex flex-col justify-center items-center text-center">
+          <TbAlertCircle className="text-6xl text-red-500 mb-4 animate-pulse" />
+          <p className="text-red-500 text-center mb-2 max-w-md">{error}</p>
+          <h2 className="text-3xl font-bold text-gray-700 mb-2">Tracking Not Found!</h2>
+        </div>
+      </Container>
+    );
   }
 
   return (
@@ -63,11 +75,10 @@ const TrackOrder = () => {
             <li key={index} className="mb-6 ml-6">
               <span
                 className={`absolute -left-3 flex items-center justify-center w-6 h-6 rounded-full
-                ${
-                  step.isLatest
+                ${step.isLatest
                     ? "bg-blue-600 text-white"
                     : "bg-gray-300 text-gray-700"
-                }`}
+                  }`}
               >
                 ✓
               </span>
@@ -90,7 +101,7 @@ const TrackOrder = () => {
                 </p>
               )}
 
-              
+
             </li>
           ))}
         </ol>

@@ -12,6 +12,11 @@ const Statistics = () => {
   const axiosSecure = useAxiosSecure();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    document.title = " Dashboard";
+  }, []);
+  
   // Get user data from DB
   useEffect(() => {
     if (!user?.email) return

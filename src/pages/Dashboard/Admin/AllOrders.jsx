@@ -11,6 +11,10 @@ const AdminAllOrders = () => {
     const [search, setSearch] = useState("");
     const [statusFilter, setStatusFilter] = useState("");
 
+    useEffect(() => {
+        document.title = "All Orders | Dashboard";
+    }, []);
+
     // Fetch all orders
     useEffect(() => {
         fetchOrders();

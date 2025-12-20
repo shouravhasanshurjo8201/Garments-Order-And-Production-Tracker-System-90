@@ -15,6 +15,10 @@ const MyOrders = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
+    useEffect(() => {
+        document.title = "My Orders | Dashboard";
+    }, []);
+    
     // Fetch user orders
     useEffect(() => {
         if (!email) return;

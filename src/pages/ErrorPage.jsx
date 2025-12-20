@@ -1,19 +1,22 @@
 import { TbAlertCircle } from 'react-icons/tb';
 import Button from '../components/Shared/Button/Button'
 import { useLocation, useNavigate } from 'react-router'
+import { useEffect } from 'react';
 
 const ErrorPage = () => {
   const navigate = useNavigate();
- const { state } = useLocation();
+  const { state } = useLocation();
   const errorMessage = state?.message || "Something went wrong!";
-
+  useEffect(() => {
+    document.title = "Error Page | Garments Production System";
+  }, []);
   return (
     <section className='bg-white'>
       <div className='container flex items-center min-h-screen px-6 py-12 mx-auto'>
         <div className='flex flex-col items-center max-w-sm mx-auto text-center'>
 
           {/* Error Icon */}
-            <TbAlertCircle className="text-6xl text-red-500 mb-4 animate-pulse" />
+          <TbAlertCircle className="text-6xl text-red-500 mb-4 animate-pulse" />
 
           <p className='mt-4 text-gray-500'>Here are some helpful links:</p>
 

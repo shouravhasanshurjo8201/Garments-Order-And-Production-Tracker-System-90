@@ -1,7 +1,6 @@
 import { Link } from 'react-router'
 import { motion } from "framer-motion";
 
-
 const Card = ({ product }) => {
   return (
     <motion.div
@@ -13,7 +12,7 @@ const Card = ({ product }) => {
         <img
           src={product.image}
           alt={product.name}
-          className="object-cover h-full w-full group-hover:scale-110 transition"
+          className="h-[310px] md:h-[250px] w-full group-hover:scale-110 transition"
         />
       </div>
       <div className="font-semibold text-lg">{product.name}</div>

@@ -17,6 +17,11 @@ const ProductDetails = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const canOrder = userData?.role === "Buyer";
+
+  useEffect(() => {
+    document.title = `Product Details | ${id}`;
+  }, []);
+
   // Fetch Single Product by ID
   useEffect(() => {
     axiosSecure
@@ -65,10 +70,10 @@ const ProductDetails = () => {
     <Container>
       <div className="mx-auto flex flex-col lg:flex-row justify-between w-full gap-12">
         {/* Product Image */}
-        <div className="flex-1">
+        <div className="flex-1 ">
           <img
             src={product.image}
-            className="rounded-xl h-80 md:h-96 w-full object-cover"
+            className="rounded-xl w-full max-h-160"
             alt={product.name}
           />
         </div>

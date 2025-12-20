@@ -3,8 +3,12 @@ import { useForm } from "react-hook-form";
 import Container from "../../components/Shared/Container";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
+import { useEffect } from "react";
 
 const Contact = () => {
+    useEffect(() => {
+        document.title = "Contact Page | Garments Production System";
+    }, []);
     const { user } = useAuth();
     const {
         register,
@@ -17,6 +21,7 @@ const Contact = () => {
         reset();
         toast.success("Successfully Send Message")
     };
+
     return (
         <div className="my-10">
             <Container>

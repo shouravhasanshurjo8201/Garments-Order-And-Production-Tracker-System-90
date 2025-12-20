@@ -15,6 +15,10 @@ const Profile = () => {
   const [openModal, setOpenModal] = useState(false);
   const { register, handleSubmit, reset } = useForm();
 
+  useEffect(() => {
+    document.title = "Profile | Dashboard";
+  }, []);
+
   // Get user data from DB
   useEffect(() => {
     if (!user?.email) return
@@ -54,7 +58,7 @@ const Profile = () => {
     }
     // Database update
     axiosSecure
-      .post("/user", {
+      .post("/login-user", {
         email: user.email,
         name,
         photoURL,

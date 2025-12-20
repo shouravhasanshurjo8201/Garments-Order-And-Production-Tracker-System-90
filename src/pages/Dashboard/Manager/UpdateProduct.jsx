@@ -38,6 +38,10 @@ const UpdateProduct = () => {
   };
 
   useEffect(() => {
+    document.title = "Update Product | Dashboard";
+  }, []);
+
+  useEffect(() => {
     fetchProducts();
     loadUser();
   }, []);

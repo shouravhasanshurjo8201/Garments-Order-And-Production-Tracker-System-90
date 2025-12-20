@@ -1,24 +1,21 @@
-import axios from "axios"
+import useAxiosSecure from "./useAxiosSecure";
 
-const DBsaveUser = async userData => {
-  try {
-    await axios.post(
-      `${import.meta.env.VITE_API_URL}/jwt`,
-      { email: userData.email },
-      { withCredentials: true }
-    );
+const useUserApi = () => {
+  const axiosSecure = useAxiosSecure();
 
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/user`,
-      userData,
-      { withCredentials: true }
-    );
+  const saveUserToDB = async (userData) => {
+    try {
+      const { data } = await axiosSecure.post('/login-user', userData);
+      return data;
+    } catch (error) {
+      console.error("Login-User Error:", error?.response?.data || error.message);
+      throw error;
+    }
+  };
 
-    return data;
-  } catch (error) {
-    console.error("Error in DBsaveUser:", error);
-    throw error;
-  }
-}
+  return { saveUserToDB };
+};
 
-export default DBsaveUser;
+export default useUserApi;
+
+

@@ -35,6 +35,10 @@ const ApprovedOrders = () => {
     };
 
     useEffect(() => {
+        document.title = "Approved Orders | Dashboard";
+    }, []);
+
+    useEffect(() => {
         loadOrders();
         loadUser();
     }, [axiosSecure]);
@@ -65,26 +69,26 @@ const ApprovedOrders = () => {
                             <td>{o.productName}</td>
                             <td>{o.quantity}</td>
                             <td>{new Date(o.approvedAt).toLocaleDateString()}</td>
-                            {userData?.status === "Suspended" ? <td className="text-red-600 text-sm ">Your Account Suspended</td> : 
-                            <td className="space-x-2">
-                                <button
-                                    onClick={() => {
-                                        setSelectedOrder(o);
-                                        setOpenTracking(true);
-                                    }}
-                                    
-                                    className="bg-blue-500 text-white px-2 py-1 my-2 rounded"
-                                >
-                                    Add Tracking
-                                </button>
+                            {userData?.status === "Suspended" ? <td className="text-red-600 text-sm ">Your Account Suspended</td> :
+                                <td className="space-x-2">
+                                    <button
+                                        onClick={() => {
+                                            setSelectedOrder(o);
+                                            setOpenTracking(true);
+                                        }}
 
-                                <button
-                                    onClick={() => navigate(`/dashboard/track-order/${o._id}`)}
-                                    className="bg-lime-600 text-white px-2 py-1 rounded"
-                                >
-                                    View Tracking
-                                </button>
-                            </td>}
+                                        className="bg-blue-500 text-white px-2 py-1 my-2 rounded"
+                                    >
+                                        Add Tracking
+                                    </button>
+
+                                    <button
+                                        onClick={() => navigate(`/dashboard/track-order/${o._id}`)}
+                                        className="bg-lime-600 text-white px-2 py-1 rounded"
+                                    >
+                                        View Tracking
+                                    </button>
+                                </td>}
                         </tr>
                     ))}
                 </tbody>
