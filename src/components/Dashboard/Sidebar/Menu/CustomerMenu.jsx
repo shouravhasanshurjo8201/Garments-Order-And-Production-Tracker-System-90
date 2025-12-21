@@ -1,10 +1,10 @@
-import { BsFingerprint } from 'react-icons/bs'
 import MenuItem from './MenuItem'
+import { MdOutlineLocalMall } from "react-icons/md";
 const CustomerMenu = () => {
 
   return (
     <>
-      <MenuItem icon={BsFingerprint} label='My Orders' address='my-orders' />
+      <MenuItem icon={MdOutlineLocalMall} label='My Orders' address='my-orders' />
     </>
   )
 }

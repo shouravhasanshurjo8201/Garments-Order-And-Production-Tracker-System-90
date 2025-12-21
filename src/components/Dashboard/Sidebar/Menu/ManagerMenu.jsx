@@ -1,22 +1,35 @@
-import { BsFillHouseAddFill } from 'react-icons/bs'
-import { MdHomeWork, MdOutlineManageHistory } from 'react-icons/md'
-import MenuItem from './MenuItem'
+
+import {
+  MdFormatListBulletedAdd,
+  MdAssignmentTurnedIn,
+  MdOutlinePendingActions
+} from 'react-icons/md';
+import { FaBoxes } from 'react-icons/fa';
+import MenuItem from './MenuItem';
+
 const ManagerMenu = () => {
   return (
     <>
       <MenuItem
-        icon={BsFillHouseAddFill}
+        icon={MdFormatListBulletedAdd}
         label='Add Product'
         address='add-plant'
       />
-      <MenuItem icon={MdHomeWork} label='Manage Products' address='manage-products' />
+
       <MenuItem
-        icon={MdOutlineManageHistory}
+        icon={FaBoxes}
+        label='Manage Products'
+        address='manage-products'
+      />
+
+      <MenuItem
+        icon={MdOutlinePendingActions}
         label='Pending Orders'
         address='manage-orders'
       />
+
       <MenuItem
-        icon={MdOutlineManageHistory}
+        icon={MdAssignmentTurnedIn}
         label='Approved Orders'
         address='approved-orders'
       />
@@ -24,4 +37,4 @@ const ManagerMenu = () => {
   )
 }
 
-export default ManagerMenu
+export default ManagerMenu;
