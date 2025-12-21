@@ -93,7 +93,7 @@ const AllProducts = () => {
                             <LoadingSpinner />
                         </div>
                     ) : currentProducts && currentProducts.length > 0 ? (
-                        <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-full">
+                        <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 w-full">
                             {isSearching ? (
                                 <div className="col-span-12 flex justify-center items-center">
                                     <LoadingSpinner />
