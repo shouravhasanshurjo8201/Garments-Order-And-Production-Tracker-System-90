@@ -2,7 +2,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
 import { FaArrowRight } from "react-icons/fa";
-import heroImage1 from "../../assets/images/Production.jpeg";
+import heroImage1 from "../../assets/images/Production1.jpeg";
+import heroImage2 from "../../assets/images/Production2.jpeg";
+import heroImage3 from "../../assets/images/Production3.jpeg";
+import heroImage4 from "../../assets/images/Production.jpeg";
 
 const slides = [
     {
@@ -16,21 +19,21 @@ const slides = [
         id: 2,
         heading: "Monitor Every Stitch",
         description: "Live updates from the production floor to your dashboard.",
-        image: heroImage1,
+        image: heroImage2,
         color: "text-blue-400"
     },
     {
         id: 3,
         heading: "Supply Chain Mastered",
         description: "Handle bulk orders and delivery schedules effortlessly.",
-        image: heroImage1,
+        image: heroImage3,
         color: "text-orange-400"
     },
     {
         id: 4,
         heading: "Quality Assurance",
         description: "Maintain high standards with automated quality modules.",
-        image: heroImage1,
+        image: heroImage4,
         color: "text-red-400"
     }
 ];
@@ -63,7 +66,7 @@ const HeroBanner = () => {
                         className="absolute inset-0 bg-cover bg-center"
                         style={{ backgroundImage: `url(${slides[current].image})` }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent" />
                 </motion.div>
             </AnimatePresence>
 

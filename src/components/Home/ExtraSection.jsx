@@ -11,35 +11,56 @@ const partners = [
 
 const GlobalPartner = () => {
     return (
-        <section className="my-5 mt-10">
-            <motion.h2
-                className="text-3xl font-bold text-lime-500 text-center mb-10"
-                initial={{ opacity: 0, y: -30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-            >
-                 Our Global Partners
-            </motion.h2>
-
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-                {partners.map((p, i) => (
-                    <motion.div
-                        key={i}
-                        className="bg-pink-50 p-4 rounded-xl shadow flex items-center justify-center hover:shadow-lg transition"
-                        initial={{ opacity: 0, scale: 0.7 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: i * 0.1 }}
-                        whileHover={{ scale: 1.1 }}
+        <section className="py-8  overflow-hidden">
+            <div className="container mx-auto p-2">
+                
+                <div className="flex flex-col items-center mb-8 text-center">
+                    <motion.span 
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        className="text-[11px] font-black uppercase tracking-[0.4em] text-lime-600 mb-3"
                     >
-                        <img
-                            src={p.logo}
-                            alt={p.name}
-                            className="w-full h-20 object-contain"
-                        />
-                    </motion.div>
-                ))}
+                        Industry Leaders
+                    </motion.span>
+                    <motion.h2
+                        className="text-2xl md:text-3xl font-black text-gray-700 tracking-tight"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                    >
+                        Our Global Partners
+                    </motion.h2>
+                    <div className="h-1.5 w-80 bg-lime-400 mt-4 rounded-full"></div>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-8">
+                    {partners.map((p, i) => (
+                        <motion.div
+                            key={i}
+                            className="group relative flex items-center justify-center p-8 bg-gray-50/50 rounded-2xl border border-transparent hover:border-lime-200 hover:bg-white hover:shadow transition-all duration-500"
+                            
+                            animate={{ 
+                                scale: [1, 1.1, 1], 
+                            }}
+                            transition={{
+                                duration: 2,       
+                                repeat: Infinity,
+                                repeatDelay: 3,      
+                                delay: i * 0.2,    
+                                ease: "easeInOut"
+                            }}
+                        >
+                            <img
+                                src={p.logo}
+                                alt={p.name}
+                                className="w-full h-12 md:h-14 object-contain filter grayscale group-hover:grayscale-0 opacity-60 group-hover:opacity-100 transition-all duration-500"
+                            />
+                            
+                            <div className="absolute inset-x-0 -bottom-2 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div className="w-6 h-1 bg-lime-500 rounded-full"></div>
+                            </div>
+                        </motion.div>
+                    ))}
+                </div>
             </div>
         </section>
     );
