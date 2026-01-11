@@ -4,13 +4,13 @@ import Container from "../../components/Shared/Container";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
 import { useEffect, useState } from "react";
-import { 
-    FaPhoneAlt, 
-    FaEnvelope, 
-    FaMapMarkerAlt, 
-    FaClock, 
-    FaFacebook, 
-    FaLinkedin, 
+import {
+    FaPhoneAlt,
+    FaEnvelope,
+    FaMapMarkerAlt,
+    FaClock,
+    FaFacebook,
+    FaLinkedin,
     FaTwitter,
     FaPaperPlane,
     FaHeadset
@@ -43,7 +43,7 @@ const Contact = () => {
     };
 
     return (
-        <div className="bg-[#fcfdfd] py-12 md:py-20">
+        <div className="-mt-10">
             <Container>
                 <div className="text-center mb-16">
                     <motion.div
@@ -57,9 +57,9 @@ const Contact = () => {
                         initial={{ opacity: 0, y: -20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="text-4xl md:text-6xl font-black text-gray-900 mb-6 leading-tight"
+                        className="text-4xl md:text-6xl font-black mb-6 leading-tight"
                     >
-                        Let’s Build Something <br /> 
+                        Let’s Build Something <br />
                         <span className="text-lime-600 italic">Great Together</span>
                     </motion.h1>
                     <motion.p
@@ -77,42 +77,42 @@ const Contact = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         className="lg:col-span-1 space-y-6"
                     >
-                        <div className="bg-white p-8 rounded-[3rem] shadow-xl shadow-gray-100/50 border border-gray-100 relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-lime-50 rounded-full -mr-16 -mt-16 z-0" />
-                            
-                            <h2 className="text-2xl font-bold text-gray-800 mb-8 relative z-10">Contact Info</h2>
-                            
+                        <div className=" p-8 rounded-[3rem] shadow shadow-gray-100/50 border border-gray-500/50 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-32 h-32  rounded-full -mr-16 -mt-16 z-0" />
+
+                            <h2 className="text-2xl font-bold  mb-8 relative z-10">Contact Info</h2>
+
                             <div className="space-y-8 relative z-10">
-                                <ContactInfoItem 
-                                    icon={<FaPhoneAlt />} 
-                                    color="bg-lime-100 text-lime-600" 
-                                    label="Call Us" 
-                                    value="+880 1934-567890" 
+                                <ContactInfoItem
+                                    icon={<FaPhoneAlt />}
+                                    color=" text-lime-600"
+                                    label="Call Us"
+                                    value="+880 1934-567890"
                                 />
-                                <ContactInfoItem 
-                                    icon={<FaEnvelope />} 
-                                    color="bg-blue-100 text-blue-600" 
-                                    label="Email Us" 
-                                    value="support@gptsystem.com" 
+                                <ContactInfoItem
+                                    icon={<FaEnvelope />}
+                                    color=" text-blue-600"
+                                    label="Email Us"
+                                    value="support@gptsystem.com"
                                 />
-                                <ContactInfoItem 
-                                    icon={<FaMapMarkerAlt />} 
-                                    color="bg-orange-100 text-orange-600" 
-                                    label="Our Location" 
-                                    value="Jamalpur, Dhaka, Bangladesh" 
+                                <ContactInfoItem
+                                    icon={<FaMapMarkerAlt />}
+                                    color=" text-orange-600"
+                                    label="Our Location"
+                                    value="Jamalpur, Dhaka, Bangladesh"
                                 />
-                                <ContactInfoItem 
-                                    icon={<FaClock />} 
-                                    color="bg-purple-100 text-purple-600" 
-                                    label="Office Hours" 
-                                    value="Sat - Thu (9AM - 7PM)" 
+                                <ContactInfoItem
+                                    icon={<FaClock />}
+                                    color=" text-purple-600 "
+                                    label="Office Hours"
+                                    value="Sat - Thu (9AM - 7PM)"
                                 />
                             </div>
 
-                            <div className="mt-12 pt-8 border-t border-gray-100">
-                                <p className="text-gray-800 font-bold mb-4">Connect with us:</p>
+                            <div className="mt-12 pt-8 border-t border-gray-500/50">
+                                <p className=" font-bold mb-4">Connect with us:</p>
                                 <div className="flex gap-4">
-                                    <SocialIcon icon={<FaFacebook />} link="#" />
+                                    <SocialIcon icon={<FaFacebook />}  link="#" />
                                     <SocialIcon icon={<FaLinkedin />} link="#" />
                                     <SocialIcon icon={<FaTwitter />} link="#" />
                                 </div>
@@ -127,26 +127,26 @@ const Contact = () => {
                     >
                         <form
                             onSubmit={handleSubmit(onSubmit)}
-                            className="bg-white p-8 md:p-12 rounded-[3rem] shadow-2xl shadow-gray-200/50 border border-gray-50"
+                            className=" p-8 md:p-12 rounded-[3rem] shadow shadow-gray-200/50 border border-gray-500/50"
                         >
                             <div className="grid md:grid-cols-2 gap-6 mb-6">
                                 <div className="space-y-2">
-                                    <label className="text-sm font-bold text-gray-700 ml-1">Full Name</label>
+                                    <label className="text-sm font-bold text-gray-500 ml-1">Full Name</label>
                                     <input
                                         {...register("name", { required: "Name is required" })}
-                                        className={`w-full bg-gray-50 border-2 ${errors.name ? 'border-red-400' : 'border-gray-50'} p-4 rounded-2xl focus:bg-white focus:border-lime-500 transition-all outline-none`}
+                                        className={`w-full  border ${errors.name ? 'border-red-400' : 'border-gray-500/50'} p-4 rounded-2xl  focus:border-lime-500 transition-all outline-none`}
                                         placeholder="Type your name"
                                     />
                                     {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
                                 </div>
 
                                 <div className="space-y-2">
-                                    <label className="text-sm font-bold text-gray-700 ml-1">Email Address</label>
+                                    <label className="text-sm font-bold text-gray-500 ml-1">Email Address</label>
                                     <input
                                         type="email"
                                         defaultValue={user?.email}
                                         {...register("email", { required: "Email is required" })}
-                                        className="w-full bg-gray-50 border-2 border-gray-50 p-4 rounded-2xl focus:bg-white focus:border-lime-500 transition-all outline-none"
+                                        className="w-full border border-gray-500/50 p-4 rounded-2xl  focus:border-lime-500 transition-all outline-none"
                                         placeholder="example@mail.com"
                                     />
                                 </div>
@@ -154,18 +154,18 @@ const Contact = () => {
 
                             <div className="grid md:grid-cols-2 gap-6 mb-6">
                                 <div className="space-y-2">
-                                    <label className="text-sm font-bold text-gray-700 ml-1">Phone Number</label>
+                                    <label className="text-sm font-bold text-gray-500 ml-1">Phone Number</label>
                                     <input
                                         {...register("phone")}
-                                        className="w-full bg-gray-50 border-2 border-gray-50 p-4 rounded-2xl focus:bg-white focus:border-lime-500 transition-all outline-none"
+                                        className="w-full border-2 border-gray-500/50 p-4 rounded-2xl focus:border-lime-500 transition-all outline-none"
                                         placeholder="+880 1XXX-XXXXXX"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-sm font-bold text-gray-700 ml-1">Subject</label>
-                                    <select 
+                                    <label className="text-sm font-bold text-gray-500 ml-1">Subject</label>
+                                    <select
                                         {...register("subject")}
-                                        className="w-full bg-gray-50 border-2 border-gray-50 p-4 rounded-2xl focus:bg-white focus:border-lime-500 transition-all outline-none appearance-none"
+                                        className="w-full border border-gray-500/50 p-4 rounded-2xl  focus:border-lime-500 transition-all outline-none appearance-none"
                                     >
                                         <option value="Production Inquiry">Production Inquiry</option>
                                         <option value="Order Tracking">Order Tracking</option>
@@ -176,11 +176,11 @@ const Contact = () => {
                             </div>
 
                             <div className="space-y-2 mb-8">
-                                <label className="text-sm font-bold text-gray-700 ml-1">Message</label>
+                                <label className="text-sm font-bold text-gray-500 ml-1">Message</label>
                                 <textarea
                                     rows="5"
                                     {...register("message", { required: "Message is required" })}
-                                    className="w-full bg-gray-50 border-2 border-gray-50 p-4 rounded-2xl focus:bg-white focus:border-lime-500 transition-all outline-none resize-none"
+                                    className="w-full border border-gray-500/50 p-4 rounded-2xl focus:border-lime-500 transition-all outline-none resize-none"
                                     placeholder="Tell us how we can help you..."
                                 ></textarea>
                                 {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message.message}</p>}
@@ -195,7 +195,7 @@ const Contact = () => {
                                     <span className="animate-pulse">Sending Message...</span>
                                 ) : (
                                     <>
-                                        Send Message Now 
+                                        Send Message Now
                                         <FaPaperPlane className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                                     </>
                                 )}
@@ -205,11 +205,11 @@ const Contact = () => {
                 </div>
 
                 <div className="mt-24 relative">
-                    <div className="absolute inset-0 bg-lime-600/5 blur-3xl rounded-full scale-75" />
+                    <div className="absolute inset-0 blur-3xl rounded-full scale-75" />
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        className="relative rounded-md overflow-hidden border-2 border-white shadow-xl"
+                        className="relative rounded-md overflow-hidden border border-gray-500/50 shadow-xl"
                     >
                         <iframe
                             title="location"
@@ -233,16 +233,16 @@ const ContactInfoItem = ({ icon, color, label, value }) => (
             {icon}
         </div>
         <div>
-            <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">{label}</p>
-            <p className="text-gray-800 font-extrabold">{value}</p>
+            <p className="text-xs text-gray-400  font-bold uppercase tracking-wider">{label}</p>
+            <p className=" font-extrabold">{value}</p>
         </div>
     </div>
 );
 
 const SocialIcon = ({ icon, link }) => (
-    <a 
-        href={link} 
-        className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center text-gray-500 hover:bg-lime-600 hover:text-white hover:-translate-y-1 transition-all duration-300"
+    <a
+        href={link}
+        className="w-12 h-12 shadow rounded-xl flex items-center justify-center text-gray-500 hover:bg-lime-600 hover:text-white hover:-translate-y-1 transition-all duration-300"
     >
         {icon}
     </a>

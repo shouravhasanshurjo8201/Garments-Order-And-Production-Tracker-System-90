@@ -125,7 +125,7 @@ const ProductDetails = () => {
               {product.quantity === 0 ? (
                 <Button disabled label="Restocking Soon" className="w-full py-5 opacity-50" />
               ) : userData?.status === "Suspended" ? (
-                <div className="bg-red-50 p-4 rounded-2xl border border-red-100 text-red-600 text-center text-sm font-bold uppercase tracking-widest italic">Access Restricted: Account Suspended</div>
+                <div className=" p-4 rounded-2xl border border-red-500/50 text-red-600 text-center text-sm font-bold uppercase tracking-widest italic">Access Restricted: Account Suspended</div>
               ) : canOrder ? (
                 <Button
                   label="Place Order Booking"
@@ -134,8 +134,8 @@ const ProductDetails = () => {
                   className="w-full py-5 shadow-2xl shadow-lime-500/20"
                 />
               ) : (
-                <div className="bg-gray-900 p-6 rounded-xl shadow-xl">
-                  <p className="text-white text-xs font-bold text-center leading-relaxed">
+                <div className=" p-6 rounded-xl border border-gray-500/50">
+                  <p className=" text-xs font-bold text-center leading-relaxed">
                     Wholesale pricing & booking is restricted to <span className="text-lime-400">Verified Buyers</span> only.
                   </p>
                   <Link to="/login" className="block text-center mt-3 text-lime-400 font-black uppercase text-xs hover:underline tracking-widest">Login as Buyer</Link>
