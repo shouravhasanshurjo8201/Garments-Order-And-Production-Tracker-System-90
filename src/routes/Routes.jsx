@@ -22,6 +22,7 @@ import AdminAllProducts from '../pages/Dashboard/Admin/AllProducts'
 import AdminAllOrders from '../pages/Dashboard/Admin/AllOrders'
 import ApprovedOrders from '../pages/Dashboard/Manager/ApprovedOrders'
 import UpdateProduct from '../pages/Dashboard/Manager/UpdateProduct'
+import Privacy from '../pages/Privacy/Privacy'
 
 
 export const router = createBrowserRouter([
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
       {
         path: '/contact',
         element: <Contact/>,
+      },
+      {
+        path: '/privacy',
+        element: <Privacy/>,
       },
       {
         path: '/products/:id',

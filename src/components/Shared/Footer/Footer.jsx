@@ -130,8 +130,8 @@ const Footer = () => {
             © {new Date().getFullYear()} <span className="text-lime-500 font-semibold">Garments Orders Production Track system </span>. All Rights Reserved.
           </p>
           <div className="flex gap-6 text-xs text-gray-500">
-            <Link to="/#" className=" transition">Privacy Policy</Link>
-            <Link to="/#" className="transition">Terms of Service</Link>
+            <Link to="/privacy" className=" transition">Privacy Policy</Link>
+            <Link to="/privacy" className="transition">Terms of Service</Link>
           </div>
         </div>
       </Container>
