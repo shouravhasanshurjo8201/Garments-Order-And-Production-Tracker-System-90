@@ -1,4 +1,3 @@
-
 import { Link, useLocation, useNavigate } from "react-router"
 import useAuth from "../../hooks/useAuth"
 import { TbFidgetSpinner } from "react-icons/tb"
@@ -7,6 +6,7 @@ import toast from "react-hot-toast"
 import { useForm } from "react-hook-form"
 import useAxiosSecure from "../../hooks/useAxiosSecure"
 import { useEffect } from "react"
+import { motion } from "framer-motion"
 
 const SignUp = () => {
   const { createUser, updateUserProfile, signInWithGoogle, loading, setLoading } = useAuth()
@@ -14,15 +14,20 @@ const SignUp = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const from = location.state || "/"
+
   useEffect(() => {
     document.title = "SignUp | Garments Production System";
   }, []);
+
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
     reset
   } = useForm()
+
+  const imageUrl = watch("image");
 
   const saveUserToDB = async (userInfo) => {
     try {
@@ -34,15 +39,10 @@ const SignUp = () => {
     }
   }
 
-  // FORM SUBMIT
   const onSubmit = async (data) => {
     const { name, email, password, role, image } = data
-
     try {
-      // ১. Firebase Auth Create
       await createUser(email, password)
-
-      // ২. Firebase Profile Update
       await updateUserProfile(name, image)
 
       const userInfo = {
@@ -54,8 +54,7 @@ const SignUp = () => {
       }
 
       await saveUserToDB(userInfo)
-
-      toast.success("Signup Successful!")
+      toast.success("Account Created Successfully!")
       reset()
       navigate(from, { replace: true })
 
@@ -66,12 +65,10 @@ const SignUp = () => {
     }
   }
 
-  // GOOGLE SIGNIN
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithGoogle()
       const loggedUser = result.user
-
       const userInfo = {
         name: loggedUser.displayName,
         email: loggedUser.email,
@@ -81,117 +78,129 @@ const SignUp = () => {
       }
 
       await saveUserToDB(userInfo)
-
       toast.success("Google Sign-in Successful!")
       navigate(from, { replace: true })
     } catch (err) {
       console.error(err)
-      toast.error(err?.message || "Signup failed")
+      toast.error("Google Sign-in Failed")
       setLoading(false)
     }
   }
 
   return (
-    <div className="flex justify-center items-center py-4 bg-white">
-      <div className="flex flex-col w-xl p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
-        <div className="mb-8 text-center">
-          <h1 className="my-3 text-4xl font-bold">Sign Up</h1>
-          <p className="text-sm text-gray-400">Register to continue</p>
+    <div className="flex justify-center items-center min-h-screen py-12 px-4">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="w-full max-w-2xl border border-gray-500/50 shadow rounded-[2.5rem] p-8 sm:p-12"
+      >
+        <div className="text-center mb-5">
+          <h1 className="text-4xl font-black  tracking-tight">Create Account</h1>
+          <p className="text-gray-400 mt-2 font-medium">Join our production management system</p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-4">
-            <div>
-              <label className="block mb-2 text-sm">Name</label>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {/* Name */}
+            <div className="md:col-span-2">
+              <label className="text-sm font-bold text-gray-500 ml-1">Full Name</label>
               <input
                 {...register("name", { required: "Name is required" })}
                 type="text"
                 placeholder="Enter Your Name"
-                className="w-full px-3 py-2 border rounded-md bg-gray-200 text-gray-900 focus:outline-lime-500"
+                className="w-full mt-1.5 px-4 py-3.5 rounded-2xl border border-gray-500/50 focus:ring-4 focus:ring-lime-500/10 focus:border-lime-500 outline-none transition-all"
               />
-              {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+              {errors.name && <p className="text-red-500 text-xs mt-1 ml-2 font-medium">{errors.name.message}</p>}
             </div>
 
-            <div>
-              <label className="block mb-2 text-sm">Profile Image URL</label>
+            <div className="md:col-span-1">
+              <label className="text-sm font-bold text-gray-500 ml-1">Profile Image URL</label>
               <input
                 {...register("image", { required: "Image URL is required" })}
                 type="text"
-                placeholder="Enter Image URL"
-                className="w-full px-3 py-2 border rounded-md bg-gray-200 text-gray-900 focus:outline-lime-500"
+                placeholder="https://....."
+                className="w-full mt-1.5 px-4 py-3.5 rounded-2xl border border-gray-500/50 focus:ring-4 focus:ring-lime-500/10 focus:border-lime-500 outline-none transition-all"
               />
-              {errors.image && <p className="text-red-500 text-sm">{errors.image.message}</p>}
+              {errors.image && <p className="text-red-500 text-xs mt-1 ml-2 font-medium">{errors.image.message}</p>}
             </div>
 
-            <div>
-              <label className="block mb-2 text-sm">Select Role</label>
+            <div className="md:col-span-1">
+              <label className="text-sm font-bold text-gray-500 ml-1">Account Role</label>
               <select
                 {...register("role", { required: true })}
-                className="w-full px-3 py-2 border rounded-md bg-gray-200 text-gray-900 focus:outline-lime-500"
+                className="w-full mt-1.5 px-4 py-3.5 rounded-2xl border border-gray-500/50 focus:ring-4 focus:ring-lime-500/10 focus:border-lime-500 outline-none transition-all appearance-none cursor-pointer"
               >
                 <option value="Buyer">Buyer</option>
                 <option value="Manager">Manager</option>
               </select>
             </div>
 
-            <div>
-              <label className="block mb-2 text-sm">Email</label>
+            <div className="md:col-span-1">
+              <label className="text-sm font-bold text-gray-500 ml-1">Email Address</label>
               <input
-                {...register("email", { required: "Email is required" })}
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: { value: /^\S+@\S+$/i, message: "Invalid email format" }
+                })}
                 type="email"
                 placeholder="Enter Your Email"
-                className="w-full px-3 py-2 border rounded-md bg-gray-200 text-gray-900 focus:outline-lime-500"
+                className="w-full mt-1.5 px-4 py-3.5 rounded-2xl border border-gray-500/50 focus:ring-4 focus:ring-lime-500/10 focus:border-lime-500 outline-none transition-all"
               />
-              {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+              {errors.email && <p className="text-red-500 text-xs mt-1 ml-2 font-medium">{errors.email.message}</p>}
             </div>
 
-            <div>
-              <label className="block mb-2 text-sm">Password</label>
+            <div className="md:col-span-1">
+              <label className="text-sm font-bold text-gray-500 ml-1">Password</label>
               <input
                 {...register("password", {
                   required: "Password is required",
-                  minLength: { value: 6, message: "Minimum 6 characters required" },
+                  minLength: { value: 6, message: "Min 6 characters" },
                   pattern: {
                     value: /^(?=.*[A-Z])(?=.*[a-z]).+$/,
-                    message: "Must contain upper & lower case letters"
+                    message: "Use Upper & Lower case"
                   }
                 })}
                 type="password"
-                placeholder="*******"
-                className="w-full px-3 py-2 border rounded-md bg-gray-200 text-gray-900 focus:outline-lime-500"
+                placeholder="••••••••"
+                className="w-full mt-1.5 px-4 py-3.5 rounded-2xl border border-gray-500/50 focus:ring-4 focus:ring-lime-500/10 focus:border-lime-500 outline-none transition-all"
               />
-              {errors.password && (
-                <p className="text-red-500 text-sm">{errors.password.message}</p>
-              )}
+              {errors.password && <p className="text-red-500 text-xs mt-1 ml-2 font-medium">{errors.password.message}</p>}
             </div>
           </div>
 
-          <button type="submit" className="bg-lime-500 w-full rounded-md py-3 text-white font-semibold">
-            {loading ? <TbFidgetSpinner className="animate-spin m-auto" /> : "Continue"}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-lime-700 hover:bg-lime-600 text-white/80 py-4 rounded-2xl font-bold text-lg shadow shadow-lime-500/30 active:scale-[0.98] transition-all disabled:opacity-70 mt-4"
+          >
+            {loading ? <TbFidgetSpinner className="animate-spin m-auto text-2xl" /> : "Create Account"}
           </button>
         </form>
 
-        <div className="flex items-center pt-4 space-x-1">
-          <div className="flex-1 h-px bg-gray-300"></div>
-          <p className="px-3 text-sm text-gray-400">Signup with social accounts</p>
-          <div className="flex-1 h-px bg-gray-300"></div>
+        <div className="relative my-10">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t border-gray-500/50"></span>
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-lime-500 rounded-2xl px-4 text-white/80 font-bold tracking-[0.2em]">Or use social</span>
+          </div>
         </div>
 
-        <div
+        <button
           onClick={handleGoogleSignIn}
-          className="flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 cursor-pointer rounded hover:bg-gray-200 transition"
+          className="flex w-full items-center justify-center gap-3 border border-gray-500/50 py-4 rounded-2xl font-bold text-gray-500 hover:bg-lime-700 hover:text-white/80 transition-all active:scale-[0.98]"
         >
-          <FcGoogle size={32} />
-          <p>Continue with Google</p>
-        </div>
+          <FcGoogle size={24} />
+          Sign up with Google
+        </button>
 
-        <p className="px-6 text-sm text-center text-gray-400">
+        <p className="text-center text-sm font-medium text-gray-500 mt-8">
           Already have an account?{" "}
-          <Link to="/login" className="hover:underline hover:text-lime-500 text-gray-600 font-medium">
-            Login
+          <Link to="/login" className="text-lime-600 font-bold hover:underline">
+            Login here
           </Link>
         </p>
-      </div>
+      </motion.div>
     </div>
   )
 }
