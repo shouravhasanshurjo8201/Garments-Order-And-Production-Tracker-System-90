@@ -25,14 +25,14 @@ const GarmentsProductionSection = () => {
                             </span>
                         </div>
 
-                        <h2 className="text-2xl lg:text-3xl font-black text-gray-900 leading-[1.05] mb-4 tracking-tighter">
-                            Production  
+                        <h2 className="text-2xl lg:text-3xl font-black  leading-[1.05] mb-4 tracking-tighter">
+                            Production
                             <span className="text-lime-400 ml-2">
-                             Control Center
+                                Control Center
                             </span>
                         </h2>
 
-                        <p className="text-xl text-gray-500 mb-5 leading-relaxed font-medium max-w-lg">
+                        <p className="text-xl text-gray-400 mb-5 leading-relaxed font-medium max-w-lg">
                             Ditch the spreadsheets. Orchestrate your factory floor with a unified system designed for speed, precision, and zero waste.
                         </p>
 
@@ -43,7 +43,7 @@ const GarmentsProductionSection = () => {
                                 { icon: <PackageSearch size={22} />, title: "Inventory AI", color: "bg-purple-50 text-purple-600" },
                                 { icon: <CheckCircle size={22} />, title: "QC Mastery", color: "bg-lime-50 text-lime-600" }
                             ].map((item, index) => (
-                                <motion.div 
+                                <motion.div
                                     key={index}
                                     whileHover={{ x: 10 }}
                                     className="flex items-center gap-4 group cursor-pointer"
@@ -51,7 +51,7 @@ const GarmentsProductionSection = () => {
                                     <div className={`p-4 rounded-2xl ${item.color} transition-all duration-300 group-hover:scale-110 shadow-sm`}>
                                         {item.icon}
                                     </div>
-                                    <span className="font-bold text-gray-800 tracking-tight">{item.title}</span>
+                                    <span className="font-bold text-gray-400 tracking-tight">{item.title}</span>
                                 </motion.div>
                             ))}
                         </div>
@@ -60,11 +60,11 @@ const GarmentsProductionSection = () => {
                             <motion.button
                                 whileHover={{ scale: 1.03 }}
                                 whileTap={{ scale: 0.98 }}
-                                className="group flex items-center gap-4 bg-lime-700 text-white px-10 py-5 rounded-2xl font-bold text-sm tracking-widest uppercase transition-all shadow-2xl hover:bg-lime-600 shadow-lime-100"
+                                className="group flex items-center gap-4 bg-lime-700 text-white px-10 py-5 rounded-2xl font-bold text-sm tracking-widest uppercase transition-all shadow hover:bg-lime-600 shadow-lime-100"
                             >
                                 Start Dashboard
                                 <div className="bg-white/10 p-1 rounded-full group-hover:translate-x-1 transition-transform">
-                                    <ArrowRight size={18} />
+                                    <ArrowRight size={20} />
                                 </div>
                             </motion.button>
                         </Link>
@@ -78,13 +78,13 @@ const GarmentsProductionSection = () => {
                         className="flex-1 relative"
                     >
                         {/* Subtle Background Glow */}
-                        <div className="absolute inset-0 bg-lime-100 rounded-full blur-[120px] opacity-30 scale-110"></div>
-                        
+                        <div className="absolute inset-0 rounded-full  scale-110"></div>
+
                         <div className="relative">
                             <img
                                 src="https://i.postimg.cc/NMjj9fcW/download.jpg"
                                 alt="Garments Factory"
-                                className="rounded-[3rem]  w-full object-cover border border-white/50"
+                                className="rounded-[3rem]  w-full object-cover border border-white/20 opacity-70"
                             />
                         </div>
                     </motion.div>

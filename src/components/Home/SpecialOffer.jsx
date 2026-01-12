@@ -5,7 +5,7 @@ import { HiArrowRight, HiOutlineLightningBolt } from "react-icons/hi";
 
 const SpecialOffer = () => {
     const [timeLeft, setTimeLeft] = useState({
-        hours: 23,
+        hours: 24,
         minutes: 59,
         seconds: 59,
     });
@@ -111,7 +111,7 @@ const SpecialOffer = () => {
                             <motion.div
                                 initial={{ rotate: 12 }}
                                 whileHover={{ rotate: 0, scale: 1.1 }}
-                                className="absolute bottom-10 right-10 p-5 rounded-3xl shadow border border-lime-500/50 flex flex-col items-center cursor-default"
+                                className="absolute -top-4 -right-4 p-5 rounded-3xl shadow border border-lime-500/50 flex flex-col items-center cursor-default"
                             >
                                 <span className="text-gray-400 text-sm line-through font-bold">$120.00</span>
                                 <span className="text-3xl font-black text-lime-600 leading-none">$48.00</span>
