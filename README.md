@@ -13,7 +13,7 @@ This system supports role-based dashboards for Admin, Manager, and Buyer, ensuri
 6. Ensure secure authentication and authorization
 
 ## Live Site
-🔗 https://garments-production-tracker-system-90.netlify.app
+🔗 https://garments-production-tracker-system-69.netlify.app
 
 ## User Roles & Permissions
 
