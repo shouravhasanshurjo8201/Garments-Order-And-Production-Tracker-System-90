@@ -14,16 +14,18 @@ const Home = () => {
     document.title = "Home | Garments Production System";
   }, []);
   return (
-    <Container>
+    <>
       <HeroBanner />
-      <LatestProducts />
-      <HowItWorks />
-      <SpecialOffer />
-      <WhyChooseUs />
-      <CustomerFeedback />
-      <GlobalPartner />
-      <GarmentsProductionSection />
-    </Container>
+      <Container>
+        <LatestProducts />
+        <HowItWorks />
+        <SpecialOffer />
+        <WhyChooseUs />
+        <CustomerFeedback />
+        <GlobalPartner />
+        <GarmentsProductionSection />
+      </Container>
+    </>
   )
 }
 

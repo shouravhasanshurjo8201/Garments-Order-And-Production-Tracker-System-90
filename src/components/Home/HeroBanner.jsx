@@ -48,7 +48,7 @@ const HeroBanner = () => {
     }, []);
 
     return (
-        <section className="relative w-full h-70 md:h-[70vh] -mt-20 overflow-hidden bg-black/90 rounded-xl">
+        <section className="relative w-full h-70 md:h-[90vh] -mt-24 overflow-hidden bg-black/90 rounded-b-xl">
             <AnimatePresence mode="wait">
                 <motion.div
                     key={current}
@@ -65,7 +65,7 @@ const HeroBanner = () => {
                         className="absolute inset-0 bg-cover bg-center"
                         style={{ backgroundImage: `url(${slides[current].image})` }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent" />
+                    <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/50 to-transparent" />
                     <div className="absolute inset-0 bg-black/20" />
                 </motion.div>
             </AnimatePresence>
