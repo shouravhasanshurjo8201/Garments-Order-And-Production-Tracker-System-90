@@ -34,7 +34,7 @@ const ScrollProgress = ({ children }) => {
         <>
             <div
                 onClick={scrollToTop}
-                className="fixed bottom-14 left-4 z-9999 cursor-pointer group scale-90 hover:scale-100 transition-transform active:scale-95"
+                className="fixed bottom-2 left-2 z-9999 cursor-pointer group scale-90 hover:scale-100 transition-transform active:scale-95"
             >
                 <svg height="45" width="45" className="drop-shadow-xl">
                     <circle stroke="#e5e7eb" fill="#fff" strokeWidth="4" r="18" cx="22.5" cy="22.5" />
