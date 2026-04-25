@@ -4,7 +4,7 @@ import { Link } from "react-router";
 
 const GarmentsProductionSection = () => {
     return (
-        <section className="py-5 overflow-hidden">
+        <section className="py-5 -mb-10 overflow-hidden">
             <div className="container mx-auto px-2">
                 <div className="flex flex-col-reverse lg:flex-row items-center gap-16 lg:gap-24">
 
