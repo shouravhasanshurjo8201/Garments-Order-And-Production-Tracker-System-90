@@ -95,10 +95,10 @@ const HowItWorks = () => {
   };
 
   return (
-    <section className="py-10 overflow-hidden">
+    <section className="py-2 overflow-hidden">
       <Container>
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-6">
           <motion.h2 
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
