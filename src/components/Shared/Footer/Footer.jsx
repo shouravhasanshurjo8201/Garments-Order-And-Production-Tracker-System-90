@@ -23,9 +23,9 @@ const Footer = () => {
   };
 
   return (
-    <footer className=" mt-16 border-t border-lime-500/20 ">
+    <footer className=" mt-12 border-t border-lime-500/20 ">
       <Container>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pt-8 pb-2">
 
           {/* Description */}
           <div className="space-y-5">
