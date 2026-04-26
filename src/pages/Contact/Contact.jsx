@@ -43,9 +43,9 @@ const Contact = () => {
     };
 
     return (
-        <div className="-mt-10">
+        <div className="-mt-16">
             <Container>
-                <div className="text-center mb-16">
+                <div className="text-center mb-10">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
@@ -57,7 +57,7 @@ const Contact = () => {
                         initial={{ opacity: 0, y: -20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
-                        className="text-4xl md:text-6xl font-black mb-6 leading-tight"
+                        className="text-2xl md:text-4xl font-black mb-4 leading-tight"
                     >
                         Let’s Build Something <br />
                         <span className="text-lime-600 italic">Great Together</span>
@@ -204,12 +204,12 @@ const Contact = () => {
                     </motion.div>
                 </div>
 
-                <div className="mt-24 relative">
+                <div className="mt-12 relative">
                     <div className="absolute inset-0 blur-3xl rounded-full scale-75" />
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        className="relative rounded-md overflow-hidden border border-gray-500/50 shadow-xl"
+                        className="relative rounded-xl overflow-hidden border border-gray-500/50"
                     >
                         <iframe
                             title="location"
