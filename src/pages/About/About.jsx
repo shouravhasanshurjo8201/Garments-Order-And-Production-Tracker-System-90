@@ -28,13 +28,13 @@ const About = () => {
     };
 
     return (
-        <div className="-mt-16 pb-5 overflow-hidden">
+        <div className="-mt-18 pb-5 overflow-hidden">
             <Container>
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.7 }}
-                    className="  p-10 rounded-[2.5rem] mb-16 text-center relative overflow-hidden"
+                    className="  px-10 rounded-[2.5rem] mb-6 text-center relative overflow-hidden"
                 >
                     <div className="relative z-10">
                         <span className="bg-lime-100 text-lime-700 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-[0.2em] mb-4 inline-block">
@@ -53,7 +53,7 @@ const About = () => {
                     </div>
                 </motion.div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
                     {[
                         { label: "Efficiency", value: "99%", icon: <TbChartBar /> },
                         { label: "Real-time Tracking", value: "24/7", icon: <TbTimeline /> },
@@ -104,7 +104,7 @@ const About = () => {
                     </motion.div>
                 </div>
 
-                <div className="mb-20">
+                <div className="mb-10">
                     <h2 className="text-3xl font-black text-center text-lime-700 mb-12">How Our System Works</h2>
                     <div className="grid md:grid-cols-3 gap-10">
                         {[
@@ -124,7 +124,7 @@ const About = () => {
                     </div>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-8 mb-16">
+                <div className="grid md:grid-cols-3 gap-8 mb-10">
                     {[
                         { title: "Our Team", icon: <TbUsers />, text: "A dedicated team of developers and planners ensuring a smooth user experience.", color: "bg-amber-100 text-amber-600" },
                         { title: "Our Accuracy", icon: <TbCircleCheck />, text: "We focus on precision in every data entry to avoid production mismatches.", color: "bg-purple-100 text-purple-600" },
