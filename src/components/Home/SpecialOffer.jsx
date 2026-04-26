@@ -37,14 +37,9 @@ const SpecialOffer = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
-                        className="flex-1 border border-lime-500/10 rounded-[2.5rem] p-10 md:p-14 relative shadow shadow-lime-500/5"
+                        className="flex-1 border-t border-l border-lime-500/10 rounded-[2.5rem] p-10 md:p-14 relative shadow shadow-lime-500/5"
                     >
-                        {/* Flash Badge */}
-                        <div className="flex items-center gap-2 mb-6 text-lime-600 font-bold text-sm tracking-wider uppercase">
-                            <HiOutlineLightningBolt className="animate-bounce" size={25} />
-                            <span>Limited Weekly Deal</span>
-                        </div>
-
+                     
                         <h2 className="text-4xl md:text-5xl font-black mb-6 leading-tight">
                             Special Offer <br />
                             <span className="text-lime-500 italic">Just For You!</span>

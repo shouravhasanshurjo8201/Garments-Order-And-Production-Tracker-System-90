@@ -11,7 +11,7 @@ const partners = [
 
 const GlobalPartner = () => {
     return (
-        <section className="py-8  overflow-hidden">
+        <section className="py-2  overflow-hidden">
             <div className="container mx-auto p-2">
 
                 <div className="flex flex-col items-center mb-8 text-center">
@@ -20,7 +20,6 @@ const GlobalPartner = () => {
                         whileInView={{ opacity: 1 }}
                         className="text-[11px] font-black uppercase tracking-[0.4em] text-lime-600 mb-3"
                     >
-                        Industry Leaders
                     </motion.span>
                     <motion.h2
                         className="text-2xl md:text-3xl font-black  tracking-tight"
