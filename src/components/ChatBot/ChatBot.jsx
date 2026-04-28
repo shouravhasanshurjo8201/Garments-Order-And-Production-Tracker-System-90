@@ -13,35 +13,34 @@ export default function ChatBot() {
         scrollRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [chatHistory, loading]);
 
+
     const sendMessage = async () => {
         if (!message.trim() || loading) return;
 
         const userMsgText = message.trim();
         const userMessage = { role: "user", text: userMsgText };
 
-        // UI update immediately
         setChatHistory(prev => [...prev, userMessage]);
         setMessage("");
         setLoading(true);
 
-        // Prepare history for Gemini
-        const geminiHistory = [...chatHistory, userMessage].map(chat => ({
-            role: chat.role === "user" ? "user" : "model",
-            parts: [{ text: chat.text }]
-        }));
+        const apiUrl = import.meta.env.VITE_API_URL;
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/support/chat`, {
+            
+            const res = await fetch(`${apiUrl}/chat`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     message: userMsgText,
-                    history: geminiHistory
+                    history: chatHistory.map(chat => ({
+                        role: chat.role === "user" ? "user" : "model",
+                        parts: [{ text: chat.text }]
+                    }))
                 }),
             });
 
             const data = await res.json();
-
             if (res.ok) {
                 setChatHistory(prev => [...prev, { role: "ai", text: data.reply }]);
             } else {
@@ -49,11 +48,52 @@ export default function ChatBot() {
             }
         } catch (error) {
             console.error("Chat Error:", error);
-            setChatHistory(prev => [...prev, { role: "ai", text: "I'm having trouble connecting. Please try again later." }]);
+            setChatHistory(prev => [...prev, { role: "ai", text: "Connection error. Please check if the server is running." }]);
         } finally {
             setLoading(false);
         }
     };
+    // const sendMessage = async () => {
+    //     if (!message.trim() || loading) return;
+
+    //     const userMsgText = message.trim();
+    //     const userMessage = { role: "user", text: userMsgText };
+
+    //     // UI update immediately
+    //     setChatHistory(prev => [...prev, userMessage]);
+    //     setMessage("");
+    //     setLoading(true);
+
+    //     // Prepare history for Gemini
+    //     const geminiHistory = [...chatHistory, userMessage].map(chat => ({
+    //         role: chat.role === "user" ? "user" : "model",
+    //         parts: [{ text: chat.text }]
+    //     }));
+
+    //     try {
+    //         const res = await fetch(`${import.meta.env.VITE_API_URL}/support/chat`, {
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify({
+    //                 message: userMsgText,
+    //                 history: geminiHistory
+    //             }),
+    //         });
+
+    //         const data = await res.json();
+
+    //         if (res.ok) {
+    //             setChatHistory(prev => [...prev, { role: "ai", text: data.reply }]);
+    //         } else {
+    //             throw new Error(data.error || "Failed to fetch");
+    //         }
+    //     } catch (error) {
+    //         console.error("Chat Error:", error);
+    //         setChatHistory(prev => [...prev, { role: "ai", text: "I'm having trouble connecting. Please try again later." }]);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
 
     return (
         <div className="fixed bottom-2 right-2 z-100 flex flex-col items-end font-sans">
