@@ -23,6 +23,7 @@ import AdminAllOrders from '../pages/Dashboard/Admin/AllOrders'
 import ApprovedOrders from '../pages/Dashboard/Manager/ApprovedOrders'
 import UpdateProduct from '../pages/Dashboard/Manager/UpdateProduct'
 import Privacy from '../pages/Privacy/Privacy'
+import AIKnowledgePanel from '../pages/Dashboard/Admin/AIKnowledgePanel'
 
 
 export const router = createBrowserRouter([
@@ -116,6 +117,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <AdminAllOrders />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'ai-knowledge',
+        element: (
+          <PrivateRoute>
+            <AIKnowledgePanel/>
           </PrivateRoute>
         ),
       },

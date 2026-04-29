@@ -22,6 +22,11 @@ const AdminMenu = () => {
         label='All Orders' 
         address='all-orders' 
       />
+      <MenuItem 
+        icon={RiShoppingBag3Fill} 
+        label='AI Knowledge' 
+        address='ai-knowledge' 
+      />
     </>
   )
 }
