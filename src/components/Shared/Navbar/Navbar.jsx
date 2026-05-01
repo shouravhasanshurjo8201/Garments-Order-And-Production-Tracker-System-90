@@ -11,6 +11,25 @@ const Navbar = () => {
   const { user, logOut } = useAuth()
   const [isOpen, setIsOpen] = useState(false)
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
+  const [showNavbar, setShowNavbar] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > lastScrollY) {
+        // scroll down
+        setShowNavbar(false)
+      } else {
+        // scroll up
+        setShowNavbar(true)
+      }
+      setLastScrollY(window.scrollY)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [lastScrollY])
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
@@ -38,7 +57,7 @@ const Navbar = () => {
   const currentLinks = user ? privateLinks : publicLinks
 
   return (
-    <div className={`sticky top-0 z-50 w-full shadow transition-all duration-300 ${theme === 'dark' ? 'bg-gray-900/95 backdrop-blur-md border-b border-gray-700 text-white' : 'bg-white/90 backdrop-blur-md text-gray-800'
+    <div className={`fixed top-0 left-0 z-50 w-full shadow transition-all duration-300 transform ${showNavbar ? 'translate-y-0' : '-translate-y-full'} ${theme === 'dark' ? 'bg-gray-900/95 backdrop-blur-md border-b border-gray-700 text-white' : 'bg-white/90 backdrop-blur-md text-gray-800'
       }`}>
       <Container>
         <div className="flex justify-between items-center py-3">
