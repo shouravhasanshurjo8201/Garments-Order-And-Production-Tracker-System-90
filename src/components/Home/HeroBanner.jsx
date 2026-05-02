@@ -48,7 +48,7 @@ const HeroBanner = () => {
     }, []);
 
     return (
-        <section className="relative w-full h-70 md:h-[90vh] -mt-24 overflow-hidden bg-black/90 rounded-b-xl">
+        <section className="relative w-full h-70 md:h-[90vh] -mt-9 overflow-hidden bg-black/90">
             <AnimatePresence mode="wait">
                 <motion.div
                     key={current}
