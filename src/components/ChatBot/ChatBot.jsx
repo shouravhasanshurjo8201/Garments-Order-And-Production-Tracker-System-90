@@ -19,8 +19,6 @@ export default function ChatBot() {
 
         const userMsgText = message.trim();
         const userMessage = { role: "user", text: userMsgText };
-
-        // ✅ FIX 1: Capture previous history BEFORE state update (avoid stale state)
         const previousHistory = chatHistory;
 
         setChatHistory(prev => [...prev, userMessage]);
@@ -35,8 +33,6 @@ export default function ChatBot() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     message: userMsgText,
-                    // ✅ FIX 2: Use previousHistory (not stale chatHistory)
-                    // ✅ FIX 3: "ai" role → "model" (Gemini requires "user" or "model" only)
                     history: previousHistory.map(chat => ({
                         role: chat.role === "user" ? "user" : "model",
                         parts: [{ text: chat.text }]
@@ -46,14 +42,13 @@ export default function ChatBot() {
 
             const data = await res.json();
             if (res.ok) {
-                // ✅ FIX 4: Save AI reply with role "model" (not "ai") so history stays consistent
                 setChatHistory(prev => [...prev, { role: "model", text: data.reply }]);
             } else {
                 throw new Error(data.error || "Failed to fetch");
             }
         } catch (error) {
             console.error("Chat Error:", error);
-            setChatHistory(prev => [...prev, { role: "model", text: "Connection error. Please check if the server is running." }]);
+            setChatHistory(prev => [...prev, { role: "model", text: "I am having trouble connecting. Please try again later." }]);
         } finally {
             setLoading(false);
         }
@@ -62,7 +57,7 @@ export default function ChatBot() {
     return (
         <div className="fixed bottom-2 right-2 z-100 flex flex-col items-end font-sans">
             {isOpen && (
-                <div className="mb-2 w-50 sm:w-86 bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col h-[500px] border border-blue-100">
+                <div className="mb-2 w-50 sm:w-86 bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col h-[520px] border border-blue-100">
                     {/* Header */}
                     <div className="bg-green-400 p-3 text-white flex items-center justify-between">
                         <div className="flex items-center gap-3">
@@ -112,7 +107,7 @@ export default function ChatBot() {
                     </div>
 
                     {/* Input Area */}
-                    <div className="p-3 bg-white">
+                    <div className="p-3 bg-white text-stone-700">
                         <div className="flex gap-2 bg-slate-100 p-1.5 rounded-2xl">
                             <input
                                 type="text"
@@ -136,9 +131,9 @@ export default function ChatBot() {
 
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-12 h-12 flex items-center justify-center rounded-full shadow-2xl bg-blue-600 text-white hover:scale-105 active:scale-95 transition-all duration-300"
+                className="w-10 h-10 flex items-center justify-center rounded-full shadow-2xl bg-blue-600 text-white hover:scale-105 active:scale-95 transition-all duration-300"
             >
-                {isOpen ? <X className="w-7 h-7" /> : <MessageCircle className="w-8 h-8" />}
+                {isOpen ? <X className="w-7 h-7" /> : <MessageCircle className="w-7 h-7" />}
             </button>
         </div>
     );
