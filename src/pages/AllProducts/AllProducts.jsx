@@ -73,7 +73,7 @@ const AllProducts = () => {
 
     return (
         <Container>
-            <div className="-mt-18">
+            <div>
                 <div className="text-center mb-6">
                     <h2 className="text-4xl md:text-5xl font-black tracking-tight">
                         Explore Our <span className="text-lime-500">Products</span>

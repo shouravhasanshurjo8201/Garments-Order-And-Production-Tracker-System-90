@@ -58,7 +58,7 @@ const ProductDetails = () => {
   const images = product.images?.length ? product.images : [product.image];
 
   return (
-    <div className="-mt-20 overflow-x-hidden">
+    <div className="mt-6 overflow-x-hidden">
       <Container>
         <nav className="py-6">
           <Link to="/products" className="group flex items-center gap-2 text-gray-400 hover:text-lime-600 transition-all font-semibold text-sm">
