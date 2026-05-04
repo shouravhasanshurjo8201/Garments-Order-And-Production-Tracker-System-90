@@ -44,11 +44,9 @@ const CustomerOrderDataRow = () => {
           <span className='absolute cursor-pointer inset-0 bg-red-200 opacity-50 rounded-full'></span>
           <span className='relative cursor-pointer'>Cancel</span>
         </button>
-
         <DeleteModal isOpen={isOpen} closeModal={closeModal} />
       </td>
     </tr>
   )
 }
-
 export default CustomerOrderDataRow
