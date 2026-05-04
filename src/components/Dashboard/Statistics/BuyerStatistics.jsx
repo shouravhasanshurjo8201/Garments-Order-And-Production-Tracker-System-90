@@ -101,7 +101,6 @@ const BuyerStatistics = () => {
     );
   }
 
-
   const filterByDate = (items = []) => {
     const now = new Date();
     const days = filter === "Today" ? 1 : filter === "7 Days" ? 7 : 30;
@@ -159,9 +158,8 @@ const BuyerStatistics = () => {
             <button
               key={t}
               onClick={() => setFilter(t)}
-              className={`px-4 py-1.5 rounded-md text-sm transition-all ${
-                filter === t ? "bg-blue-600 text-white shadow-md" : "text-gray-600 hover:bg-gray-100"
-              }`}
+              className={`px-4 py-1.5 rounded-md text-sm transition-all ${filter === t ? "bg-blue-600 text-white shadow-md" : "text-gray-600 hover:bg-gray-100"
+                }`}
             >
               {t}
             </button>
@@ -230,5 +228,4 @@ const BuyerStatistics = () => {
     </div>
   );
 };
-
 export default BuyerStatistics;

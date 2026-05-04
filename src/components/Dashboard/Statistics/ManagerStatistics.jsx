@@ -68,7 +68,7 @@ const ManagerStatistics = () => {
   const totalRevenue = filteredOrders.reduce((acc, cur) => acc + (cur.total || 0), 0);
 
   // Weekly Chart 
-  const weeklyChart = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map((day) => ({
+  const weeklyChart = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => ({
     name: day,
     orders: filteredOrders.filter(
       (o) =>
@@ -110,7 +110,7 @@ const ManagerStatistics = () => {
 
   if (loading)
     return (
-      <LoadingSpinner/>
+      <LoadingSpinner />
     );
 
   return (

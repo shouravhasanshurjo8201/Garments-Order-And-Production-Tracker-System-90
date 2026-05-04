@@ -227,5 +227,4 @@ const AdminStatistics = () => {
     </div>
   );
 };
-
 export default AdminStatistics;
