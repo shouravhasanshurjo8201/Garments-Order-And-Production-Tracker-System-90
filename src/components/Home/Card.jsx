@@ -15,7 +15,7 @@ const Card = ({ product }) => {
       className="border border-gray-500/40 shadow-sm hover:shadow-xl p-4 rounded-2xl flex flex-col h-full transition-all duration-300"
     >
       {/* Image */}
-      <div className="relative aspect-[4/4] w-full overflow-hidden rounded-xl bg-gray-100 mb-4">
+      <div className="relative aspect-4/4 w-full overflow-hidden rounded-xl bg-gray-100 mb-4">
         <img
           src={image}
           alt={name}

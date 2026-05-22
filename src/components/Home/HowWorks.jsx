@@ -1,10 +1,10 @@
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import {
   HiOutlineSearchCircle,
   HiOutlineShoppingBag,
   HiOutlineCreditCard,
   HiOutlineTruck
-} from "react-icons/hi";
+} from "react-icons/h1";
 import Container from "../../components/Shared/Container";
 
 const steps = [
@@ -54,13 +54,13 @@ const HowItWorks = () => {
       <Container>
         {/* Section Header */}
         <div className="text-center mb-6">
-          <motion.h2
+          <Motion.h2
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-5xl font-black mb-4"
           >
             How It <span className="text-lime-500">Works</span>
-          </motion.h2>
+          </Motion.h2>
           <p className="text-gray-400 font-medium max-w-xl mx-auto">
             Our streamlined process makes wholesale ordering simple and efficient for your business.
           </p>
@@ -68,7 +68,7 @@ const HowItWorks = () => {
 
         <div className="flex flex-col lg:flex-row items-center gap-16">
           {/* Left Side: Featured Image */}
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
@@ -80,10 +80,10 @@ const HowItWorks = () => {
               className="relative w-full h-auto max-h-[450px] object-contain drop-shadow-2xl"
               alt="Workflow illustration"
             />
-          </motion.div>
+          </Motion.div>
 
           {/* Right Side: Step Timeline */}
-          <motion.div
+          <Motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -91,13 +91,13 @@ const HowItWorks = () => {
             className="w-full lg:w-1/2 space-y-8"
           >
             {steps.map((s, index) => (
-              <motion.div
+              <Motion.div
                 key={s.step}
                 variants={itemVariants}
                 className="group flex items-start gap-6 p-6 rounded-3xl hover:shadow hover:shadow-lime-500/10 border border-transparent hover:border-lime-100/50 transition-all duration-300"
               >
                 {/* Step Number & Icon */}
-                <div className="relative flex-shrink-0">
+                <div className="relative shrink-0">
                   <div className="w-16 h-16 rounded-2xl shadow flex items-center justify-center group-hover:bg-lime-500 group-hover:text-white transition-colors duration-300">
                     {s.icon}
                   </div>
@@ -107,7 +107,7 @@ const HowItWorks = () => {
 
                   {/* Connecting Line (for desktop) */}
                   {index !== steps.length - 1 && (
-                    <div className="hidden lg:block absolute top-20 left-1/2 w-0.5 h-12 bg-gradient-to-b from-lime-200 to-transparent"></div>
+                    <div className="hidden lg:block absolute top-20 left-1/2 w-0.5 h-12 bg-linear-to-b from-lime-200 to-transparent"></div>
                   )}
                 </div>
 
@@ -120,9 +120,9 @@ const HowItWorks = () => {
                     {s.desc}
                   </p>
                 </div>
-              </motion.div>
+              </Motion.div>
             ))}
-          </motion.div>
+          </Motion.div>
         </div>
       </Container>
     </section>
