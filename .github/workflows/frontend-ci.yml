@@ -1,0 +1,35 @@
+name: Frontend CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Checkout frontend code
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    # 2. Setup Node.js
+    - name: Setup Node.js Environment
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    # 3. Clean install dependencies
+    - name: Install Dependencies
+      run: npm ci
+
+    # 4. Run ESLint code quality check
+    - name: Run ESLint Check
+      run: npm run lint
+
+    # 5. Test Vite production build
+    - name: Run Vite Build Test
+      run: npm run build
