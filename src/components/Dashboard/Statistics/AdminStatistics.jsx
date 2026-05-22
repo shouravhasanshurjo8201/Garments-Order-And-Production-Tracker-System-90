@@ -30,7 +30,7 @@ const AdminStatistics = () => {
 
   // Fetch Data
   useEffect(() => {
-    setLoading(true);
+    // loading initialized as true, so no need to call setLoading(true) synchronously here
     Promise.all([
       axiosSecure.get("/products"),
       axiosSecure.get("/orders"),
@@ -41,8 +41,9 @@ const AdminStatistics = () => {
         setOrders(ordersRes.data);
         setUsers(usersRes.data);
       })
+      .catch((err) => console.error(err))
       .finally(() => setLoading(false));
-  }, []);
+  }, [axiosSecure]);
 
   // Filter by Date
   const filterByDate = (items, field) => {
@@ -100,18 +101,6 @@ const AdminStatistics = () => {
     { name: "Pending", value: orders.filter((o) => o.status === "Pending").length },
     { name: "Cancelled", value: orders.filter((o) => o.status === "Cancelled").length },
   ];
-
-  // Stat Card
-  const StatCard = ({ title, value, subText, icon: Icon, color }) => (
-    <div className="bg-white p-5 sm:p-6 rounded-xl shadow flex flex-col justify-between transition-all hover:shadow-lg">
-      <div className="flex justify-between items-center mb-2">
-        <span className="text-sm text-gray-500">{title}</span>
-        <Icon size={24} className={color} />
-      </div>
-      <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">{value}</h2>
-      <p className="text-xs mt-1 text-green-500">{subText}</p>
-    </div>
-  );
 
   if (loading) return <LoadingSpinner />;
 
@@ -227,4 +216,17 @@ const AdminStatistics = () => {
     </div>
   );
 };
+
+// Stat Card Component (Moved outside to prevent re-creation on render)
+const StatCard = ({ title, value, subText, icon: Icon, color }) => (
+  <div className="bg-white p-5 sm:p-6 rounded-xl shadow flex flex-col justify-between transition-all hover:shadow-lg">
+    <div className="flex justify-between items-center mb-2">
+      <span className="text-sm text-gray-500">{title}</span>
+      {Icon && <Icon size={24} className={color} />}
+    </div>
+    <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">{value}</h2>
+    <p className="text-xs mt-1 text-green-500">{subText}</p>
+  </div>
+);
+
 export default AdminStatistics;
