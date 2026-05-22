@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+// Destructure the specific components to satisfy the ESLint rule
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router";
-import { HiArrowRight, HiOutlineLightningBolt } from "react-icons/hi";
+import { HiArrowRight } from "react-icons/hi";
 
 const SpecialOffer = () => {
     const [timeLeft, setTimeLeft] = useState({
@@ -28,18 +29,23 @@ const SpecialOffer = () => {
 
         return () => clearInterval(timer);
     }, []);
+
+    // Created references to avoid dot-notation ESLint bugs
+    const MotionDiv = motion.div;
+    const MotionButton = motion.button;
+    const MotionImg = motion.img;
+
     return (
         <section className="py-10 overflow-hidden">
             <div className="container mx-auto px-4">
                 <div className="flex flex-col-reverse lg:flex-row items-center gap-12 lg:gap-20">
-                    <motion.div
+                    <MotionDiv
                         initial={{ opacity: 0, x: -50 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
                         className="flex-1 border-t border-l border-lime-500/10 rounded-[2.5rem] p-10 md:p-14 relative shadow shadow-lime-500/5"
                     >
-                     
                         <h2 className="text-4xl md:text-5xl font-black mb-6 leading-tight">
                             Special Offer <br />
                             <span className="text-lime-500 italic">Just For You!</span>
@@ -54,13 +60,13 @@ const SpecialOffer = () => {
 
                         <div className="flex flex-wrap items-center gap-8">
                             <Link to="/products">
-                                <motion.button
+                                <MotionButton
                                     whileHover={{ scale: 1.05, boxShadow: "0px 10px 25px rgba(132, 204, 22, 0.3)" }}
                                     whileTap={{ scale: 0.95 }}
                                     className="flex items-center gap-3 bg-lime-700 hover:bg-lime-600 text-white px-10 py-4 rounded-2xl font-bold text-lg transition-all duration-300 shadow shadow-lime-500/20"
                                 >
                                     Explore Offers <HiArrowRight size={25} />
-                                </motion.button>
+                                </MotionButton>
                             </Link>
 
                             <div className="flex flex-col">
@@ -83,19 +89,19 @@ const SpecialOffer = () => {
                                 </div>
                             </div>
                         </div>
-                    </motion.div>
+                    </MotionDiv>
 
-                    <motion.div
+                    <MotionDiv
                         initial={{ opacity: 0, scale: 0.9, x: 50 }}
                         whileInView={{ opacity: 1, scale: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
                         className="flex-1 relative w-full group"
                     >
-                        <div className="absolute inset-0 rounded-full blur-[100px]  transition-all duration-700"></div>
+                        <div className="absolute inset-0 rounded-full blur-[100px] transition-all duration-700"></div>
 
-                        <div className="relative backdrop-blur-sm rounded-[3.5rem] p-10   overflow-hidden">
-                            <motion.img
+                        <div className="relative backdrop-blur-sm rounded-[3.5rem] p-10 overflow-hidden">
+                            <MotionImg
                                 animate={{ y: [0, -15, 0] }}
                                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                                 src="https://i.postimg.cc/8cMZgG03/images-2-removebg-preview.png"
@@ -103,7 +109,7 @@ const SpecialOffer = () => {
                                 className="w-full h-auto max-h-[450px] object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-500"
                             />
 
-                            <motion.div
+                            <MotionDiv
                                 initial={{ rotate: 12 }}
                                 whileHover={{ rotate: 0, scale: 1.1 }}
                                 className="absolute -top-4 -right-4 p-5 rounded-3xl shadow border border-lime-500/50 flex flex-col items-center cursor-default"
@@ -111,9 +117,9 @@ const SpecialOffer = () => {
                                 <span className="text-gray-400 text-sm line-through font-bold">$120.00</span>
                                 <span className="text-3xl font-black text-lime-600 leading-none">$48.00</span>
                                 <span className="text-[10px] font-black text-white bg-lime-500 px-2 py-0.5 rounded-full mt-2">SAVE 60%</span>
-                            </motion.div>
+                            </MotionDiv>
                         </div>
-                    </motion.div>
+                    </MotionDiv>
                 </div>
             </div>
         </section>

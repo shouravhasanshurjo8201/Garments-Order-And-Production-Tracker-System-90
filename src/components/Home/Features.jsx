@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ShieldCheck, Clock, ThumbsUp, Users, ArrowRight } from "lucide-react";
+import { ShieldCheck, Clock, ThumbsUp, Users } from "lucide-react"; // Removed ArrowRight
 
 const features = [
   {

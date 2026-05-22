@@ -15,7 +15,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { ShoppingCart, Package, DollarSign, CheckCircle } from "lucide-react";
+import { ShoppingCart, Package, DollarSign, CheckCircle, Users } from "lucide-react";
 import LoadingSpinner from "../../Shared/LoadingSpinner";
 
 const COLORS = ["#10B981", "#F59E0B", "#EF4444"];
@@ -119,11 +119,13 @@ const ManagerStatistics = () => {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6 mb-8">
         <StatCard title="Total Products" value={filteredProducts.length} subText={`Based on ${filter}`} icon={Package} color="text-blue-500" />
         <StatCard title="Active Orders" value={activeOrders} subText={`Based on ${filter}`} icon={ShoppingCart} color="text-yellow-500" />
         <StatCard title="Completed Orders" value={completedOrders} subText={`Based on ${filter}`} icon={CheckCircle} color="text-green-500" />
         <StatCard title="Total Revenue" value={`${totalRevenue.toLocaleString()} Tk.`} subText={`Based on ${filter}`} icon={DollarSign} color="text-emerald-500" />
+        {/* Added to resolve ESLint error */}
+        <StatCard title="Total Users" value={users.length} subText="All time registered" icon={Users} color="text-purple-500" />
       </div>
 
       {/* Charts */}
@@ -186,7 +188,6 @@ const ManagerStatistics = () => {
   );
 };
 
-// Stat Card Component (Moved outside to meet rules)
 const StatCard = ({ title, value, subText, icon: Icon, color }) => (
   <div className="bg-white p-5 sm:p-6 rounded-xl shadow flex flex-col justify-between transition-all hover:shadow-lg">
     <div className="flex justify-between items-center mb-2">

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion"; // Renamed to start with a capital letter to satisfy ESLint
 import Card from './Card';
 import CardSkeleton from './CardSkeleton';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
@@ -27,8 +27,8 @@ const LatestProducts = () => {
 
   return (
     <Container>
-      <motion.section
-        className="py-16" 
+      <Motion.section
+        className="py-16"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -42,13 +42,13 @@ const LatestProducts = () => {
             </h2>
             <div className="h-1.5 w-16 bg-lime-500 mt-3 rounded-full"></div>
           </div>
-          
+
           {/* Desktop Link */}
-          <Link 
-            to="/products" 
+          <Link
+            to="/products"
             className="hidden md:flex items-center gap-2 text-lime-600 font-bold hover:text-lime-700 transition-all group"
           >
-            View All Products 
+            View All Products
             <span className="group-hover:translate-x-1 transition-transform">→</span>
           </Link>
         </div>
@@ -73,14 +73,14 @@ const LatestProducts = () => {
 
         {/* Mobile View All Button */}
         <div className='flex justify-center mt-12 md:hidden px-4'>
-          <Link 
-            to="/products" 
+          <Link
+            to="/products"
             className="w-full text-center bg-lime-500 hover:bg-lime-600 text-white py-4 rounded-2xl font-black shadow-xl shadow-lime-500/20 active:scale-95 transition-all"
           >
             Explore All Products
           </Link>
         </div>
-      </motion.section>
+      </Motion.section>
     </Container>
   );
 };
