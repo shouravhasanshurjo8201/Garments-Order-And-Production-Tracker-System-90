@@ -134,17 +134,6 @@ const BuyerStatistics = () => {
     { name: "Cancelled", value: cancelledOrders.length },
   ];
 
-  const StatCard = ({ title, value, subText, icon: Icon, color }) => (
-    <div className="bg-white p-5 rounded-xl shadow hover:shadow-lg transition border border-gray-100">
-      <div className="flex justify-between items-center mb-2">
-        <span className="text-sm text-gray-500 font-medium">{title}</span>
-        <Icon className={color} />
-      </div>
-      <h2 className="text-2xl font-bold text-gray-800">{value}</h2>
-      <p className="text-xs text-green-500 font-semibold">{subText}</p>
-    </div>
-  );
-
   return (
     <div className="min-h-screen bg-gray-100 p-4 sm:p-6">
       {/* Header */}
@@ -228,4 +217,16 @@ const BuyerStatistics = () => {
     </div>
   );
 };
+
+const StatCard = ({ title, value, subText, icon: Icon, color }) => (
+  <div className="bg-white p-5 rounded-xl shadow hover:shadow-lg transition border border-gray-100">
+    <div className="flex justify-between items-center mb-2">
+      <span className="text-sm text-gray-500 font-medium">{title}</span>
+      {Icon && <Icon className={color} size={24} />}
+    </div>
+    <h2 className="text-2xl font-bold text-gray-800">{value}</h2>
+    <p className="text-xs text-green-500 font-semibold">{subText}</p>
+  </div>
+);
+
 export default BuyerStatistics;
