@@ -30,7 +30,6 @@ const ManagerStatistics = () => {
 
   // Fetch Data 
   useEffect(() => {
-    setLoading(true);
     Promise.all([
       axiosSecure.get("/products"),
       axiosSecure.get("/orders"),
@@ -41,8 +40,9 @@ const ManagerStatistics = () => {
         setOrders(ordersRes.data);
         setUsers(usersRes.data);
       })
+      .catch((err) => console.error(err))
       .finally(() => setLoading(false));
-  }, []);
+  }, [axiosSecure]);
 
   // Filter By Date 
   const filterByDate = (items, field) => {
@@ -58,7 +58,6 @@ const ManagerStatistics = () => {
 
   const filteredProducts = filterByDate(products, "createdAt");
   const filteredOrders = filterByDate(orders, "createdAt");
-  const filteredUsers = filterByDate(users, "created_at");
   const activeOrders = filteredOrders.filter(
     (o) => o.status === "Pending" || o.status === "Active"
   ).length;
@@ -96,22 +95,7 @@ const ManagerStatistics = () => {
     { name: "Cancelled", value: orders.filter(o => o.status === "Cancelled").length }
   ];
 
-  // Stat Card 
-  const StatCard = ({ title, value, subText, icon: Icon, color }) => (
-    <div className="bg-white p-5 sm:p-6 rounded-xl shadow flex flex-col justify-between transition-all hover:shadow-lg">
-      <div className="flex justify-between items-center mb-2">
-        <span className="text-sm text-gray-500">{title}</span>
-        <Icon size={24} className={color} />
-      </div>
-      <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">{value}</h2>
-      <p className="text-xs mt-1 text-green-500">{subText}</p>
-    </div>
-  );
-
-  if (loading)
-    return (
-      <LoadingSpinner />
-    );
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 sm:p-6 overflow-x-hidden font-sans">
@@ -201,5 +185,17 @@ const ManagerStatistics = () => {
     </div>
   );
 };
+
+// Stat Card Component (Moved outside to meet rules)
+const StatCard = ({ title, value, subText, icon: Icon, color }) => (
+  <div className="bg-white p-5 sm:p-6 rounded-xl shadow flex flex-col justify-between transition-all hover:shadow-lg">
+    <div className="flex justify-between items-center mb-2">
+      <span className="text-sm text-gray-500">{title}</span>
+      {Icon && <Icon size={24} className={color} />}
+    </div>
+    <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">{value}</h2>
+    <p className="text-xs mt-1 text-green-500">{subText}</p>
+  </div>
+);
 
 export default ManagerStatistics;
