@@ -1,5 +1,5 @@
 import { motion, div as MotionDiv } from "framer-motion";
-import { ShieldCheck, Clock, ThumbsUp, Users } from "lucide-react"; // Removed ArrowRight
+import { ShieldCheck, Clock, ThumbsUp, Users } from "lucide-react"; 
 
 const features = [
   {
@@ -96,7 +96,6 @@ const WhyChooseUs = () => {
           </MotionDiv>
 
           <div className="w-full lg:w-1/2">
-
             <MotionDiv
               variants={container}
               initial="hidden"
@@ -123,8 +122,6 @@ const WhyChooseUs = () => {
                 </MotionDiv>
               ))}
             </MotionDiv>
-
-
           </div>
         </div>
       </div>
