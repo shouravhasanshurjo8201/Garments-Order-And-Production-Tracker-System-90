@@ -25,7 +25,6 @@ import UpdateProduct from '../pages/Dashboard/Manager/UpdateProduct'
 import Privacy from '../pages/Privacy/Privacy'
 import AIKnowledgePanel from '../pages/Dashboard/Admin/AIKnowledgePanel'
 
-
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -46,15 +45,15 @@ export const router = createBrowserRouter([
       },
       {
         path: '/contact',
-        element: <Contact/>,
+        element: <Contact />,
       },
       {
         path: '/privacy',
-        element: <Privacy/>,
+        element: <Privacy />,
       },
       {
         path: '/products/:id',
-        element:<ProductDetails />,
+        element: <ProductDetails />,
       },
       {
         path: '/products/booking/:id',
@@ -124,7 +123,7 @@ export const router = createBrowserRouter([
         path: 'ai-knowledge',
         element: (
           <PrivateRoute>
-            <AIKnowledgePanel/>
+            <AIKnowledgePanel />
           </PrivateRoute>
         ),
       },
@@ -140,7 +139,7 @@ export const router = createBrowserRouter([
         path: 'my-orders',
         element: (
           <PrivateRoute>
-            <MyOrders/>
+            <MyOrders />
           </PrivateRoute>
         ),
       },
@@ -148,7 +147,7 @@ export const router = createBrowserRouter([
         path: 'approved-orders',
         element: (
           <PrivateRoute>
-            <ApprovedOrders/>
+            <ApprovedOrders />
           </PrivateRoute>
         ),
       },
@@ -156,7 +155,7 @@ export const router = createBrowserRouter([
         path: 'track-order/:orderId',
         element: (
           <PrivateRoute>
-            <TrackOrder/>
+            <TrackOrder />
           </PrivateRoute>
         ),
       },
