@@ -46,7 +46,10 @@ const CustomerFeedback = () => {
             </div>
         ),
         // Changed 'i' to '_' because the index variable is never used inside the function
-        customPaging: _ => (
+        // customPaging: _ => (
+        //     <div className="w-3 h-3 rounded-full hover:bg-lime-400 transition-all duration-300 border border-transparent dot-active:bg-lime-600 dot-active:w-8"></div>
+        // )
+        customPaging: () => (
             <div className="w-3 h-3 rounded-full hover:bg-lime-400 transition-all duration-300 border border-transparent dot-active:bg-lime-600 dot-active:w-8"></div>
         )
     };

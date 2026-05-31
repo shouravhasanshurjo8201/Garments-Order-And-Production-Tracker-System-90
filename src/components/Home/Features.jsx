@@ -1,4 +1,4 @@
-import { motion, div as MotionDiv } from "framer-motion";
+import { div as MotionDiv } from "framer-motion";
 import { ShieldCheck, Clock, ThumbsUp, Users } from "lucide-react"; 
 
 const features = [

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Container from "../../components/Shared/Container";
 import Card from "../../components/Home/Card";
 import CardSkeleton from "../../components/Home/CardSkeleton";
@@ -15,7 +15,6 @@ const AllProducts = () => {
     const [sort, setSort] = useState("default");
     const [loading, setLoading] = useState(true);
 
-    // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 8;
 
@@ -23,27 +22,25 @@ const AllProducts = () => {
         document.title = "All Products | Garments Production System";
     }, []);
 
-    // Fetch products
-    useEffect(() => {
-        const loadProducts = async () => {
-            try {
-                const res = await axiosSecure.get("/products");
-                setProducts(res.data);
-                setFiltered(res.data);
-            } catch (err) {
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        };
-        loadProducts();
+    const fetchProducts = useCallback(async () => {
+        try {
+            const res = await axiosSecure.get("/products");
+            setProducts(res.data);
+            setFiltered(res.data);
+        } catch { // ✅ no variable at all — avoids the unused-vars rule entirely
+            console.error("Failed to fetch products");
+        } finally {
+            setLoading(false);
+        }
     }, [axiosSecure]);
 
-    // Search + Filter + Sort Logic
+    useEffect(() => {
+        fetchProducts();
+    }, [fetchProducts]);
+
     useEffect(() => {
         let data = [...products];
 
-        // 1. Search 
         if (search) {
             data = data.filter(p =>
                 p.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -51,12 +48,10 @@ const AllProducts = () => {
             );
         }
 
-        // 2. Category Filter
         if (category !== "all") {
             data = data.filter(p => p.category === category);
         }
 
-        // 3. Sorting 
         if (sort === "price-low") data.sort((a, b) => a.price - b.price);
         if (sort === "price-high") data.sort((a, b) => b.price - a.price);
         if (sort === "newest") data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -65,7 +60,6 @@ const AllProducts = () => {
         setCurrentPage(1);
     }, [search, category, sort, products]);
 
-    // Pagination Calculation
     const indexOfLast = currentPage * productsPerPage;
     const indexOfFirst = indexOfLast - productsPerPage;
     const currentProducts = filtered.slice(indexOfFirst, indexOfLast);
@@ -78,7 +72,7 @@ const AllProducts = () => {
                     <h2 className="text-4xl md:text-5xl font-black tracking-tight">
                         Explore Our <span className="text-lime-500">Products</span>
                     </h2>
-                    <p className=" mt-4 max-w-2xl mx-auto">
+                    <p className="mt-4 max-w-2xl mx-auto">
                         Search and filter through our latest garments production batch with real-time stock status.
                     </p>
                 </div>
@@ -93,7 +87,7 @@ const AllProducts = () => {
                                 placeholder="Search by name or category..."
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
-                                className="w-full pl-11 pr-4 py-3  border border-gray-500/50 rounded-2xl focus:ring-2 focus:ring-lime-400 transition-all outline-none"
+                                className="w-full pl-11 pr-4 py-3 border border-gray-500/50 rounded-2xl focus:ring-2 focus:ring-lime-400 transition-all outline-none"
                             />
                         </div>
 
@@ -133,7 +127,6 @@ const AllProducts = () => {
                     </p>
                 </div>
 
-                {/* Product Card */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                     {loading ? (
                         Array.from({ length: 8 }).map((_, i) => <CardSkeleton key={i} />)
@@ -148,7 +141,6 @@ const AllProducts = () => {
                     )}
                 </div>
 
-                {/* Pagination */}
                 {totalPages > 1 && (
                     <div className="flex justify-center items-center gap-3 mt-16">
                         <button
