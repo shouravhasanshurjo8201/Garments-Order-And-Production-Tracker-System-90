@@ -1,5 +1,4 @@
-
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
@@ -13,12 +12,8 @@ const AdminAllOrders = () => {
     const [search, setSearch] = useState("");
     const [statusFilter, setStatusFilter] = useState("");
 
-    useEffect(() => {
-        document.title = "All Orders | Dashboard";
-        fetchOrders();
-    }, []);
-
-    const fetchOrders = async () => {
+    // 1. Wrap the fetcher function inside useCallback to freeze its reference safely
+    const fetchOrders = useCallback(async () => {
         try {
             const res = await axiosSecure.get("/orders");
             setOrders(res.data);
@@ -28,18 +23,24 @@ const AdminAllOrders = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [axiosSecure]);
+
+    // 2. Safely include fetchOrders in the dependency array
+    useEffect(() => {
+        document.title = "All Orders | Dashboard";
+        fetchOrders();
+    }, [fetchOrders]);
 
     // Filtered & searched orders logic
     const filteredOrders = orders.filter((order) => {
         const matchesStatus = statusFilter === "" || order.status === statusFilter;
         const userName = order.user || order.email || "";
         const productName = order.product || order.productName || "";
-        
+
         const matchesSearch =
             userName.toLowerCase().includes(search.toLowerCase()) ||
             productName.toLowerCase().includes(search.toLowerCase());
-            
+
         return matchesStatus && matchesSearch;
     });
 
@@ -109,13 +110,13 @@ const AdminAllOrders = () => {
                                     <tr key={order._id} className="hover:bg-lime-50/30 transition-colors group">
                                         <td className="p-4 font-mono text-xs text-gray-500">#{order._id.slice(-8)}</td>
                                         <td className="p-4 font-medium text-gray-700">{order.user || order.email}</td>
-                                        <td className="p-4 text-gray-600">{order.product }</td>
+                                        <td className="p-4 text-gray-600">{order.product}</td>
                                         <td className="p-4 text-center font-bold text-gray-800">{order.quantity} Pcs</td>
                                         <td className="p-4">
                                             <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider
-                                                ${order.status === 'Pending' ? 'bg-amber-100 text-amber-700' : 
-                                                  order.status === 'Approved' ? 'bg-green-100 text-green-700' : 
-                                                  'bg-red-100 text-red-700'}`}>
+                                                ${order.status === 'Pending' ? 'bg-amber-100 text-amber-700' :
+                                                    order.status === 'Approved' ? 'bg-green-100 text-green-700' :
+                                                        'bg-red-100 text-red-700'}`}>
                                                 {order.status}
                                             </span>
                                         </td>
@@ -157,14 +158,14 @@ const AdminAllOrders = () => {
                                     <p className="font-bold text-lime-600">{selectedOrder.status}</p>
                                 </div>
                             </div>
-                            
+
                             <hr className="border-gray-100" />
-                            
+
                             <div>
                                 <p className="text-[10px] uppercase font-bold text-gray-400">Customer Email</p>
                                 <p className="font-medium">{selectedOrder.email}</p>
                             </div>
-                            
+
                             <div>
                                 <p className="text-[10px] uppercase font-bold text-gray-400">Product Ordered</p>
                                 <p className="font-medium">{selectedOrder.product}</p>

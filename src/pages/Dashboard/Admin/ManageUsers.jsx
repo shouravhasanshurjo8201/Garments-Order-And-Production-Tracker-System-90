@@ -35,23 +35,27 @@ const ManageUsers = () => {
       if (!user?.email) return
       try {
         const res = await axiosSecure.get(`/user/admin?email=${user.email}`)
-        setIsAdmin(res.data.admin)
-        if (res.data.admin) {
+        const adminStatus = res.data.admin // Using local variable explicitly
+
+        setIsAdmin(adminStatus)
+
+        if (adminStatus) {
           await fetchUsers()
+        } else {
+          setLoading(false)
         }
       } catch (error) {
         console.error('Admin check error:', error)
         setIsAdmin(false)
-      } finally {
-        if (!isAdmin) setLoading(false)
+        setLoading(false)
       }
     }
     checkAdminAndFetch()
   }, [axiosSecure, user?.email, fetchUsers])
 
   const filteredUsers = useMemo(() => {
-    return users.filter(u => 
-      u.name?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    return users.filter(u =>
+      u.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       u.email?.toLowerCase().includes(searchTerm.toLowerCase())
     )
   }, [users, searchTerm])
@@ -82,17 +86,17 @@ const ManageUsers = () => {
               </p>
             </div>
           </div>
-          
+
           <div className="flex flex-wrap items-center gap-4 w-full lg:w-auto">
             {/* Search Bar */}
             <div className="relative flex-row lg:flex-row-0">
               <TbSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-              <input 
+              <input
                 type="text"
-                placeholder="Search by name or email..." 
+                placeholder="Search by name or email..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full lg:w-80 pl-12 pr-4 py-3.5 bg-white border border-gray-100 rounded-2xl shadow-sm focus:ring-4 focus:ring-lime-500/10 focus:border-lime-500 outline-none transition-all text-sm font-medium" 
+                className="w-full lg:w-80 pl-12 pr-4 py-3.5 bg-white border border-gray-100 rounded-2xl shadow-sm focus:ring-4 focus:ring-lime-500/10 focus:border-lime-500 outline-none transition-all text-sm font-medium"
               />
             </div>
 
@@ -102,7 +106,7 @@ const ManageUsers = () => {
                 <p className="text-[10px] text-gray-400 uppercase font-black tracking-widest mb-1">Total</p>
                 <p className="text-xl font-black text-gray-800 leading-none">{users.length}</p>
               </div>
-              <button 
+              <button
                 onClick={fetchUsers}
                 className="p-2.5 hover:bg-gray-50 text-lime-600 rounded-xl transition-all active:rotate-180 duration-500"
                 title="Refresh Data"
@@ -122,7 +126,7 @@ const ManageUsers = () => {
                     SI
                   </th>
                   <th className="px-6 py-6 text-left text-[10px] font-black uppercase tracking-[0.2em]">
-                    User 
+                    User
                   </th>
                   <th className="px-6 py-6 text-left text-[10px] font-black uppercase tracking-[0.2em] hidden xl:table-cell">
                     Email Address
@@ -131,7 +135,7 @@ const ManageUsers = () => {
                     Access Role
                   </th>
                   <th className="px-6 py-6 text-left text-[10px] font-black uppercase tracking-[0.2em]">
-                     Status
+                    Status
                   </th>
                   <th className="px-6 py-6 text-right text-[10px] font-black uppercase tracking-[0.2em]">
                     Action
@@ -158,13 +162,13 @@ const ManageUsers = () => {
                 </div>
                 <h2 className="text-3xl font-black text-gray-800 mb-3 tracking-tight">No Users Found</h2>
                 <p className="text-gray-400 max-w-sm mx-auto leading-relaxed font-medium">
-                  {searchTerm 
+                  {searchTerm
                     ? `We couldn't find any results for "${searchTerm}". Try a different name or email.`
                     : "The user database is currently empty. New users will appear here once they sign up."
                   }
                 </p>
                 {searchTerm && (
-                  <button 
+                  <button
                     onClick={() => setSearchTerm('')}
                     className="mt-6 text-lime-600 font-bold hover:underline"
                   >
@@ -173,12 +177,12 @@ const ManageUsers = () => {
                 )}
               </div>
             )}
-            
+
             {/* Table Loading Overlay */}
             {loading && users.length > 0 && (
-               <div className="absolute inset-x-0 bottom-0 top-0 bg-white/60 backdrop-blur-[2px] flex items-center justify-center z-10">
-                  <LoadingSpinner></LoadingSpinner>
-               </div>
+              <div className="absolute inset-x-0 bottom-0 top-0 bg-white/60 backdrop-blur-[2px] flex items-center justify-center z-10">
+                <LoadingSpinner></LoadingSpinner>
+              </div>
             )}
           </div>
         </div>
@@ -187,4 +191,4 @@ const ManageUsers = () => {
   )
 }
 
-export default ManageUsers
+export default ManageUsers;

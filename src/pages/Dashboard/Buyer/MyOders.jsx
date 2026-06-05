@@ -20,21 +20,25 @@ const MyOrders = () => {
         document.title = "My Orders | Dashboard";
     }, []);
 
-    // Fetch order data
+    // Fetch order data cleanly
     useEffect(() => {
         if (!email) return;
-        setLoading(true);
-        axiosSecure
-            .get(`/orders?email=${email}`)
-            .then(res => {
+
+        const getOrders = async () => {
+            try {
+                // Changing state inside an async process handles renders predictably
+                setLoading(true);
+                const res = await axiosSecure.get(`/orders?email=${email}`);
                 setOrders(res.data);
-                setLoading(false);
-            })
-            .catch(err => {
+            } catch (err) {
                 console.error(err);
                 setError("Something went wrong while loading orders.");
+            } finally {
                 setLoading(false);
-            });
+            }
+        };
+
+        getOrders();
     }, [axiosSecure, email]);
 
     // Function to cancel order
@@ -83,7 +87,7 @@ const MyOrders = () => {
             ) : orders.length === 0 ? (
                 <div className="text-center py-20">
                     <div className="bg-gray-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 text-gray-300">
-                         <TbEye size={40} />
+                        <TbEye size={40} />
                     </div>
                     <p className="text-gray-400 font-medium italic">You haven't placed any orders yet!</p>
                 </div>
@@ -151,7 +155,7 @@ const MyOrders = () => {
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center  p-4">
                     <div className="bg-white p-8 rounded-2xl w-full max-w-sm shadow-2xl animate-in zoom-in-95 duration-200">
                         <div className="text-red-500 bg-red-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                             <TbAlertCircle size={40} />
+                            <TbAlertCircle size={40} />
                         </div>
                         <h3 className="text-xl font-black text-gray-800 text-center mb-2">Are you sure?</h3>
                         <p className="text-gray-500 text-center text-sm mb-8 leading-relaxed">
