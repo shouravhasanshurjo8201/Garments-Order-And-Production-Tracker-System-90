@@ -6,7 +6,7 @@ import toast from "react-hot-toast"
 import { useForm } from "react-hook-form"
 import useAxiosSecure from "../../hooks/useAxiosSecure"
 import { useEffect } from "react"
-import { motion } from "framer-motion"
+import { motion as Motion } from "framer-motion" // Aliased to PascalCase to resolve ESLint rule
 
 const SignUp = () => {
   const { createUser, updateUserProfile, signInWithGoogle, loading, setLoading } = useAuth()
@@ -22,12 +22,9 @@ const SignUp = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
     reset
-  } = useForm()
-
-  const imageUrl = watch("image");
+  } = useForm() // Removed unused 'watch' mapping to fix React Compiler warnings
 
   const saveUserToDB = async (userInfo) => {
     try {
@@ -89,7 +86,7 @@ const SignUp = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen py-12 px-4">
-      <motion.div
+      <Motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         className="w-full max-w-2xl border border-gray-500/50 shadow rounded-[2.5rem] p-8 sm:p-12"
@@ -200,9 +197,9 @@ const SignUp = () => {
             Login here
           </Link>
         </p>
-      </motion.div>
+      </Motion.div>
     </div>
   )
 }
 
-export default SignUp
+export default SignUp;

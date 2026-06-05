@@ -1,9 +1,8 @@
-
 import { TbAlertCircle, TbSearch } from "react-icons/tb";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import Container from "../../components/Shared/Container";
 import { useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion"; // Aliased to PascalCase to resolve ESLint rule
 import { useNavigate } from "react-router";
 
 const ProductNotFound = () => {
@@ -17,7 +16,7 @@ const ProductNotFound = () => {
     <Container>
       <div className="min-h-[70vh] flex flex-col justify-center items-center text-center py-20">
 
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="relative mb-8"
@@ -27,9 +26,9 @@ const ProductNotFound = () => {
             <TbSearch className="text-7xl text-gray-300" />
             <TbAlertCircle className="text-3xl text-red-500 absolute bottom-4 right-4 bg-white rounded-full" />
           </div>
-        </motion.div>
+        </Motion.div>
 
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
@@ -41,9 +40,9 @@ const ProductNotFound = () => {
           <p className="text-gray-500 max-w-sm mx-auto leading-relaxed font-medium">
             We couldn't find the product you're looking for. It might have been removed or the ID is incorrect.
           </p>
-        </motion.div>
+        </Motion.div>
 
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
@@ -63,7 +62,7 @@ const ProductNotFound = () => {
           >
             Go to Home
           </button>
-        </motion.div>
+        </Motion.div>
 
         <p className="mt-16 text-[10px] font-black text-gray-300 uppercase tracking-[0.4em]">
           Garments Production Management

@@ -1,10 +1,9 @@
-
 import { TbAlertCircle } from 'react-icons/tb';
 import { HiOutlineHome, HiOutlineArrowLeft } from 'react-icons/hi';
 import Button from '../components/Shared/Button/Button';
 import { useLocation, useNavigate } from 'react-router';
 import { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion'; // Renamed to uppercase to satisfy ESLint rule
 
 const ErrorPage = () => {
   const navigate = useNavigate();
@@ -18,20 +17,20 @@ const ErrorPage = () => {
   return (
     <section className="bg-white min-h-screen flex items-center justify-center">
       <div className="container px-6 py-12 mx-auto">
-        <motion.div
+        <Motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
           className="flex flex-col items-center max-w-lg mx-auto text-center"
         >
           <div className="relative mb-6">
-            <motion.div
+            <Motion.div
               animate={{ rotate: [0, 10, -10, 0] }}
               transition={{ repeat: Infinity, duration: 2 }}
               className="p-4 bg-red-50 rounded-full inline-block"
             >
               <TbAlertCircle className="text-7xl text-red-500" />
-            </motion.div>
+            </Motion.div>
           </div>
 
           <h1 className="text-4xl font-black text-gray-900 tracking-tight mb-3">
@@ -42,7 +41,7 @@ const ErrorPage = () => {
             The link might be broken, or the page has been moved. Let's get you back on track.
           </p>
 
-          <motion.div
+          <Motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
@@ -52,7 +51,7 @@ const ErrorPage = () => {
             <p className="text-gray-700 font-bold italic group-hover:text-red-500 transition-colors">
               "{errorMessage}"
             </p>
-          </motion.div>
+          </Motion.div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
             <button
@@ -78,7 +77,7 @@ const ErrorPage = () => {
           <p className="mt-12 text-gray-300 text-[10px] font-bold uppercase tracking-[0.3em]">
             G.O.P.T.S Management System
           </p>
-        </motion.div>
+        </Motion.div>
       </div>
     </section>
   );

@@ -1,20 +1,19 @@
-
 import { useLocation, useNavigate } from "react-router";
 import Container from "../../components/Shared/Container";
 import useAuth from "../../hooks/useAuth";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form"; // ✅ added useWatch
 import toast from "react-hot-toast";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import { 
-  HiOutlinePhone, 
-  HiOutlineLocationMarker, 
-  HiOutlineClipboardList, 
-  HiOutlineUser, 
+import {
+  HiOutlinePhone,
+  HiOutlineLocationMarker,
+  HiOutlineClipboardList,
+  HiOutlineUser,
   HiOutlineDocumentText,
-  HiOutlineCurrencyDollar 
+  HiOutlineCurrencyDollar
 } from "react-icons/hi";
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"; // eslint-disable-line no-unused-vars
 
 const BookingPage = () => {
   const { user } = useAuth();
@@ -24,16 +23,15 @@ const BookingPage = () => {
 
   const product = state?.product;
 
-  if (!product) return <Container><p className="text-center mt-20 font-bold text-red-500">Product not found!</p></Container>;
-
-  const { register, handleSubmit, watch, setValue, formState: { errors } } = useForm({
+  // ✅ destructure control instead of watch
+  const { register, handleSubmit, control, setValue, formState: { errors } } = useForm({
     defaultValues: {
-      productId: product._id,
+      productId: product?._id || "",
       email: user?.email || "",
-      product: product.name,
-      price: product.price,
-      quantity: product.minimumOrder,
-      total: product.price * product.minimumOrder,
+      product: product?.name || "",
+      price: product?.price || 0,
+      quantity: product?.minimumOrder || 0,
+      total: (product?.price || 0) * (product?.minimumOrder || 0),
       status: "Pending",
       firstName: "",
       lastName: "",
@@ -43,20 +41,29 @@ const BookingPage = () => {
     }
   });
 
-  const watchQuantity = watch("quantity");
+  // ✅ useWatch is React Compiler-safe, replaces watch("field")
+  const currentQuantity = useWatch({ control, name: "quantity" });
+  const currentTotal = useWatch({ control, name: "total" });
 
   useEffect(() => {
     document.title = "Secure Checkout | G.O.P.T.S.";
   }, []);
 
   useEffect(() => {
-    let qty = Number(watchQuantity);
-    if (qty < product.minimumOrder) qty = product.minimumOrder;
-    if (qty > product.quantity) qty = product.quantity;
+    if (!product) return;
 
-    setValue("quantity", qty);
+    let qty = Number(currentQuantity);
+
+    if (qty < product.minimumOrder) {
+      qty = product.minimumOrder;
+      setValue("quantity", qty);
+    } else if (qty > product.quantity) {
+      qty = product.quantity;
+      setValue("quantity", qty);
+    }
+
     setValue("total", qty * product.price);
-  }, [watchQuantity, product, setValue]);
+  }, [currentQuantity, product, setValue]);
 
   const onSubmit = async (data) => {
     const loadingToast = toast.loading("Processing your order...");
@@ -69,15 +76,22 @@ const BookingPage = () => {
     }
   };
 
+  if (!product) {
+    return (
+      <Container>
+        <p className="text-center mt-20 font-bold text-red-500">Product not found!</p>
+      </Container>
+    );
+  }
+
   return (
     <div className="-mt-16">
       <Container>
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="max-w-5xl mx-auto flex flex-col lg:flex-row shadow rounded-[2.5rem] overflow-hidden  border border-gray-500/50"
+          className="max-w-5xl mx-auto flex flex-col lg:flex-row shadow rounded-[2.5rem] overflow-hidden border border-gray-500/50"
         >
-          
           <div className="flex-1 p-8 md:p-12">
             <div className="mb-10">
               <h2 className="text-3xl font-black flex items-center gap-3">
@@ -87,7 +101,6 @@ const BookingPage = () => {
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              
               <div className="space-y-4">
                 <h4 className="text-xs font-black uppercase tracking-[0.2em] text-lime-600 border-b border-lime-100/50 pb-2">1. Personal Information</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -97,7 +110,7 @@ const BookingPage = () => {
                       type="text"
                       placeholder="First Name"
                       {...register("firstName", { required: "First name is required" })}
-                      className="w-full  border border-gray-500/50 p-4 pl-12 rounded-2xl focus:ring-2 focus:ring-lime-500 transition shadow-inner"
+                      className="w-full border border-gray-500/50 p-4 pl-12 rounded-2xl focus:ring-2 focus:ring-lime-500 transition shadow-inner"
                     />
                     {errors.firstName && <p className="text-red-500 text-[10px] mt-1 ml-2 font-bold">{errors.firstName.message}</p>}
                   </div>
@@ -157,11 +170,11 @@ const BookingPage = () => {
             </form>
           </div>
 
-          <div className="w-full lg:w-80  p-8 border-l border-gray-500/50 flex flex-col">
+          <div className="w-full lg:w-80 p-8 border-l border-gray-500/50 flex flex-col">
             <h3 className="text-lg font-black mb-8 border-b border-gray-300/50 pb-4">Order Insight</h3>
-            
+
             <div className="space-y-6 flex-row">
-              <div className=" p-4 rounded-3xl shadow-sm border border-gray-500/50">
+              <div className="p-4 rounded-3xl shadow-sm border border-gray-500/50">
                 <p className="text-[10px] font-black text-lime-600 uppercase mb-2">Target Product</p>
                 <p className="text-sm font-bold text-gray-700 leading-tight">{product.name}</p>
                 <div className="mt-4 flex justify-between items-center text-xs">
@@ -170,7 +183,7 @@ const BookingPage = () => {
                 </div>
               </div>
 
-              <div className=" p-4 rounded-3xl shadow-sm border border-gray-500/50">
+              <div className="p-4 rounded-3xl shadow-sm border border-gray-500/50">
                 <p className="text-[10px] font-black text-lime-600 uppercase mb-3">Adjust Quantity</p>
                 <input
                   type="number"
@@ -186,16 +199,16 @@ const BookingPage = () => {
               <div className="pt-6 space-y-3">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-400">Subtotal</span>
-                  <span className=" font-bold">${watch("total")}</span>
+                  <span className="font-bold">${currentTotal}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-400">Tax/Vat</span>
-                  <span className=" font-bold text-xs uppercase italic">Calculated later</span>
+                  <span className="font-bold text-xs uppercase italic">Calculated later</span>
                 </div>
                 <hr className="border-dashed border-gray-200" />
                 <div className="flex justify-between items-center pt-2">
-                  <span className="text-sm font-black  uppercase">Grand Total</span>
-                  <span className="text-3xl font-black text-lime-500 tracking-tighter">${watch("total")}</span>
+                  <span className="text-sm font-black uppercase">Grand Total</span>
+                  <span className="text-3xl font-black text-lime-500 tracking-tighter">${currentTotal}</span>
                 </div>
               </div>
             </div>
@@ -207,7 +220,6 @@ const BookingPage = () => {
               </p>
             </div>
           </div>
-
         </motion.div>
       </Container>
     </div>

@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"; // eslint-disable-line no-unused-vars
 import { useForm } from "react-hook-form";
 import Container from "../../components/Shared/Container";
 import toast from "react-hot-toast";
@@ -59,7 +59,7 @@ const Contact = () => {
                         transition={{ duration: 0.6 }}
                         className="text-2xl md:text-4xl font-black mb-4 leading-tight"
                     >
-                        Let’s Build Something <br />
+                        Let's Build Something <br />
                         <span className="text-lime-600 italic">Great Together</span>
                     </motion.h1>
                     <motion.p
@@ -77,42 +77,42 @@ const Contact = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         className="lg:col-span-1 space-y-6"
                     >
-                        <div className=" p-8 rounded-[3rem] shadow shadow-gray-100/50 border border-gray-500/50 relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-32 h-32  rounded-full -mr-16 -mt-16 z-0" />
+                        <div className="p-8 rounded-[3rem] shadow shadow-gray-100/50 border border-gray-500/50 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-32 h-32 rounded-full -mr-16 -mt-16 z-0" />
 
-                            <h2 className="text-2xl font-bold  mb-8 relative z-10">Contact Info</h2>
+                            <h2 className="text-2xl font-bold mb-8 relative z-10">Contact Info</h2>
 
                             <div className="space-y-8 relative z-10">
                                 <ContactInfoItem
                                     icon={<FaPhoneAlt />}
-                                    color=" text-lime-600"
+                                    color="text-lime-600"
                                     label="Call Us"
                                     value="+880 1934-567890"
                                 />
                                 <ContactInfoItem
                                     icon={<FaEnvelope />}
-                                    color=" text-blue-600"
+                                    color="text-blue-600"
                                     label="Email Us"
                                     value="support@gptsystem.com"
                                 />
                                 <ContactInfoItem
                                     icon={<FaMapMarkerAlt />}
-                                    color=" text-orange-600"
+                                    color="text-orange-600"
                                     label="Our Location"
                                     value="Jamalpur, Dhaka, Bangladesh"
                                 />
                                 <ContactInfoItem
                                     icon={<FaClock />}
-                                    color=" text-purple-600 "
+                                    color="text-purple-600"
                                     label="Office Hours"
                                     value="Sat - Thu (9AM - 7PM)"
                                 />
                             </div>
 
                             <div className="mt-12 pt-8 border-t border-gray-500/50">
-                                <p className=" font-bold mb-4">Connect with us:</p>
+                                <p className="font-bold mb-4">Connect with us:</p>
                                 <div className="flex gap-4">
-                                    <SocialIcon icon={<FaFacebook />}  link="#" />
+                                    <SocialIcon icon={<FaFacebook />} link="#" />
                                     <SocialIcon icon={<FaLinkedin />} link="#" />
                                     <SocialIcon icon={<FaTwitter />} link="#" />
                                 </div>
@@ -127,14 +127,14 @@ const Contact = () => {
                     >
                         <form
                             onSubmit={handleSubmit(onSubmit)}
-                            className=" p-8 md:p-12 rounded-[3rem] shadow shadow-gray-200/50 border border-gray-500/50"
+                            className="p-8 md:p-12 rounded-[3rem] shadow shadow-gray-200/50 border border-gray-500/50"
                         >
                             <div className="grid md:grid-cols-2 gap-6 mb-6">
                                 <div className="space-y-2">
                                     <label className="text-sm font-bold text-gray-500 ml-1">Full Name</label>
                                     <input
                                         {...register("name", { required: "Name is required" })}
-                                        className={`w-full  border ${errors.name ? 'border-red-400' : 'border-gray-500/50'} p-4 rounded-2xl  focus:border-lime-500 transition-all outline-none`}
+                                        className={`w-full border ${errors.name ? "border-red-400" : "border-gray-500/50"} p-4 rounded-2xl focus:border-lime-500 transition-all outline-none`}
                                         placeholder="Type your name"
                                     />
                                     {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
@@ -146,7 +146,7 @@ const Contact = () => {
                                         type="email"
                                         defaultValue={user?.email}
                                         {...register("email", { required: "Email is required" })}
-                                        className="w-full border border-gray-500/50 p-4 rounded-2xl  focus:border-lime-500 transition-all outline-none"
+                                        className="w-full border border-gray-500/50 p-4 rounded-2xl focus:border-lime-500 transition-all outline-none"
                                         placeholder="example@mail.com"
                                     />
                                 </div>
@@ -165,7 +165,7 @@ const Contact = () => {
                                     <label className="text-sm font-bold text-gray-500 ml-1">Subject</label>
                                     <select
                                         {...register("subject")}
-                                        className="w-full border border-gray-500/50 p-4 rounded-2xl  focus:border-lime-500 transition-all outline-none appearance-none"
+                                        className="w-full border border-gray-500/50 p-4 rounded-2xl focus:border-lime-500 transition-all outline-none appearance-none"
                                     >
                                         <option value="Production Inquiry">Production Inquiry</option>
                                         <option value="Order Tracking">Order Tracking</option>
@@ -189,7 +189,7 @@ const Contact = () => {
                             <button
                                 disabled={loading}
                                 type="submit"
-                                className={`w-full ${loading ? 'bg-gray-400' : 'bg-lime-600 hover:bg-gray-500'} text-white py-4 rounded-2xl font-bold transition-all shadow-lg flex items-center justify-center gap-3 group`}
+                                className={`w-full ${loading ? "bg-gray-400" : "bg-lime-600 hover:bg-gray-500"} text-white py-4 rounded-2xl font-bold transition-all shadow-lg flex items-center justify-center gap-3 group`}
                             >
                                 {loading ? (
                                     <span className="animate-pulse">Sending Message...</span>
@@ -233,8 +233,8 @@ const ContactInfoItem = ({ icon, color, label, value }) => (
             {icon}
         </div>
         <div>
-            <p className="text-xs text-gray-400  font-bold uppercase tracking-wider">{label}</p>
-            <p className=" font-extrabold">{value}</p>
+            <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">{label}</p>
+            <p className="font-extrabold">{value}</p>
         </div>
     </div>
 );

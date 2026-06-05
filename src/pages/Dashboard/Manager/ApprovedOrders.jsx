@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import toast from "react-hot-toast";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useNavigate } from "react-router";
@@ -18,7 +18,7 @@ const ApprovedOrders = () => {
     const [loading, setLoading] = useState(true);
 
     // Fetch only Approved orders
-    const loadOrders = async () => {
+    const loadOrders = useCallback(async () => {
         try {
             const res = await axiosSecure.get("/orders?status=Approved");
             setOrders(res.data);
@@ -26,18 +26,21 @@ const ApprovedOrders = () => {
             console.error(err);
             toast.error("Failed to load approved orders");
         }
-    };
+    }, [axiosSecure]);
+
+    // Extracted the specific structural primitive value to clear out manual memoization conflicts
+    const userEmail = user?.email;
 
     // Fetch manager/admin data to check for suspension
-    const loadUser = async () => {
-        if (!user?.email) return;
+    const loadUser = useCallback(async () => {
+        if (!userEmail) return;
         try {
-            const userRes = await axiosSecure.get(`/user?email=${user.email}`);
+            const userRes = await axiosSecure.get(`/user?email=${userEmail}`);
             setUserData(userRes.data);
         } catch (err) {
             console.error(err);
         }
-    };
+    }, [axiosSecure, userEmail]);
 
     useEffect(() => {
         document.title = "Approved Orders | Dashboard";
@@ -47,7 +50,7 @@ const ApprovedOrders = () => {
             setLoading(false);
         };
         fetchData();
-    }, [axiosSecure, user?.email]);
+    }, [loadOrders, loadUser]);
 
     if (loading) return <LoadingSpinner />;
 
@@ -88,7 +91,7 @@ const ApprovedOrders = () => {
                                     <td className="p-4 font-mono text-xs text-blue-600 font-bold">
                                         #{o._id.slice(-8)}
                                     </td>
-                                    
+
                                     {/* User Email */}
                                     <td className="p-4">
                                         <span className="text-sm text-gray-700 block max-w-[150px] truncate" title={o.email}>

@@ -1,24 +1,25 @@
-import { Link } from 'react-router-dom'
-import { motion } from "framer-motion";
+import { Link } from 'react-router-dom';
+// Alias motion to Motion to satisfy the ESLint uppercase rule
+import { motion as Motion } from "framer-motion";
 import { FaEye, FaBoxOpen } from "react-icons/fa";
 
 const Card = ({ product }) => {
   const { name, category, quantity, price, image, _id, description } = product;
 
   return (
-    <motion.div
+    <Motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       whileHover={{ y: -6 }}
       transition={{ duration: 0.3 }}
-      className=" border border-gray-500/40 shadow-sm hover:shadow-xl p-4 rounded-2xl flex flex-col h-full transition-all duration-300"
+      className="border border-gray-500/40 shadow-sm hover:shadow-xl p-4 rounded-2xl flex flex-col h-full transition-all duration-300"
     >
       {/* Image */}
-      <div className="relative aspect-[4/4] w-full overflow-hidden rounded-xl bg-gray-100 mb-4">
+      <div className="relative aspect-4/4 w-full overflow-hidden rounded-xl bg-gray-100 mb-4">
         <img
           src={image}
           alt={name}
-          className="h-full w-full  group-hover:scale-105 transition-transform duration-500"
+          className="h-full w-full group-hover:scale-105 transition-transform duration-500"
         />
 
         {/* Category badge */}
@@ -39,7 +40,7 @@ const Card = ({ product }) => {
 
       {/* Content */}
       <div className="flex-1 flex flex-col gap-2">
-        <h3 className="font-bold  text-lg leading-snug line-clamp-1">
+        <h3 className="font-bold text-lg leading-snug line-clamp-1">
           {name}
         </h3>
 
@@ -70,7 +71,7 @@ const Card = ({ product }) => {
           View Details
         </Link>
       </div>
-    </motion.div>
+    </Motion.div>
   );
 };
 

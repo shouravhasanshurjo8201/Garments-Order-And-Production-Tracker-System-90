@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import { Factory, CheckCircle, PackageSearch, ArrowRight, Zap, Target, Activity } from "lucide-react";
 import { Link } from "react-router";

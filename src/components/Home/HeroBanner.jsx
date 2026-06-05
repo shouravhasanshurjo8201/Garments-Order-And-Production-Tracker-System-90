@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion as Motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaArrowRight, FaChevronDown } from "react-icons/fa";
@@ -50,7 +50,7 @@ const HeroBanner = () => {
     return (
         <section className="relative w-full h-70 md:h-[90vh] -mt-9 overflow-hidden bg-black/90">
             <AnimatePresence mode="wait">
-                <motion.div
+                <Motion.div
                     key={current}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -58,7 +58,7 @@ const HeroBanner = () => {
                     transition={{ duration: 1.2 }}
                     className="absolute inset-0"
                 >
-                    <motion.div
+                    <Motion.div
                         initial={{ scale: 1.1 }}
                         animate={{ scale: 1 }}
                         transition={{ duration: 7, ease: "easeOut" }}
@@ -67,13 +67,13 @@ const HeroBanner = () => {
                     />
                     <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/50 to-transparent" />
                     <div className="absolute inset-0 bg-black/20" />
-                </motion.div>
+                </Motion.div>
             </AnimatePresence>
 
             <div className="relative z-10 h-full container mx-auto px-6 flex items-center">
                 <div className="max-w-3xl">
                     <AnimatePresence mode="wait">
-                        <motion.div
+                        <Motion.div
                             key={current}
                             initial={{ opacity: 0, x: -30 }}
                             animate={{ opacity: 1, x: 0 }}
@@ -108,7 +108,7 @@ const HeroBanner = () => {
                                     Learn More
                                 </Link>
                             </div>
-                        </motion.div>
+                        </Motion.div>
                     </AnimatePresence>
                 </div>
             </div>
@@ -127,12 +127,12 @@ const HeroBanner = () => {
 
             <div className="absolute bottom-2 left-1/2 -translate-x-1/2 text-white/50 flex flex-col items-center gap-1 z-20">
                 <span className="text-[12px] uppercase tracking-widest font-bold">Scroll</span>
-                <motion.div
+                <Motion.div
                     animate={{ y: [0, 8, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity }}
                 >
                     <FaChevronDown size={22} />
-                </motion.div>
+                </Motion.div>
             </div>
         </section>
     );

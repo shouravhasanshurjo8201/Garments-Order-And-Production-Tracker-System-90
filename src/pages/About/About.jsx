@@ -1,13 +1,14 @@
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 import Container from "../../components/Shared/Container";
 import { Link } from "react-router";
 import { useEffect } from "react";
-import { 
-    TbTargetArrow, 
-    TbEye, 
-    TbUsers, 
-    TbTimeline, 
-    TbCircleCheck, 
+import {
+    TbTargetArrow,
+    TbEye,
+    TbUsers,
+    TbTimeline,
+    TbCircleCheck,
     TbRocket,
     TbSettingsAutomation,
     TbTruckDelivery,
@@ -60,8 +61,8 @@ const About = () => {
                         { label: "Secure Data", value: "100%", icon: <TbShieldCheck /> },
                         { label: "Automation", value: "Fast", icon: <TbSettingsAutomation /> },
                     ].map((stat, i) => (
-                        <motion.div 
-                            key={i} {...fadeInUp} transition={{delay: i * 0.1}}
+                        <motion.div
+                            key={i} {...fadeInUp} transition={{ delay: i * 0.1 }}
                             className=" p-6 rounded-3xl border border-gray-500/50 text-center shadow-sm"
                         >
                             <div className="text-lime-600 text-3xl mb-2 flex justify-center">{stat.icon}</div>
@@ -112,7 +113,7 @@ const About = () => {
                             { step: "02", title: "Live Production", text: "Managers update status real-time from cutting to sewing and finishing.", icon: <TbSettingsAutomation /> },
                             { step: "03", title: "Fast Delivery", text: "System automatically tracks shipment and ensures timely delivery to buyers.", icon: <TbTruckDelivery /> }
                         ].map((item, i) => (
-                            <motion.div key={i} {...fadeInUp} transition={{delay: i * 0.2}} className="relative text-center group">
+                            <motion.div key={i} {...fadeInUp} transition={{ delay: i * 0.2 }} className="relative text-center group">
                                 <div className="text-6xl font-black text-gray-100 absolute -top-10 left-1/2 -translate-x-1/2 group-hover:text-lime-50 transition-colors">{item.step}</div>
                                 <div className="relative z-10">
                                     <div className="text-lime-600 text-4xl mb-4 flex justify-center">{item.icon}</div>
@@ -183,8 +184,8 @@ const About = () => {
                     <p className="text-gray-500 mb-10 max-w-xl mx-auto italic">
                         Check out our products and enjoy a seamless ordering experience with real-time tracking.
                     </p>
-                    <Link 
-                        to="/products" 
+                    <Link
+                        to="/products"
                         className="bg-green-600 text-white px-10 py-4 rounded-2xl shadow shadow-green-100 hover:bg-green-900 transition-all font-black uppercase text-xs tracking-widest inline-block active:scale-95"
                     >
                         Explore Products
