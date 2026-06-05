@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router"; 
+import { useParams } from "react-router";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
 import Container from "../../../components/Shared/Container";
@@ -29,19 +29,22 @@ const TrackOrder = () => {
     document.title = "Track Order | Dashboard";
   }, []);
 
+  // Fetch tracking details cleanly using an internal async function wrapper
   useEffect(() => {
-    setLoading(true);
-    axiosSecure
-      .get(`/order/${orderId}`)
-      .then((res) => {
+    const fetchOrderTracking = async () => {
+      try {
+        setLoading(true);
+        const res = await axiosSecure.get(`/order/${orderId}`);
         setOrder(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error(err);
         setError("Failed to load order tracking details.");
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    fetchOrderTracking();
   }, [axiosSecure, orderId]);
 
   const getStatusIcon = (status) => {
@@ -69,8 +72,7 @@ const TrackOrder = () => {
   }
 
   const reversedHistory = order?.trackingHistory ? [...order.trackingHistory].reverse() : [];
-{console.log(reversedHistory);
-}
+
   const lat = parseFloat(order?.coordinates?.lat);
   const lng = parseFloat(order?.coordinates?.lng);
   const isValidLocation = !isNaN(lat) && !isNaN(lng);
@@ -108,19 +110,19 @@ const TrackOrder = () => {
           </div>
 
           <div className="bg-white shadow-sm border border-gray-100 rounded-xl p-2 h-64 overflow-hidden">
-             <h3 className="font-bold text-gray-700 p-2 text-sm">Current Location</h3>
-             {isValidLocation ? (
-                <MapContainer center={[lat, lng]} zoom={13} className="h-50 w-full rounded-lg ">
-                  <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                  <Marker position={[lat, lng]}>
-                    <Popup>{order.location || "Product Location"}</Popup>
-                  </Marker>
-                </MapContainer>
-             ) : (
-               <div className="h-full flex items-center justify-center bg-gray-50 text-gray-400 text-sm italic">
-                 Map location not updated yet
-               </div>
-             )}
+            <h3 className="font-bold text-gray-700 p-2 text-sm">Current Location</h3>
+            {isValidLocation ? (
+              <MapContainer center={[lat, lng]} zoom={13} className="h-50 w-full rounded-lg ">
+                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                <Marker position={[lat, lng]}>
+                  <Popup>{order.location || "Product Location"}</Popup>
+                </Marker>
+              </MapContainer>
+            ) : (
+              <div className="h-full flex items-center justify-center bg-gray-50 text-gray-400 text-sm italic">
+                Map location not updated yet
+              </div>
+            )}
           </div>
         </div>
 

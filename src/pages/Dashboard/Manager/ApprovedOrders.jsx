@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import toast from "react-hot-toast";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useNavigate } from "react-router";
@@ -17,8 +17,8 @@ const ApprovedOrders = () => {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Fetch only Approved orders
-    const loadOrders = async () => {
+    // Fetch only Approved orders - Wrapped with useCallback
+    const loadOrders = useCallback(async () => {
         try {
             const res = await axiosSecure.get("/orders?status=Approved");
             setOrders(res.data);
@@ -26,10 +26,10 @@ const ApprovedOrders = () => {
             console.error(err);
             toast.error("Failed to load approved orders");
         }
-    };
+    }, [axiosSecure]);
 
-    // Fetch manager/admin data to check for suspension
-    const loadUser = async () => {
+    // Fetch manager/admin data to check for suspension - Wrapped with useCallback
+    const loadUser = useCallback(async () => {
         if (!user?.email) return;
         try {
             const userRes = await axiosSecure.get(`/user?email=${user.email}`);
@@ -37,7 +37,7 @@ const ApprovedOrders = () => {
         } catch (err) {
             console.error(err);
         }
-    };
+    }, [axiosSecure, user?.email]);
 
     useEffect(() => {
         document.title = "Approved Orders | Dashboard";
@@ -47,7 +47,7 @@ const ApprovedOrders = () => {
             setLoading(false);
         };
         fetchData();
-    }, [axiosSecure, user?.email]);
+    }, [loadOrders, loadUser]);
 
     if (loading) return <LoadingSpinner />;
 

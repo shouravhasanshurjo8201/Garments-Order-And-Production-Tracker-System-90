@@ -1,5 +1,4 @@
-
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import toast from "react-hot-toast";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import LoadingSpinner from "../../../components/Shared/LoadingSpinner";
@@ -14,7 +13,8 @@ const ManageOrders = () => {
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState(null);
 
-  const fetchOrders = async () => {
+  // Fetch pending orders - Wrapped with useCallback to stabilize identity
+  const fetchOrders = useCallback(async () => {
     try {
       const res = await axiosSecure.get("/orders?status=Pending");
       setOrders(res.data);
@@ -23,22 +23,25 @@ const ManageOrders = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [axiosSecure]);
 
-  const loadUser = async () => {
+  // Fetch user profile status - Wrapped with useCallback to stabilize identity
+  const loadUser = useCallback(async () => {
+    if (!user?.email) return;
     try {
       const userRes = await axiosSecure.get(`/user?email=${user.email}`);
       setUserData(userRes.data);
     } catch {
       toast.error("Failed to load User Data");
     }
-  };
+  }, [axiosSecure, user?.email]);
 
+  // Safely trigger data fetching once functions are fully stabilized
   useEffect(() => {
     document.title = "Manage Orders | Dashboard";
     fetchOrders();
     loadUser();
-  }, [user?.email]);
+  }, [fetchOrders, loadUser]);
 
   // Approve Order
   const handleApprove = async (id) => {

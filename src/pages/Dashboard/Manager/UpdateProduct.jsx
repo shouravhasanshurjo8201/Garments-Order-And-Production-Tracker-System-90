@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import toast from "react-hot-toast";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useForm } from "react-hook-form";
@@ -18,8 +18,8 @@ const UpdateProduct = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { register, handleSubmit, reset } = useForm();
 
-  // Fetch products
-  const fetchProducts = async () => {
+  // Fetch products - Memoized with useCallback
+  const fetchProducts = useCallback(async () => {
     try {
       const res = await axiosSecure.get("/products");
       setProducts(res.data);
@@ -29,22 +29,24 @@ const UpdateProduct = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [axiosSecure]);
 
-  const loadUser = async () => {
+  // Fetch user details - Memoized with useCallback
+  const loadUser = useCallback(async () => {
+    if (!user?.email) return;
     try {
       const userRes = await axiosSecure.get(`/user?email=${user.email}`);
       setUserData(userRes.data);
     } catch {
       toast.error("Failed to load User Data");
     }
-  };
+  }, [axiosSecure, user?.email]);
 
   useEffect(() => {
     document.title = "Manage Products | Dashboard";
     fetchProducts();
     loadUser();
-  }, [user?.email]);
+  }, [fetchProducts, loadUser]);
 
   // Search Logic
   useEffect(() => {
@@ -105,7 +107,7 @@ const UpdateProduct = () => {
         prev.map(p => p._id === selectedProduct._id ? { ...p, ...payload } : p)
       );
       setOpenUpdate(false);
-    } catch (err) {
+    } catch {
       toast.error("Update failed!");
     }
   };
@@ -260,8 +262,8 @@ const UpdateProduct = () => {
               <div className="space-y-1">
                 <label className="text-xs font-bold text-gray-500 uppercase ml-1">Features & Payment (Comma separated)</label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input {...register("features")} placeholder="Fast Delivery, Cotton" className="w-full border border-gray-200 p-2.5 rounded-xl outline-none focus:ring-2 focus:ring-blue-500" />
-                    <input {...register("paymentOptions")} placeholder="Cash on Delivery, Bkash" className="w-full border border-gray-200 p-2.5 rounded-xl outline-none focus:ring-2 focus:ring-blue-500" />
+                  <input {...register("features")} placeholder="Fast Delivery, Cotton" className="w-full border border-gray-200 p-2.5 rounded-xl outline-none focus:ring-2 focus:ring-blue-500" />
+                  <input {...register("paymentOptions")} placeholder="Cash on Delivery, Bkash" className="w-full border border-gray-200 p-2.5 rounded-xl outline-none focus:ring-2 focus:ring-blue-500" />
                 </div>
               </div>
 
