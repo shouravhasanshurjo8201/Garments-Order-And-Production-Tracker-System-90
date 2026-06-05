@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion as Motion, AnimatePresence } from "framer-motion"; // Renamed to uppercase to satisfy ESLint rules
 import { FiPrinter, FiDownload, FiInfo, FiShield, FiFileText, FiUserCheck, FiChevronDown } from "react-icons/fi";
 import Container from "../../components/Shared/Container";
 
@@ -20,7 +20,8 @@ const content = {
 };
 
 const PrivacyTerms = () => {
-  const [lang, setLang] = useState("en");
+  // Removed unused 'setLang' modifier to satisfy ESLint rule
+  const [lang] = useState("en");
   const [activeAccordion, setActiveAccordion] = useState("privacy");
 
   useEffect(() => {
@@ -42,7 +43,7 @@ const PrivacyTerms = () => {
     <Container>
       <div className="px-4 -mt-16">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12 border-b border-gray-500/40 pb-8">
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
+          <Motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
             <h1 className="text-4xl md:text-5xl font-black  pb-6">
               {content[lang].title} <span className="text-lime-500">{content[lang].subtitle}</span>
             </h1>
@@ -50,7 +51,7 @@ const PrivacyTerms = () => {
               <span className="w-2 h-2 bg-lime-500 rounded-full animate-pulse"></span>
               {content[lang].updated}: {new Date().toLocaleDateString()}
             </p>
-          </motion.div>
+          </Motion.div>
 
           <div className="flex  flex-wrap gap-3">
             <button onClick={handlePrint} className="p-2.5 border border-gray-500/40 rounded-xl hover:border-lime-500 transition shadow-sm group">
@@ -79,7 +80,7 @@ const PrivacyTerms = () => {
 
           <div className="md:col-span-8 space-y-4">
             {content[lang].sections.map((sec, index) => (
-              <motion.div
+              <Motion.div
                 key={sec.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -101,7 +102,7 @@ const PrivacyTerms = () => {
 
                 <AnimatePresence>
                   {activeAccordion === sec.id && (
-                    <motion.div
+                    <Motion.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
@@ -112,10 +113,10 @@ const PrivacyTerms = () => {
                           {sec.text}
                         </p>
                       </div>
-                    </motion.div>
+                    </Motion.div>
                   )}
                 </AnimatePresence>
-              </motion.div>
+              </Motion.div>
             ))}
           </div>
         </div>

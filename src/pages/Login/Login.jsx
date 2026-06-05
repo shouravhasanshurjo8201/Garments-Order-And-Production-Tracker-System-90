@@ -7,7 +7,7 @@ import { TbFidgetSpinner } from "react-icons/tb"
 import LoadingSpinner from "../../components/Shared/LoadingSpinner"
 import useAxiosSecure from "../../hooks/useAxiosSecure"
 import { useEffect } from "react"
-import { motion } from "framer-motion"
+import { motion as Motion } from "framer-motion" // Aliased to PascalCase to resolve ESLint rule
 
 const Login = () => {
   useEffect(() => {
@@ -92,7 +92,7 @@ const Login = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen px-4">
-      <motion.div
+      <Motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md border border-gray-500/50 shadow-2xl rounded-3xl p-8 sm:p-10"
@@ -189,7 +189,7 @@ const Login = () => {
             Create an Account
           </Link>
         </p>
-      </motion.div>
+      </Motion.div>
     </div>
   )
 }

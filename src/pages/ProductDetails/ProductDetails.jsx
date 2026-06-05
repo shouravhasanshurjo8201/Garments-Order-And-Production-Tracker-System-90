@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion as Motion, AnimatePresence } from "framer-motion"; // Aliased to PascalCase to resolve ESLint rule
 import {
   HiOutlineBadgeCheck, HiOutlineCube, HiOutlineTruck, HiChevronLeft,
   HiOutlineShieldCheck, HiOutlineCash, HiStar, HiOutlineShoppingBag
@@ -69,7 +69,7 @@ const ProductDetails = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10 lg:gap-12 items-start ">
           <div className="space-y-4 ">
-            <motion.div
+            <Motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               className="relative aspect-square rounded-2xl  overflow-hidden border border-gray-500/50 shadow shadow-gray-200/50"
@@ -79,7 +79,7 @@ const ProductDetails = () => {
                 className="w-full h-full transition-transform duration-700 hover:scale-110"
                 alt={product.name}
               />
-            </motion.div>
+            </Motion.div>
 
             {images.length > 1 && (
               <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
@@ -167,7 +167,7 @@ const ProductDetails = () => {
                   >
                     {tab}
                     {activeTab === tab && (
-                      <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-1 bg-lime-500 rounded-full" />
+                      <Motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-1 bg-lime-500 rounded-full" />
                     )}
                   </button>
                 ))}
@@ -177,23 +177,23 @@ const ProductDetails = () => {
               <div className="min-h-[200px]">
                 <AnimatePresence mode="wait">
                   {activeTab === "overview" && (
-                    <motion.div key="ov" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="max-w-4xl">
+                    <Motion.div key="ov" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="max-w-4xl">
                       <p className="text-gray-500 leading-relaxed text-lg whitespace-pre-line">{product.description}</p>
-                    </motion.div>
+                    </Motion.div>
                   )}
 
                   {activeTab === "specifications" && (
-                    <motion.div key="sp" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="grid md:grid-cols-2 gap-4">
+                    <Motion.div key="sp" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="grid md:grid-cols-2 gap-4">
                       {product.features?.map((f, i) => (
                         <div key={i} className="flex items-center gap-3 text-sm text-gray-600 font-bold  p-4 rounded-2xl border border-gray-500/50 shadow-sm">
                           <HiOutlineBadgeCheck className="text-lime-500" size={22} /> {f}
                         </div>
                       ))}
-                    </motion.div>
+                    </Motion.div>
                   )}
 
                   {activeTab === "reviews" && (
-                    <motion.div key="rv" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-4">
+                    <Motion.div key="rv" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-4">
                       {product.reviews?.length > 0 ? (
                         product.reviews.map((r, i) => (
                           <div key={i} className=" p-6 rounded-2xl border border-gray-500/50 shadow-sm">
@@ -209,7 +209,7 @@ const ProductDetails = () => {
                           <p className="text-gray-400 font-bold uppercase tracking-widest">No reviews for this product yet.</p>
                         </div>
                       )}
-                    </motion.div>
+                    </Motion.div>
                   )}
                 </AnimatePresence>
               </div>
