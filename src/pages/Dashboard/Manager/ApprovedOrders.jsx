@@ -17,7 +17,7 @@ const ApprovedOrders = () => {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Fetch only Approved orders - Wrapped with useCallback
+    // Fetch only Approved orders
     const loadOrders = useCallback(async () => {
         try {
             const res = await axiosSecure.get("/orders?status=Approved");
@@ -28,16 +28,19 @@ const ApprovedOrders = () => {
         }
     }, [axiosSecure]);
 
-    // Fetch manager/admin data to check for suspension - Wrapped with useCallback
+    // Extracted the specific structural primitive value to clear out manual memoization conflicts
+    const userEmail = user?.email;
+
+    // Fetch manager/admin data to check for suspension
     const loadUser = useCallback(async () => {
-        if (!user?.email) return;
+        if (!userEmail) return;
         try {
-            const userRes = await axiosSecure.get(`/user?email=${user.email}`);
+            const userRes = await axiosSecure.get(`/user?email=${userEmail}`);
             setUserData(userRes.data);
         } catch (err) {
             console.error(err);
         }
-    }, [axiosSecure, user?.email]);
+    }, [axiosSecure, userEmail]);
 
     useEffect(() => {
         document.title = "Approved Orders | Dashboard";
@@ -88,7 +91,7 @@ const ApprovedOrders = () => {
                                     <td className="p-4 font-mono text-xs text-blue-600 font-bold">
                                         #{o._id.slice(-8)}
                                     </td>
-                                    
+
                                     {/* User Email */}
                                     <td className="p-4">
                                         <span className="text-sm text-gray-700 block max-w-[150px] truncate" title={o.email}>
