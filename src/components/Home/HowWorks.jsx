@@ -77,7 +77,7 @@ const HowItWorks = () => {
             <div className="absolute -inset-4 bg-white/50 rounded-full blur-3xl opacity-30 animate-pulse"></div>
             <img
               src="https://i.postimg.cc/8PJ28vFh/download-11-removebg-preview.png"
-              className="relative w-full h-auto max-h-[450px] object-contain drop-shadow-2xl"
+              className="relative w-full h-auto max-h-112.5 object-contain drop-shadow-2xl"
               alt="Workflow illustration"
             />
           </Motion.div>
