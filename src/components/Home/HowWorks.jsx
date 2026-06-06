@@ -4,7 +4,7 @@ import {
   HiOutlineShoppingBag,
   HiOutlineCreditCard,
   HiOutlineTruck
-} from "react-icons/h1";
+} from "react-icons/hi";
 import Container from "../../components/Shared/Container";
 
 const steps = [
