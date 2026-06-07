@@ -32,6 +32,11 @@ const ManagerMenu = () => {
         label='Approved Orders'
         address='approved-orders'
       />
+      <MenuItem
+        icon={MdAssignmentTurnedIn}
+        label='All Orders'
+        address='manage-allOrders'
+      />
     </>
   )
 }

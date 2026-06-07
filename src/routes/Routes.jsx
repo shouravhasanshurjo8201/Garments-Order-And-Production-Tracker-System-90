@@ -24,6 +24,7 @@ import ApprovedOrders from '../pages/Dashboard/Manager/ApprovedOrders'
 import UpdateProduct from '../pages/Dashboard/Manager/UpdateProduct'
 import Privacy from '../pages/Privacy/Privacy'
 import AIKnowledgePanel from '../pages/Dashboard/Admin/AIKnowledgePanel'
+import AllOrders from '../pages/Dashboard/Manager/AllOrders'
 
 export const router = createBrowserRouter([
   {
@@ -92,6 +93,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <UpdateProduct />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'manage-allOrders',
+        element: (
+          <PrivateRoute>
+            <AllOrders />
           </PrivateRoute>
         ),
       },
