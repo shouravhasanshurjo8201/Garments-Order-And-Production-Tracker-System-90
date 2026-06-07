@@ -94,7 +94,7 @@ const ApprovedOrders = () => {
 
                                     {/* User Email */}
                                     <td className="p-4">
-                                        <span className="text-sm text-gray-700 block max-w-[150px] truncate" title={o.email}>
+                                        <span className="text-sm text-gray-700 block max-w-37.5 truncate" title={o.email}>
                                             {o.email}
                                         </span>
                                     </td>
