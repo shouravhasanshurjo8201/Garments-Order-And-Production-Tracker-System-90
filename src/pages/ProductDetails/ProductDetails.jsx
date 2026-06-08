@@ -174,7 +174,7 @@ const ProductDetails = () => {
               </div>
 
               {/* Tab Content */}
-              <div className="min-h-[200px]">
+              <div className="min-h-50">
                 <AnimatePresence mode="wait">
                   {activeTab === "overview" && (
                     <Motion.div key="ov" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="max-w-4xl">
