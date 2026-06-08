@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { motion as Motion, AnimatePresence } from "framer-motion"; // Aliased to PascalCase to resolve ESLint rule
+import { motion as Motion, AnimatePresence } from "framer-motion";
 import {
   HiOutlineBadgeCheck, HiOutlineCube, HiOutlineTruck, HiChevronLeft,
   HiOutlineShieldCheck, HiOutlineCash, HiStar, HiOutlineShoppingBag
@@ -13,6 +13,7 @@ import ProductNotFound from "./ProductNotFound";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Card from "../../components/Home/Card";
+import AIRiskAnalysis from "./AIRiskAnalysis";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -68,6 +69,7 @@ const ProductDetails = () => {
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10 lg:gap-12 items-start ">
+          {/* LEFT COLUMN: IMAGES */}
           <div className="space-y-4 ">
             <Motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -96,6 +98,7 @@ const ProductDetails = () => {
             )}
           </div>
 
+          {/* RIGHT COLUMN: DETAILS */}
           <div className="space-y-8">
             <header className="space-y-4">
               <h1 className="text-4xl md:text-5xl font-black leading-tight">
@@ -143,6 +146,7 @@ const ProductDetails = () => {
               )}
             </div>
 
+            {/* Features Badge */}
             <div className="grid grid-cols-3 gap-3">
               {[
                 { icon: <HiOutlineTruck />, label: "Express Shipping" },
@@ -156,14 +160,18 @@ const ProductDetails = () => {
               ))}
             </div>
 
+            {/* --- AI PRODUCTION RISK ANALYSIS COMPONENT START --- */}
+            <AIRiskAnalysis productId={id} />
+            {/* --- AI PRODUCTION RISK ANALYSIS COMPONENT END --- */}
+
+            {/* Tabs (Overview, Specifications, Reviews) */}
             <div className="mt-10">
               <div className="flex gap-10 border-b border-gray-500/50 mb-5 py-2">
                 {["overview", "specifications", "reviews"].map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`pb-4 text-sm font-black uppercase tracking-widest transition-all relative ${activeTab === tab ? "text-gray-500" : "text-gray-400 hover:text-gray-600"
-                      }`}
+                    className={`pb-4 text-sm font-black uppercase tracking-widest transition-all relative ${activeTab === tab ? "text-gray-500" : "text-gray-400 hover:text-gray-600"}`}
                   >
                     {tab}
                     {activeTab === tab && (
@@ -174,7 +182,7 @@ const ProductDetails = () => {
               </div>
 
               {/* Tab Content */}
-              <div className="min-h-[200px]">
+              <div className="min-h-50">
                 <AnimatePresence mode="wait">
                   {activeTab === "overview" && (
                     <Motion.div key="ov" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="max-w-4xl">
